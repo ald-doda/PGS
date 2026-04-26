@@ -17,12 +17,12 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden}
 
-
+/* GRAIN */
 .grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.025;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:128px}
 
-
+/* SCREENS */
 .screen{display:none;min-height:100vh;padding:0}
 .screen.active{display:flex;flex-direction:column}
 
@@ -179,13 +179,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 
 <!-- SCREEN 0: INTRO -->
 <div id="s0" class="screen active">
-  <div class="intro-tag">Crna Gora — 2026</div>
+  <div class="intro-tag">Crna Gora — 2027</div>
   <h1 class="intro-h">Izborni <em>Simulator</em></h1>
   <p class="intro-sub">Odaberi stranku, vodi kampanju, osvoji mandate i postani premijer.</p>
   <div class="intro-deco">
     <span class="deco-flag">81 poslanik</span>
     <span class="deco-flag">24 opštine</span>
-    <span class="deco-flag">16 stranaka</span>
+    <span class="deco-flag">6 stranaka</span>
     <span class="deco-flag">5 rundi</span>
   </div>
   <button class="btn-start" onclick="showScreen(1)">Počni igru →</button>
@@ -302,6 +302,7 @@ const STRANKE = [
   { naziv:"BS", pun:"Bošnjačka stranka", boja:"#2D6A4F", procenti:7, opis:"Stranka bošnjačke zajednice sa snažnom bazom u Rožajama, Plavu i Bijelom Polju.", prednosti:["Monolitna baza","Koalicioni partner","Manjinska prava"], mane:["Ograničen rast","Jedna tema","Rivalstvo s AA"] },
   { naziv:"DEM", pun:"Demokratska Crna Gora", boja:"#e67e22", procenti:7, opis:"Umjerena reformska stranka sa jakim prisustvom na primorju. Pobijeda u Herceg-Novom.", prednosti:["Primorje","Reformski imidž","Liderstvo Bečića"], mane:["Unutarnji sukobi","Koalicioni problemi","Umjeren rast"] },
   { naziv:"URA", pun:"Ujedinjena reformska akcija", boja:"#7d3c98", procenti:4, opis:"Liberalna, progresivna stranka sa jakim urbanim glasačima i aktivistima.", prednosti:["Urbana baza","Mladi glasači","EU vrijednosti"], mane:["Mali kapacitet","Blizu cenzusa","Nema podrsku na sjeveru"] },
+  { naziv:"ES", pun:"Evropski savez (SDP-SD-LP)", boja: "pink", procenti: 3, opis:"Koalicija socijaldemokratskih/ljevičarskih partija. Jaka na Cetinju, Bijelom Polju i u Baru.", prednosti:["EU integracije","Jaka u velikim gradovima"], mane:["Slab koalicioni kapacitet", "Slaba u ruralnim sredinama"] }, 
 ];
 
 const LOKALNI = {
