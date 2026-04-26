@@ -172,6 +172,84 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 
 /* MAP TOOLTIP */
 .map-tt{position:fixed;background:var(--bg2);border:1px solid var(--border-b);border-radius:6px;padding:5px 10px;font-family:var(--mono);font-size:10px;pointer-events:none;z-index:500;opacity:0;transition:opacity 0.15s}
+
+/* OPSTINA POPUP */
+.opstina-popup{position:fixed;z-index:800;background:var(--bg2);border:1px solid var(--border-b);border-radius:14px;padding:20px;width:300px;box-shadow:0 8px 40px rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity 0.18s,transform 0.18s;transform:translateY(6px) scale(0.97)}
+.opstina-popup.show{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
+.op-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.op-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.op-naziv{font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:-0.02em}
+.op-region{font-family:var(--mono);font-size:9px;color:var(--dimmer);margin-top:2px}
+.op-close{margin-left:auto;background:none;border:none;color:var(--dimmer);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;border-radius:4px;transition:color 0.15s}
+.op-close:hover{color:var(--text)}
+.op-section{margin-bottom:12px}
+.op-sec-title{font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dimmer);margin-bottom:7px}
+.op-winner-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:6px;border:1px solid var(--border-b);background:var(--bg3);font-family:var(--display);font-size:13px;font-weight:700}
+.op-bar-list{display:flex;flex-direction:column;gap:4px}
+.op-bar-row{display:grid;grid-template-columns:36px 1fr 40px;align-items:center;gap:6px}
+.op-bar-name{font-family:var(--display);font-size:10px;font-weight:700}
+.op-bar-track{background:var(--bg3);border-radius:2px;height:12px;overflow:hidden}
+.op-bar-fill{height:100%;border-radius:2px;transition:width 0.5s cubic-bezier(0.16,1,0.3,1)}
+.op-bar-num{font-family:var(--mono);font-size:9px;color:var(--dim);text-align:right}
+.op-rep-wrap{margin-top:6px}
+.op-rep-track{background:var(--bg3);border-radius:3px;height:18px;overflow:hidden;position:relative}
+.op-rep-fill{height:100%;border-radius:3px;transition:width 0.6s}
+.op-rep-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:500;color:rgba(0,0,0,0.6)}
+.op-player-note{font-family:var(--mono);font-size:10px;padding:6px 8px;border-radius:6px;margin-top:8px;text-align:center}
+.op-player-note.winning{background:rgba(62,207,142,0.1);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.op-player-note.losing{background:rgba(255,94,94,0.08);color:var(--red);border:1px solid rgba(255,94,94,0.15)}
+.op-player-note.close{background:rgba(200,169,110,0.1);color:var(--gold);border:1px solid rgba(200,169,110,0.2)}
+
+/* STRATEŠKI EKRAN (S2b) */
+#s_mapa{display:none;min-height:100vh;flex-direction:column}
+#s_mapa.active{display:flex}
+.sm-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sm-title{font-family:var(--display);font-size:16px;font-weight:800}
+.sm-tag{font-family:var(--mono);font-size:10px;color:var(--gold)}
+.sm-body{flex:1;display:grid;grid-template-columns:1fr 340px;overflow:hidden}
+@media(max-width:800px){.sm-body{grid-template-columns:1fr}}
+.sm-map-area{padding:20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.sm-map-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;flex:1}
+.sm-map-wrap svg{width:100%;height:auto;display:block}
+.sm-map-wrap path{cursor:pointer;stroke:var(--bg3);stroke-width:2;transition:filter 0.15s,stroke 0.15s}
+.sm-map-wrap path:hover{filter:brightness(1.25);stroke:rgba(255,255,255,0.3);stroke-width:2.5}
+.sm-map-wrap path.highlighted{stroke:var(--gold)!important;stroke-width:3!important}
+.sm-legend{display:flex;flex-wrap:wrap;gap:6px}
+.sm-leg-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;color:var(--dim);background:var(--bg2);border:1px solid var(--border);padding:3px 8px;border-radius:4px}
+.sm-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sm-side{padding:20px;background:var(--bg3);border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.sm-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sm-stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.sm-stat-val{font-family:var(--mono);font-size:18px;font-weight:500}
+.sm-stat-lbl{font-family:var(--mono);font-size:9px;color:var(--dimmer);margin-top:2px;text-transform:uppercase;letter-spacing:0.08em}
+.sm-opstine-list{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.sm-opstine-title{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dimmer);padding:10px 14px;border-bottom:1px solid var(--border)}
+.sm-orow{display:grid;grid-template-columns:1fr 50px 40px;align-items:center;gap:6px;padding:7px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.sm-orow:last-child{border-bottom:none}
+.sm-orow:hover{background:var(--bg3)}
+.sm-orow.player-win{border-left:2px solid var(--green)}
+.sm-orow.player-lose{border-left:2px solid var(--red)}
+.sm-oname{font-family:var(--display);font-size:11px;font-weight:700}
+.sm-owinner{font-family:var(--mono);font-size:9px;color:var(--dim)}
+.sm-orep{font-family:var(--mono);font-size:10px;text-align:right}
+.btn-back-game{background:var(--bg3);border:1px solid var(--border-b);color:var(--text);font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all 0.2s}
+.btn-back-game:hover{background:var(--border-b)}
+.btn-open-map{background:var(--bg3);border:1px solid var(--border-b);color:var(--gold);font-family:var(--mono);font-size:10px;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.btn-open-map:hover{background:rgba(200,169,110,0.1)}
+
+/* REGIONALNA REPUTACIJA */
+.reg-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.reg-title{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.reg-subtitle{font-family:var(--mono);font-size:9px;color:var(--dimmer)}
+.reg-list{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto}
+.reg-row{display:grid;grid-template-columns:80px 1fr 36px;align-items:center;gap:6px}
+.reg-name{font-family:var(--mono);font-size:10px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reg-track{background:var(--bg3);border-radius:3px;height:14px;overflow:hidden;position:relative}
+.reg-bar{height:100%;border-radius:3px;transition:width 0.6s cubic-bezier(0.16,1,0.3,1)}
+.reg-val{font-family:var(--mono);font-size:10px;text-align:right}
+.reg-boost-badge{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(62,207,142,0.12);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
+.reg-event-notice{font-family:var(--mono);font-size:9px;color:var(--gold);margin-bottom:8px;padding:5px 8px;background:rgba(200,169,110,0.08);border-radius:5px;border:1px solid rgba(200,169,110,0.15);display:none}
+.reg-event-notice.show{display:block}
 </style>
 </head>
 <body>
@@ -215,6 +293,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
       <div class="gh-stat"><div class="gh-stat-val" id="stat-povjerenje">0</div><div class="gh-stat-lbl">Povjerenje</div></div>
     </div>
     <div class="gh-round" id="gh-round">Runda 1 / 5</div>
+    <button class="btn-open-map" onclick="openStrateskaMapaFromGame()">🗺 Mapa</button>
   </div>
   <div class="game-body">
     <div class="event-panel" id="event-panel">
@@ -228,6 +307,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
       <div class="polls-box">
         <div class="polls-title">Ankete — nacionalno</div>
         <div id="polls-list"></div>
+      </div>
+      <div class="reg-panel">
+        <div class="reg-title">
+          Regionalna reputacija
+          <span class="reg-subtitle" id="reg-avg-badge">⌀ —</span>
+        </div>
+        <div class="reg-event-notice" id="reg-event-notice"></div>
+        <div class="reg-list" id="reg-list"></div>
       </div>
       <div class="parlament-mini">
         <div class="parl-title">Projekcija mandata</div>
@@ -291,6 +378,63 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 <div class="toast" id="toast"></div>
 <div class="map-tt" id="map-tt"></div>
 
+<!-- OPSTINA POPUP -->
+<div class="opstina-popup" id="opstina-popup">
+  <div class="op-header">
+    <div class="op-dot" id="op-dot"></div>
+    <div>
+      <div class="op-naziv" id="op-naziv"></div>
+      <div class="op-region" id="op-region"></div>
+    </div>
+    <button class="op-close" onclick="closeOpstinPopup()">×</button>
+  </div>
+  <div class="op-section">
+    <div class="op-sec-title">Pobjednik</div>
+    <div class="op-winner-badge" id="op-winner"></div>
+  </div>
+  <div class="op-section">
+    <div class="op-sec-title">Glasovi (2023)</div>
+    <div class="op-bar-list" id="op-bars"></div>
+  </div>
+  <div class="op-section" id="op-rep-section">
+    <div class="op-sec-title">Vaša reputacija u regionu</div>
+    <div class="op-rep-wrap">
+      <div class="op-rep-track">
+        <div class="op-rep-fill" id="op-rep-fill"></div>
+        <div class="op-rep-label" id="op-rep-label"></div>
+      </div>
+    </div>
+    <div class="op-player-note" id="op-player-note"></div>
+  </div>
+</div>
+
+<!-- SCREEN S_MAPA: STRATEŠKA MAPA -->
+<div id="s_mapa" class="screen">
+  <div class="sm-header">
+    <div>
+      <div class="sm-tag">Strateška analiza</div>
+      <div class="sm-title">Mapa Crne Gore</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div id="sm-round-tag" style="font-family:var(--mono);font-size:10px;color:var(--dimmer)"></div>
+      <button class="btn-back-game" onclick="backToGame()">← Nazad na igru</button>
+    </div>
+  </div>
+  <div class="sm-body">
+    <div class="sm-map-area">
+      <div class="sm-map-wrap" id="sm-map-wrap"></div>
+      <div class="sm-legend" id="sm-legend"></div>
+    </div>
+    <div class="sm-side">
+      <div class="sm-stats-grid" id="sm-stats-grid"></div>
+      <div class="sm-opstine-list">
+        <div class="sm-opstine-title">Sve opštine — klikni za detalje</div>
+        <div id="sm-olist"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════
 // PODACI
@@ -303,36 +447,171 @@ const STRANKE = [
   { naziv:"DEM", pun:"Demokratska Crna Gora", boja:"#e67e22", procenti:7, opis:"Umjerena reformska stranka sa jakim prisustvom na primorju. Pobijeda u Herceg-Novom.", prednosti:["Primorje","Reformski imidž","Liderstvo Bečića"], mane:["Unutarnji sukobi","Koalicioni problemi","Umjeren rast"] },
   { naziv:"URA", pun:"Ujedinjena reformska akcija", boja:"#7d3c98", procenti:4, opis:"Liberalna, progresivna stranka sa jakim urbanim glasačima i aktivistima.", prednosti:["Urbana baza","Mladi glasači","EU vrijednosti"], mane:["Mali kapacitet","Blizu cenzusa","Nema podrsku na sjeveru"] },
   { naziv:"ES", pun:"Evropski savez (SDP-SD-LP)", boja: "pink", procenti: 3, opis:"Koalicija socijaldemokratskih/ljevičarskih partija. Jaka na Cetinju, Bijelom Polju i u Baru.", prednosti:["EU integracije","Jaka u velikim gradovima"], mane:["Slab koalicioni kapacitet", "Slaba u ruralnim sredinama"] }, 
+  { naziv:"AA", pun:"Albanska alijansa", boja:"aqua",procenti:1.5,opis:"Manjinska albanska partija, tradicionalno jaka u Ulcinju", prednosti:["EU integracije"], mane:["Rivalstvo sa BS"] },
+  { naziv:"SNP-DEMOS", pun:"Socijalisticka narodna partija", boja:"navy",procenti:2.7,opis:"Zastupanje srpskih nacionalnih interesa, jaka u Beranama, Pluzinama i Andrijevici.", prednosti:["Lojalno biracko tijelo"], mane:["Nedostatak motivacije vise biraca"] },
 ];
 
 const LOKALNI = {
-  "Podgorica":{"DPS":25051,"NSD":10064,"PES":10594,"BS":955,"DEM":7068,"URA":2561,"SNP-DEMOS":1258,"ES":5157,"DNP":5032,"AF":682},
-  "Nikšić":{"DPS":15198,"NSD":9413,"PES":5188,"BS":54,"DEM":3038,"URA":783,"SNP-DEMOS":1916,"ES":2103,"DNP":3490},
-  "Herceg-Novi":{"DPS":1972,"NSD":1361,"PES":3320,"BS":23,"DEM":4067,"URA":618,"SNP-DEMOS":267,"ES":438,"DNP":300},
-  "Kotor":{"DPS":3334,"NSD":1500,"PES":1000,"BS":14,"DEM":1783,"URA":167,"SNP-DEMOS":167,"ES":896,"DNP":403},
-  "Budva":{"DPS":2523,"NSD":1820,"PES":400,"BS":30,"DEM":771,"URA":412,"SNP-DEMOS":396,"ES":678,"DNP":763},
-  "Gusinje":{"DPS":435,"NSD":3,"PES":12,"BS":366,"DEM":80,"URA":15,"ES":551,"AF":494,"AA":157},
-  "Bar":{"DPS":6396,"NSD":2202,"PES":4139,"BS":1344,"DEM":2243,"URA":800,"SNP-DEMOS":201},
-  "Berane":{"DPS":2065,"NSD":1972,"PES":3729,"BS":425,"DEM":1345,"URA":500,"SNP-DEMOS":2057},
-  "Bijelo Polje":{"DPS":4207,"NSD":3068,"PES":5399,"BS":4795,"DEM":1965,"URA":600,"SNP-DEMOS":757},
-  "Cetinje":{"DPS":2520,"NSD":145,"PES":1015,"BS":9,"DEM":830,"URA":500,"SNP-DEMOS":34},
-  "Pljevlja":{"DPS":2345,"NSD":4802,"PES":4434,"BS":1245,"DEM":1724,"URA":300,"SNP-DEMOS":553},
-  "Tivat":{"DPS":1543,"NSD":925,"PES":1531,"BS":34,"DEM":504,"URA":300,"SNP-DEMOS":23},
-  "Rožaje":{"DPS":1169,"NSD":100,"PES":887,"BS":7502,"DEM":1077,"URA":200,"SNP-DEMOS":86},
-  "Plav":{"DPS":1265,"NSD":478,"PES":415,"BS":1343,"DEM":393,"URA":100,"SNP-DEMOS":120},
-  "Mojkovac":{"DPS":1167,"NSD":793,"PES":1112,"BS":6,"DEM":539,"URA":100,"SNP-DEMOS":297},
-  "Kolašin":{"DPS":759,"NSD":618,"PES":1084,"BS":7,"DEM":759,"URA":100,"SNP-DEMOS":353},
-  "Žabljak":{"DPS":535,"NSD":338,"PES":579,"BS":3,"DEM":280,"URA":50,"SNP-DEMOS":115},
-  "Šavnik":{"DPS":630,"NSD":291,"PES":230,"BS":0,"DEM":57,"URA":20,"SNP-DEMOS":120},
-  "Plužine":{"DPS":138,"NSD":400,"PES":348,"BS":1,"DEM":174,"URA":20,"SNP-DEMOS":546},
-  "Andrijevica":{"DPS":594,"NSD":452,"PES":558,"BS":2,"DEM":157,"URA":20,"SNP-DEMOS":525},
-  "Petnjica":{"DPS":1019,"NSD":1,"PES":105,"BS":808,"DEM":190,"URA":50,"SNP-DEMOS":96},
-  "Tuzi":{"DPS":1176,"NSD":34,"PES":369,"BS":1042,"DEM":359,"URA":89,"AF":2966},
-  "Danilovgrad":{"DPS":2023,"NSD":1110,"PES":2840,"BS":5,"DEM":1008,"URA":300,"SNP-DEMOS":214},
-  "Ulcinj":{"DPS":800,"NSD":50,"PES":400,"BS":287,"DEM":350,"AA":1500,"AF":800},
+   "Bijelo Polje": {
+        "BS": 4100, "HGI": 38, "SEP": 884, "SNP-DEMOS": 1200, "URA": 800, "DNP": 1000, "Preokret": 71, "PZP": 94, "AA": 9, "DPS": 5200, "PES": 1750, "ES": 1650, "DEM": 1965, "NSD": 5068, "AF": 202, 
+  },
+  "Bar": {
+       "BS": 1344, "HGI": 138, "SEP": 547, "SNP-DEMOS": 201, "URA": 568, "AA": 253, "Preokret": 196, "PZP": 121, "DNP": 722, "DPS": 5396, "PES": 639, "ES": 1994, "DEM": 1043, "NSD": 5002, "AF": 133, 
+  },
+  "Cetinje": {
+        "BS": 9, "HGI": 90, "DNP": 34, "SNP-DEMOS": 34, "URA": 130, "AA": 8, "Preokret": 124, "PZP": 26, "SEP": 600, "DPS": 2420, "PES": 315, "ES": 2527, "DEM": 330, "ZBCG": 145, "AF": 6, 
+  },
+  "Pljevlja": {
+        "BS": 1500, "HGI": 27, "DNP": 700, "SNP-DEMOS": 523, "AA": 4, "Preokret": 36, "PZP": 47, "URA": 225, "DPS": 1800, "PES": 825, "ES": 375, "DEM": 450, "NSD": 7550, "AF": 12, "SEP": 600,
+  },
+  "Tivat": {
+       "BS": 34, "HGI": 953, "SEP": 283, "SNP-DEMOS": 23, "DNP": 45, "AA": 3, "Preokret": 98, "PZP": 41, "URA": 36, "DPS": 1443, "PES": 931, "SDP": 638, "DEM": 454, "NSD": 725, "AF": 6, 
+  },
+  "Rožaje": {
+       "BS": 7302, "HGI": 13, "DNP": 13, "SNP-DEMOS": 86, "URA": 710, "AA": 10, "Preokret": 25, "SEP": 377, "DPS": 1269, "PES": 887, "ES": 813, "DEM": 187, "NSD": 70, "AF": 121, 
+  },
+  "Plav": {
+        "BS": 1043, "HGI": 6, "DNP": 245, "SNP-DEMOS": 120, "SEP": 332, "AA": 10, "Preokret": 14, "PZP": 4, "URA": 322, "DPS": 565, "PES": 415, "ES": 1121, "DEM": 63, "NSD": 178, "AF": 165, 
+  },
+  "Mojkovac": {
+       "BS": 6, "HGI": 8, "SEP": 620, "SNP-DEMOS": 210, "DNP": 230, "AA": 3, "Preokret": 29, "PZP": 51, "URA": 80, "DPS": 700, "PES": 650, "ES": 250, "DEM": 280, "NSD": 550, "AF": 4, 
+  },
+  "Kolašin": {
+       "BS": 7, "HGI": 11, "DNP": 132, "SNP-DEMOS": 353, "SEP": 227, "AA": 2, "Preokret": 41, "PZP": 14, "URA": 122, "DPS": 959, "PES": 484, "ES": 186, "DEM": 359, "NSD": 1018, "AF": 4, 
+  },
+  "Žabljak": {
+       "BS": 3, "HGI": 3, "DNP": 110, "SNP-DEMOS": 100, "SEP": 150, "AA": 1, "Preokret": 8, "PZP": 33, "URA": 70, "DPS": 440, "PES": 250, "ES": 110, "DEM": 100, "NSD": 530, "AF": 0, 
+  },
+  "Šavnik": {
+       "BS": 0, "HGI": 1, "DNP": 41, "SNP-DEMOS": 120, "URA": 15, "AA": 0, "Preokret": 5, "PZP": 3, "SEP": 16, "DPS": 787, "PES": 199, "ES": 25, "DEM": 57, "NSD": 291, "AF": 2, 
+  },
+  "Plužine": {
+        "BS": 1, "HGI": 2, "DNP": 62, "SNP-DEMOS": 546, "URA": 67, "AA": 0, "Preokret": 2, "PZP": 7, "SEP": 23, "DPS": 218, "PES": 278, "ES": 28, "DEM": 74, "NSD": 240, "AF": 1, 
+  },
+  "Andrijevica": {
+    "BS": 2, "HGI": 7, "SEP": 18, "SNP-DEMOS": 400, "DNP": 219, "AA": 0, "Preokret": 10, "PZP": 7, "URA": 13, "DPS": 977, "PES": 381, "ES": 30, "DEM": 157, "NSD": 452, "AF": 0, 
+  },
+  "Petnjica": {
+    "BS": 508, "HGI": 1, "SEP": 202, "SNP-DEMOS": 96, "DNP": 0, "AA": 0, "Preokret": 2, "PZP": 2, "URA": 71, "DPS": 919, "PES": 105, "ES": 335, "DEM": 90, "NSD": 1, "AF": 0, 
+  },
+  "Tuzi": {
+        "BS": 1094, "HGI": 10, "DNP": 9, "SNP-DEMOS": 56, "URA": 128, "AA": 278, "Preokret": 73, "PZP": 5, "SEP": 400, "DPS": 1076, "PES": 269, "ES": 289, "DEM": 259, "NSD": 34, "AF": 3166, 
+  },
+  "Danilovgrad": {
+        "BS": 5, "HGI": 19, "DNP": 196, "SNP-DEMOS": 214, "SEP": 112, "AA": 8, "Preokret": 219, "PZP": 64, "URA": 229, "DPS": 2323, "PES": 1340, "ES": 289, "DEM": 408, "NSD": 2310, "AF": 10, 
+  },
+  "Ulcinj":{
+      "AA": 5500, "DPS": 3300, "SEP": 400, "PES": 1300,"BS": 200, "ES": 900, "AF": 300, "URA": 1500, "BS": 289, "DEM": 330, "NSD": 21, "DNP": 17,
+  },
+   "Podgorica": {
+      "BS": 955, "HGI": 294, "DNP": 5032, "SNP-DEMOS": 1258, "AA": 95, "Preokret": 2704, "URA": 2561, "SEP": 2504, "DPS": 25051, "PES": 10594, "ES": 5157, "DEM": 7068, "NSD": 10064, "AF": 682, "Jakov": 5476, "PZP" : 500, "Kadic": 2235,
+  },
+  "Nikšić": {
+      "BS": 54, "HGI": 49, "SNP-DEMOS": 1916, "AA": 15, "Preokret": 370, "PZP": 153, "URA": 783, "DPS": 15198, "PES": 2188, "ES": 2103, "DEM": 2738, "NSD": 13413, "AF": 240, "DNP": 3490, "SEP": 386,
+  },
+  "Herceg-Novi": {
+       "BS": 23, "HGI": 133, "URA": 618, "SNP-DEMOS": 267, "SEP": 174, "AA": 11, "Preokret": 135, "PZP": 85, "DNP": 300, "DPS": 1972, "PES": 2720, "ES": 438, "DEM": 2267, "NSD": 4061, "AF": 71, "Idemo" : 595, 
+  },
+  "Kotor": {
+      "BS": 14, "HGI": 452, "SEP": 312, "SNP-DEMOS": 167, "DNP": 403, "AA": 7, "Preokret": 125, "PZP": 68, "URA": 167, "DPS": 3334, "PES": 1000, "ES": 896, "DEM": 1783, "NSD": 1500, "AF": 14,
+  },
+  "Budva": {
+      "SEP": 130, "BS": 30, "HGI": 55, "BNG": 2907, "SNP-DEMOS": 396, "DNP": 763, "AA": 5, "Preokret": 154, "PZP": 136, "URA": 412, "DPS": 2523, "PES": 400, "ES": 678, "DEM": 771, "NSD": 1820, "AF": 3, "PZG" : 874,
+  },
+  "Gusinje": {
+     "BS": 366, "HGI": 1, "SEP": 45, "SNP-DEMOS": 23, "DNP": 2, "AA": 157, "Preokret": 1, "PZP": 1, "URA": 15, "DPS": 435, "PES": 12, "ES": 551, "DEM": 80, "NSD": 3, "AF": 494, 
+  },
+  "Berane": {
+        "BS": 895, "HGI": 24, "DNP": 388, "SNP-DEMOS": 2727, "URA": 40, "AA": 11, "Preokret": 44, "PZP": 156, "SEP": 238, "DPS": 2854, "PES": 1318, "ES": 250, "DEM": 1203, "NSD": 3300, "AF": 43, 
+  },
 };
 
-const SVG_MAPA = `<svg xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="18.438402 43.565072 20.376798 41.848772" xmlns:mapsvg="http://mapsvg.com" width="612.50226" height="735.39343"><path d="m 463.88215,377.57756 -0.47,0.23 0,0 -11.27,4.34 -7.37,7.37 -6.51,7.37 -2.6,6.94 -1.3,8.24 -9.97,2.6 -3.5,2.41 0,0 -1.74,-1.79 -1.55,-3.85 -1.8,-0.94 -0.48,-0.64 0.07,-1.92 -0.89,-2.23 -0.12,-1.37 0.25,-0.68 1.89,-2.05 0.16,-0.77 -0.28,-0.86 -1.74,-1.2 -2.49,-0.34 -0.38,-0.3 -1.36,-2.09 -1.64,-4.41 -1.55,-1.28 -1.36,-0.09 -0.82,0.26 -3.06,1.97 -1.9,0.25 -0.31,0.69 -1.39,1.45 0.06,2.44 -3.54,3.34 -1.95,3.03 -0.6,0.34 -0.98,0.13 -2.53,-1.02 -1.1,0.08 -0.48,0.26 -2.11,2.75 0,0 -3.88,-6.7 -4.34,-12.58 0,0 -2.1,-2.91 0,0 5.14,-2.12 3.03,-4.33 0,-6.51 4.34,-2.17 1.3,-6.93 -3.47,-2.6 -0.87,-9.54 2.6,-5.21 0.44,-5.2 -6.51,-4.77 -4.77,-5.64 -1.3,-6.5 5.64,-6.07 0,0 6.59,-1.94 0,0 5.72,3.02 7.38,4.77 20.81,12.14 7.81,3.9 7.8,2.61 9.11,0.86 3.9,-3.47 4.33,0.44 -0.43,6.07 -2.6,3.9 -5.2,4.34 0,5.2 3.9,5.2 3.03,6.07 5.64,4.34 z" title="Andrijevica" id="ME-01"/><path d="m 206.30215,540.47756 -0.19,0.2 0,0 4.33,4.77 3.04,3.9 1.3,4.77 0.43,8.67 1.74,6.07 3.03,3.47 5.21,1.31 6.5,0.86 6.5,0 3.04,1.3 3.03,6.94 2.17,8.24 2.6,8.67 5.64,4.34 3.04,6.5 13,4.34 8.24,10.84 4.34,3.47 4,2.61 0,0 -0.1,-0.01 0,0 -3.47,5.2 -4.33,3.04 -6.94,-1.3 -3.04,1.3 -4.33,0 -5.64,-3.9 -2.17,-4.34 -3.47,-2.17 -3.9,2.6 -1.73,1.74 0,4.33 2.16,0.44 3.47,1.3 0.87,1.73 -1.3,3.47 -2.17,4.34 -0.43,3.9 2.6,2.17 1.73,3.47 3.04,0.86 0.87,6.08 0.86,2.6 -1.73,3.9 -4.34,1.73 -4.77,-0.86 -9.97,-4.77 -4.34,-2.6 -5.63,0 -4.25,0.56 0,0 0.19,-0.18 -0.1,-1.27 -0.82,-0.3 -0.79,-0.8 -0.79,-0.21 0.1,-0.98 1.39,-0.42 0.31,-2.79 -2.62,-1.66 0,-0.29 0.79,-0.77 -0.03,-0.38 -0.5,-0.59 0,-0.25 0.44,-0.22 -0.16,-0.67 0.41,-0.47 -0.54,-1.44 -1.35,-1.31 -0.67,-0.17 -0.79,-0.6 -6.91,-5.93 -1.83,-0.76 -2.37,-2.25 -2.24,-1.14 -1.77,-1.66 0.03,-0.21 0.57,0 -0.03,-0.25 -1.68,-1.02 -1.83,-1.52 -1.39,-1.66 -0.16,-0.97 1.77,-0.13 0.57,0.59 2.46,0.64 0.35,-0.25 -0.03,-0.39 -0.79,-0.76 0,-0.3 0.28,-0.08 0.7,0.59 0.41,0 -0.1,-0.76 -0.5,-0.17 -0.13,-0.34 0.1,-0.51 0.28,-0.08 0.54,0.38 0.63,-0.89 0.09,-1.7 -1.04,-3.14 -1.01,-1.99 -0.88,-1.06 -3.92,-2.8 -0.57,-0.63 -2.08,-0.47 0.63,-1.06 0.06,-0.68 -1.13,-3.01 -2.72,-1.62 -0.79,0 -0.69,0.47 -3.82,-0.42 -1.71,0.17 -0.95,0.42 -0.47,-1.61 -0.38,-0.42 -0.63,0 -1.07,0.33 -1.24,2.08 -0.5,0.64 -0.32,0.04 -3,-6.45 0.19,-1.99 0.51,-0.98 -0.07,-0.59 -0.91,-0.98 -0.88,-1.54 0,0 3.15,-6.65 2.17,-3.91 3.9,-3.9 -2.6,-6.94 -3.9,-5.2 -5.64,-5.2 -5.64,-4.77 -2.17,-8.24 -1.3,-1.74 -0.87,-3.9 -2.16,-4.77 0,0 4.77,-0.87 0,0 6.07,1.74 4.77,2.17 2.6,3.9 8.24,0.87 5.63,-2.61 0.87,-3.46 -2.6,-4.34 -1.3,-3.47 1.73,-3.47 6.07,-0.87 5.21,2.17 z" title="Bar" id="ME-02"/><path d="m 463.88215,377.57756 -5.67,-3.67 -5.64,-4.34 -3.03,-6.07 -3.9,-5.2 0,-5.2 5.2,-4.34 2.6,-3.9 0.43,-6.07 -4.33,-0.44 -3.9,3.47 -9.11,-0.86 -7.8,-2.61 -7.81,-3.9 -20.81,-12.14 -7.38,-4.77 -5.72,-3.02 0,0 0.78,-0.23 0,0 -3.9,-12.58 1.3,-10.4 0,0 -0.9,0.1 0,0 8.7,-8.34 0,0 1.59,-2.11 0,0 7.69,0.81 8.68,-2.61 7.8,-3.46 4.77,-4.77 4.34,-5.21 6.94,-2.6 3.9,1.74 2.6,3.03 4.77,1.3 6.5,1.3 7.37,-1.3 5.21,-4.33 6.07,-2.6 7.8,-1.74 6.51,-2.6 4.33,-4.77 4.34,-1.74 8.67,-0.86 6.07,-3.04 4.77,-2.6 4.96,-6.82 0,0 1.18,1.1 3.6,1.03 2.08,1.12 4.65,4.69 3.53,4 3.13,2.15 1.93,0.04 2.21,-0.68 4.51,-3.02 1.61,-0.17 0,0 -0.87,12.17 -5.63,8.24 -1.74,9.1 -9.97,9.54 -0.87,9.98 -3.03,9.97 -7.81,6.51 -6.94,8.67 2.61,13.87 1.79,3.39 0,0 -0.44,0.33 -0.95,2.14 -0.06,1.72 -0.32,1.67 -0.47,1.16 -1.33,2.01 -2.11,2.4 -0.64,1.03 -0.09,1.03 0.32,1.28 1.26,2.32 0.76,2.18 1.2,4.76 0.6,0.85 0.98,2.49 0.66,0.68 3,0.94 1.36,1.2 0.81,1.28 0,0 -14.57,2.65 -13.01,1.3 -9.97,-0.87 -11.28,0 0,0 z" title="Berane" id="ME-03"/><path d="m 518.67215,238.08756 -4.96,6.82 -4.77,2.6 -6.07,3.04 -8.67,0.86 -4.34,1.74 -4.33,4.77 -6.51,2.6 -7.8,1.74 -6.07,2.6 -5.21,4.33 -7.37,1.3 -6.5,-1.3 -4.77,-1.3 -2.6,-3.03 -3.9,-1.74 -6.94,2.6 -4.34,5.21 -4.77,4.77 -7.8,3.46 -8.68,2.61 -7.69,-0.81 0,0 1.02,-1.36 0,0 -12.14,-9.11 -2.61,-3.9 4.77,-9.1 0,-6.94 -5.2,-6.94 -7.37,-4.77 -6.07,-0.87 -11.71,-0.86 -7.37,-2.17 -9.11,-5.64 -4.33,-3.04 -9.11,-0.86 -7.8,-3.47 0,0 -0.53,0.16 0,0 2.26,-7.1 -0.43,-9.97 3.46,-5.21 4.77,-3.9 7.38,0 2.6,-5.2 0.43,-6.51 4.34,-2.6 2.6,-3.03 0,-5.64 -2.6,-4.34 0,-3.9 5.2,-3.03 3.04,-5.64 3.9,-2.17 2.17,-14.74 -3.47,-5.64 0.83,-4.16 0,0 7.48,4.32 6.91,4.8 2.28,1.04 2.62,1.55 1.2,1.38 5.65,11.96 1.77,3.28 1.07,1 4.17,2.37 3.16,2.29 3.6,2.2 4.99,1.51 3.41,0.43 2.34,1.04 4.38,1.16 2.85,1.51 1.99,1.9 0.6,0 0.82,-0.34 1.23,-6.61 0.88,-1.12 1.65,-1.12 1.95,0.73 1.83,1.82 1.65,3.1 0.09,4.36 0.25,0.99 3.79,6.82 0.7,2.84 0.69,5.48 0.51,0.56 1.67,0.3 8.5,0.43 0.72,0.26 3.07,4.23 0.56,0.69 0.41,0.12 0.48,-0.04 0.41,-0.34 1.64,-2.2 0.63,-0.48 0.76,-0.04 1.14,0.43 3.31,2.98 1.01,0.56 7.05,0.99 4.23,0 5.46,-0.52 2.59,-0.77 2.15,-2.2 1.64,-2.29 1.48,-1.33 1.74,-0.52 1.23,0.04 0.82,0.78 2.56,7.2 1.71,2.5 0.94,2.97 1.33,1.25 1.23,0.56 2.72,4.78 10.17,11.46 2.78,3.53 2.05,1.94 5.3,4.26 z" title="Bijelo Polje" id="ME-04"/><path d="m 163.00215,546.54756 -1.12,0.2 0,0 2.16,4.77 0.87,3.9 1.3,1.74 2.17,8.24 5.64,4.77 5.64,5.2 3.9,5.2 2.6,6.94 -3.9,3.9 -2.17,3.91 -3.15,6.65 0,0 -0.42,-0.03 -0.44,0.85 -1.07,0.21 -0.44,-1.74 -0.54,-0.17 -0.7,0.51 -0.18,-1.44 -2.47,-1.23 -2.84,-2.17 -0.38,-0.68 -0.16,-0.93 1.36,-2.38 0.1,-1.19 -1.01,-1.87 -1.84,-1.86 -0.91,-0.39 -1.14,0.6 -1.07,-0.43 -0.44,-0.46 0.03,-1.53 -1.42,0.04 -0.92,-0.77 -0.32,-0.93 -0.66,-0.55 -1.1,0.21 -2.25,-0.81 -0.63,0.3 -0.31,-0.08 -0.23,-1.7 -0.41,-0.73 -0.34,-0.21 -1.2,0.04 -3.82,-3.01 -0.73,-1.45 0.22,-1.31 -0.44,-1.24 0.03,-0.97 -1.1,-1.74 -0.38,0.46 -0.22,-0.08 0,-1.07 -0.8,0 -0.47,-0.63 0.22,-0.64 0.7,-0.77 -0.03,-0.93 -0.76,-1.4 0.5,-1.49 -0.63,-1.7 -0.88,-0.89 0.28,-0.81 -0.76,-2.85 0.1,-1.02 -0.7,-0.55 -0.31,-1.41 -0.7,-0.72 -1.61,-0.21 0.19,-1.74 -0.19,-0.35 -1.8,-0.21 -2.49,0.09 -1.61,0.59 -0.41,1.28 -0.92,-1.11 -0.35,-1.06 -1.42,-1.57 -2.14,0.04 -2.28,1.27 0,0.81 0.57,0.68 -0.32,0.47 -0.34,0.17 -0.86,-0.08 -1.16,0.68 -0.6,0.76 -1.46,-1.27 -2.24,-0.43 -0.09,-1.49 -0.56,-0.44 0,0 0,-4.36 -1.3,-1.3 0.43,-2.6 3.47,-7.37 -3.47,-3.04 -1.3,-2.6 -1.3,-3.9 1.73,-3.04 0,0 4.34,-2.17 0,0 3.9,0.87 3.9,3.47 5.64,1.73 5.2,1.31 6.07,2.6 3.91,0 5.2,1.3 3.04,6.07 2.6,6.5 z" title="Budva" id="ME-05"/><path d="m 227.79215,527.84756 0,-1.05 0,0 -3.04,-0.86 -5.64,-3.04 -3.46,2.17 -5.21,-1.73 -3.47,-3.47 -3.47,0 -2.16,4.77 2.6,3.47 3.03,4.76 0.87,2.17 0,3.91 0,0 -1.54,1.53 0,0 -2.36,-1.97 -5.21,-2.17 -6.07,0.87 -1.73,3.47 1.3,3.47 2.6,4.34 -0.87,3.46 -5.63,2.61 -8.24,-0.87 -2.6,-3.9 -4.77,-2.17 -6.07,-1.74 0,0 -3.65,0.67 0,0 -1.12,-1.97 -2.6,-6.5 -3.04,-6.07 -5.2,-1.3 -3.91,0 -6.07,-2.6 -5.2,-1.31 -5.64,-1.73 -3.9,-3.47 -3.9,-0.87 0,0 -3.13,1.57 0,0 -0.77,-3.08 -0.44,-11.71 -4.33,-4.34 -3.47,-3.9 -2.61,-4.77 0.87,-4.77 3.47,-4.34 0.43,-6.93 -1.73,-12.58 -2.17,-7.37 -6.07,-6.5 -6.070003,-2.17 -5.2,-6.94 -2.6,-5.64 -2.61,-7.8 -5.63,-6.94 -4.34,-4.77 0,0 -4.04,-12.11 0,0 6.21,-1.33 5.2,-3.04 0,-17.78 6.51,-5.2 2.16,-2.17 0.44,-4.33 0,-4.77 5.64,0 13.000003,8.67 16.05,-0.43 6.07,3.9 8.24,9.97 8.24,4.34 5.2,3.47 3.9,4.33 0,0 2.17,8.68 0,0 -0.87,7.37 6.94,1.73 4.77,3.47 3.47,8.24 4.77,2.17 4.77,4.77 -1.3,3.46 -7.37,3.91 0,9.1 0,0 -8.24,3.04 0,0 0.43,3.9 6.51,1.74 3.03,1.3 3.04,0.86 5.63,6.07 2.6,5.21 7.38,5.2 3.9,1.3 2.6,5.21 3.04,7.37 4.33,5.2 6.51,4.77 6.93,3.9 4.34,3.91 2.6,9.53 z" title="Cetinje" id="ME-06"/><path d="m 175.75215,454.32756 0.44,-0.16 0,0 0,-9.1 7.37,-3.91 1.3,-3.46 -4.77,-4.77 -4.77,-2.17 -3.47,-8.24 -4.77,-3.47 -6.94,-1.73 0.87,-7.37 0,0 -0.52,-2.07 0,0 13.96,0.33 5.64,-3.47 -0.43,-9.1 0.86,-10.84 4.77,-6.08 6.51,-4.77 6.07,-3.46 7.8,0.43 9.11,3.47 9.1,0.43 10.41,-0.43 9.54,1.3 4.77,-3.47 -3.04,-3.47 -3.46,-3.03 -3.47,-6.07 -0.44,-4.34 3.91,-2.17 3.03,-3.03 0,0 3.47,0 0,0 6.07,3.46 2.17,7.81 1.73,10.84 2.61,3.47 7.37,8.24 0,0 1.73,4.33 0,0 -5.64,3.91 -5.2,3.03 -0.43,9.54 2.17,5.64 -1.74,8.24 -4.77,2.6 -5.64,2.6 -2.6,8.67 0.87,9.98 1.3,9.97 -1.3,5.2 -6.07,7.37 -5.64,3.91 -6.07,-3.47 -6.5,-3.04 -4.34,3.47 -10.41,-0.43 -8.67,1.73 -3.47,-5.63 -7.37,-1.74 -6.94,-2.6 z" title="Danilovgrad" id="ME-07"/><path d="m 64.902147,495.11756 -0.15,2.42 0.87,3.9 3.9,2.6 1.68,2.99 0,0 -0.97,0.22 -0.38,0.56 -0.82,0.47 0,2.47 1.55,1.41 0.03,0.26 -0.09,0.26 -0.76,0.13 -1.14,1.24 0.32,1.75 -0.31,0.64 -1.04,-0.08 -1.42,-0.51 -0.54,-0.64 0.13,-1.32 -1.2,-0.72 -0.6,0.09 -0.41,0.51 -1.17,-0.64 -0.54,0.26 0.54,1.41 -0.03,0.73 -0.3,0.83 -0.5,0.34 -1.01,-0.08 -1.17,-0.68 -1.29,-0.26 -0.19,-0.13 0.03,-1.11 -0.44,-0.17 -0.41,0.26 -0.22,0.81 -2.02,0.6 -0.44,-0.68 0.51,-1.06 -0.92,-0.34 -0.22,-0.6 -1.04,0.6 -0.76,-0.08 -0.19,-1.28 -0.6,-0.43 -1.2,-0.34 -1.48,-1.24 -0.13,-0.55 0.85,-0.89 -0.13,-0.43 -1.89,0.34 -0.57,-0.38 -0.28,-1.36 -1.14,-0.6 -0.5,0.38 -0.66,-0.17 -1.99,-2.6 0.19,-0.3 1.17,-0.17 1.2,-0.77 -0.47,-0.43 -0.13,-0.55 0.22,-0.26 1.01,-0.04 -0.09,-0.64 -0.6,-0.38 -4.96,-1.28 -1.26,-0.81 -0.76,-1.53 0.35,-1.41 -2.27,-0.17 -0.79,-0.47 -0.16,-0.56 0.19,-1.15 -0.35,-1.79 0.51,-1.02 2.46,-2 0.79,-0.3 0.63,-0.68 0.6,-0.3 1.93,-0.34 2.81,0.38 11.84,3.71 7.04,3.58 1.75,0.57 z m -40.71,-73.98 6.19,0.3 1.05,-0.63 0,0 6.87,9.52 3.47,9.54 2.6,3.04 5.2,3.9 10.41,1.3 5.2,1.3 6.94,3.47 1.62,4.06 0,0 -0.83,0.34 -2.27,1.62 -1.01,1.11 -1.58,1.11 -0.38,1.19 1.33,0.9 0.88,-0.13 3.66,0.43 5.81,2.9 0.16,0.38 -0.35,0.68 -1.36,1.62 -0.73,1.54 -1.64,1.79 -0.32,1.45 0.82,1.07 -0.22,0.68 -0.54,0.43 -2.65,1.07 -1.99,1.15 -1.17,1.45 -1.29,-0.26 -0.82,0.3 -2.84,2.43 -3.13,1.54 -4.99,1.15 -1.33,1.02 -2.08,0.04 -1.23,0.64 -2.08,-1.36 -2.59,-0.68 -0.47,-0.26 -0.76,-1.11 -1.17,-0.38 -1.99,-3.03 -1.36,-1.36 -2.21,-0.43 -0.88,0.85 -1.48,0.73 -2.15,0.21 -1.64,-0.51 -1.17,0.47 -0.63,0 -1.93,-1.06 -1.74,-1.71 -1.42,-0.98 -0.6,-0.3 -0.63,0.04 -3.16,2.6 -0.54,1.58 0.44,0.38 0.32,1.24 1.58,2.64 1.45,1.11 0.76,1.62 1.2,0.51 2.31,2.22 0.13,0.43 -0.16,0.56 -0.82,0.21 -1.26,1.66 -3.41,-0.85 -0.88,-1.66 -5.18,-5.24 -6.32,-7.68 -4.6699997,-6.1 -3.66,-3.67 -0.44,-1.58 -0.31,-2.47 0.16,-2.35 0.16,-0.47 2.69,-3.24 0.51,-0.98 -0.03,-1.15 -3.32,-9.82 -1.35999997,-5.04 -0.69,-4.2 0.35,-3.33 2.58999997,-0.51 2.21,0.3 1.48,-0.04 2.18,-0.56 2.3999997,-0.3 2.31,-0.68 2.31,-3.5 4.64,-6.15 1.42,-0.47 2.05,0.41 z" title="Herceg-Novi" id="ME-08"/><path d="m 374.85215,384.04756 -3.54,-4.89 0,0 -9.1,-0.44 -5.21,-6.07 -4.77,-14.31 -9.54,-0.86 -5.63,0.86 -3.47,13.01 -0.43,4.34 -4.77,1.3 -8.68,1.3 -0.86,5.64 -6.51,2.17 -7.37,3.46 -5.2,3.91 -6.94,-0.87 -7.81,-3.9 -4.77,1.3 -5.63,-3.47 -4.7,0.83 0,0 -1.37,-3.43 0,0 -7.37,-8.24 -2.61,-3.47 -1.73,-10.84 -2.17,-7.81 -6.07,-3.46 0,0 -2.01,0 0,0 -5.36,-4.6 -2.17,-4.77 0.87,-10.41 3.9,-3.47 2.6,-5.2 -1.3,-4.77 -3.47,-5.64 -5.63,-5.2 0,0 -1.12,0.08 0,0 -1.05,-7.02 6.94,-7.8 0.86,-3.91 9.54,-1.3 4.77,1.3 18.21,-1.3 8.24,-0.86 6.07,-4.77 0,0 1.97,-6.31 0,0 6.71,0.24 2.6,3.9 2.17,2.6 7.37,4.34 8.67,1.73 6.94,3.04 15.17,1.3 4.34,-2.6 6.94,-1.74 6.94,3.04 7.37,-0.87 5.63,3.47 6.51,-0.44 0,0 7.37,-0.86 0,0 -1.3,10.4 3.9,12.58 0,0 -7.37,2.17 0,0 -5.64,6.07 1.3,6.5 4.77,5.64 6.51,4.77 -0.44,5.2 -2.6,5.21 0.87,9.54 3.47,2.6 -1.3,6.93 -4.34,2.17 0,6.51 -3.03,4.33 z" title="Kolašin" id="ME-09"/><path d="m 73.742147,456.92756 -1.62,-4.06 -6.94,-3.47 -5.2,-1.3 -10.41,-1.3 -5.2,-3.9 -2.6,-3.04 -3.47,-9.54 -6.87,-9.51 0,0 1,-0.61 0.57,-0.77 0.28,-0.77 -0.19,-0.76 -1.01,-1.33 -3.23,-2.49 0,0 10.75,-1.53 6.94,-2.6 9.1,-3.04 9.97,-3.9 6.07,1.73 0,0 4.34,13.01 0,0 4.34,4.77 5.63,6.94 2.61,7.8 2.6,5.64 5.2,6.94 6.070003,2.17 6.07,6.5 2.17,7.37 1.73,12.58 -0.43,6.93 -3.47,4.34 -0.87,4.77 2.61,4.77 3.47,3.9 4.33,4.34 0.44,11.71 0.77,3.08 0,0 -1.21,0.6 0,0 -1.73,3.04 1.3,3.9 1.3,2.6 3.47,3.04 -3.47,7.37 -0.43,2.6 1.3,1.3 0,4.36 0,0 -0.77,-0.75 -1.29,-0.3 -2.5,1.79 0.1,0.85 1.13,1.79 -0.28,0.46 -3.16,-2.67 -2.97,-1.37 -0.19,0.34 0.54,1.19 -0.32,1.54 0.16,0.76 0.51,0.77 -0.07,0.68 -0.38,0.3 -0.78,0.12 -0.95,0.81 -1.58,-0.51 -1.45,-2.34 -1.55,-1.32 -0.57,-0.89 -0.79,-0.17 -0.19,-0.98 -1.61,-1.15 -1.580003,-1.78 -0.31,-0.56 0.22,-0.93 -0.82,-0.17 -0.32,-0.3 -1.39,-2.25 -0.82,-0.56 -1.11,-1.36 -1.16,0.04 0.44,-1.14 -0.1,-0.34 -2.14,-0.77 -0.13,-1.11 -2.21,-1.74 -2.59,-2.81 -1.11,-0.38 0.13,-0.6 1.26,-1.32 0.89,-0.12 0.19,-0.43 0,-0.26 -2.02,-2.08 -0.03,-1.7 0.22,-0.9 -2.25,-1.87 -0.63,-1.07 -1.1,-0.21 -0.16,-0.93 -1.99,-1.32 -0.51,-1.45 0,-0.73 0.32,-0.42 1.33,0 1.1,0.34 2.53,1.45 0.41,-0.05 0.03,-0.68 -1.69,-1.91 0,0 2.41,-0.54 8.52,-7.14 3.02,-3.99 0.97,-7.55 5.220003,-7.01 -0.03,-0.23 0,0 0.43,-0.6 0.13,-3.02 -1.01,-2.3 -0.7,-0.77 -0.22,-0.94 1.05,-2.47 -0.23,-1.41 0.26,-1.75 -0.63,-4.39 -0.19,-5.33 0.66,-3.42 -0.06,-0.64 -0.48,-0.81 -0.5,-0.25 -1.42,0 -1.360003,0.38 -4.27,2.09 -2.36,0.39 -6.79,-0.09 -1.9,-0.38 -1.26,-0.6 -2.37,-1.49 -0.57,-0.86 -0.25,-1.96 0.47,-1.79 -0.12,-1.03 0.69,-0.55 -0.25,-1.2 1.01,-1.23 -0.7,-2.22 -1.1,-1.03 -0.95,0.04 -0.79,0.65 -0.44,1.1 -0.95,1.11 -0.66,1.97 -0.73,0.38 z" title="Kotor" id="ME-10"/><path d="m 384.29215,291.40756 -6.47,0.76 0,0 -6.51,0.44 -5.63,-3.47 -7.37,0.87 -6.94,-3.04 -6.94,1.74 -4.34,2.6 -15.17,-1.3 -6.94,-3.04 -8.67,-1.73 -7.37,-4.34 -2.17,-2.6 -2.6,-3.9 -6.71,-0.24 0,0 0.2,-0.63 0,0 -3.47,-6.94 -6.94,-0.87 -2.6,-6.07 -1.73,-8.24 0,0 -0.2,-0.1 0,0 1.93,-2.06 0,-9.11 5.64,-1.3 7.37,-0.87 6.07,-0.43 1.3,-7.37 0.87,-2.6 4.34,-3.47 0,0 -0.19,-0.13 0,0 7.56,0.13 0,0 6.94,-2.17 0,0 7.8,3.47 9.11,0.86 4.33,3.04 9.11,5.64 7.37,2.17 11.71,0.86 6.07,0.87 7.37,4.77 5.2,6.94 0,6.94 -4.77,9.1 2.61,3.9 12.14,9.11 0,0 -2.61,3.47 0,0 z" title="Mojkovac" id="ME-11"/><path d="m 289.43215,469.85756 0,2.86 0,0 -3.91,2.16 -1.73,4.78 0.43,6.5 1.3,2.6 5.21,3.47 1.3,3.04 3.03,1.3 2.61,1.73 1.73,4.34 11.27,-3.04 4.77,-2.17 6.94,-1.3 5.2,1.74 6.51,1.3 2.6,2.6 3.91,2.17 4.45,0.49 0,0 -1.06,2.26 -1.13,1.7 -6.82,8.2 -0.86,2.13 0.16,2.64 -0.16,1.57 -4.32,4.21 -2.56,4.21 -4.96,5.28 1.71,3.49 0.85,6.43 -0.19,0.3 -2.24,1.19 -0.41,0.64 0.16,4.42 -1.27,2.56 -1.67,1.57 -1.52,2.35 -0.63,0.51 -1.96,1.02 -2.36,-0.13 -1.49,0.34 -1.67,0.81 -3.19,2.43 -2.5,3.88 -2.21,4.17 -0.98,4.35 -0.53,0.56 -1.2,-0.22 -0.13,0.22 -0.38,2.68 -0.38,1.02 -0.82,0.81 -1.29,1.88 -3.67,1.41 -0.56,0.42 -0.86,3.88 -2.56,2.05 -2.71,4.48 -0.63,3.11 -2.4,3.76 -0.63,1.79 -1.68,1.28 -1.42,2.3 -0.79,2.44 -0.19,4.6 -0.38,0.82 -12.5,7.17 -0.32,0.42 0.1,1.29 -0.19,0.64 -0.48,0.47 -1.54,0.89 -1.14,0.39 -0.73,0.59 -0.15,1.24 1.01,4.06 0,1.41 1.16,1.84 -0.34,5.89 -0.19,0.52 -5.02,7.18 -6.76,8.71 -2.5,3.71 0,0 -4.34,-12.58 0,0 -5.64,-7.8 0,0 3.54,-4.89 3.88,6.7 0,0 2.11,-2.75 0.48,-0.26 1.1,-0.08 2.53,1.02 0.98,-0.13 0.6,-0.34 1.95,-3.03 3.54,-3.34 -0.06,-2.44 1.39,-1.45 0.31,-0.69 1.9,-0.25 3.06,-1.97 0.82,-0.26 1.36,0.09 1.55,1.28 1.64,4.41 1.36,2.09 0.38,0.3 2.49,0.34 1.74,1.2 0.28,0.86 -0.16,0.77 -1.89,2.05 -0.25,0.68 0.12,1.37 0.89,2.23 -0.07,1.92 0.48,0.64 1.8,0.94 1.55,3.85 1.74,1.79 0,0 3.5,-2.41 9.97,-2.6 1.3,-8.24 2.6,-6.94 6.51,-7.37 7.37,-7.37 11.27,-4.34 0.47,-0.23 0,0 11.28,0 9.97,0.87 13.01,-1.3 14.57,-2.65 0,0 -0.81,-1.28 -1.36,-1.2 -3,-0.94 -0.66,-0.68 -0.98,-2.49 -0.6,-0.85 -1.2,-4.76 -0.76,-2.18 -1.26,-2.32 -0.32,-1.28 0.09,-1.03 0.64,-1.03 2.11,-2.4 1.33,-2.01 0.47,-1.16 0.32,-1.67 0.06,-1.72 0.95,-2.14 0.44,-0.33 0,0 -1.79,-3.39 z" title="Nikšić" id="ME-12"/><path d="m 537.12215,290.16756 -2.78,-3.53 -10.17,-11.46 -2.72,-4.78 -1.23,-0.56 -1.33,-1.25 -0.94,-2.97 -1.71,-2.5 -2.56,-7.2 -0.82,-0.78 -1.23,-0.04 -1.74,0.52 -1.48,1.33 -1.64,2.29 -2.15,2.2 -2.59,0.77 -5.46,0.52 -4.23,0 -7.05,-0.99 -1.01,-0.56 -3.31,-2.98 -1.14,-0.43 -0.76,0.04 -0.63,0.48 -1.64,2.2 -0.41,0.34 -0.48,0.04 -0.41,-0.12 -0.56,-0.69 -3.07,-4.23 -0.72,-0.26 -8.5,-0.43 -1.67,-0.3 -0.51,-0.56 -0.69,-5.48 -0.7,-2.84 -3.79,-6.82 -0.25,-0.99 -0.09,-4.36 -1.65,-3.1 -1.83,-1.82 -1.95,-0.73 -1.65,1.12 -0.88,1.12 -1.23,6.61 -0.82,0.34 -0.6,0 -1.99,-1.9 -2.85,-1.51 -4.38,-1.16 -2.34,-1.04 -3.41,-0.43 -4.99,-1.51 -3.6,-2.2 -3.16,-2.29 -4.17,-2.37 -1.07,-1 -1.77,-3.28 -5.65,-11.96 -1.2,-1.38 -2.62,-1.55 -2.28,-1.04 -6.91,-4.8 -7.48,-4.32 0,0 0.83,-4.16 3.47,-5.64 -2.17,-14.74 3.9,-2.17 3.04,-5.64 5.2,-3.03 0,-3.9 -2.6,-4.34 0,-5.64 2.6,-3.03 4.34,-2.6 0.43,-6.51 2.6,-5.2 7.38,0 4.77,-3.9 3.46,-5.21 -0.43,-9.97 2.26,-7.1 0,0 0.53,-0.16 0,0 7.8,3.47 9.11,0.86 4.33,3.04 9.11,5.64 z" title="Plav" id="ME-13"/><path d="m 290.29215,246.98756 -7.38,-5.21 0,0 -3.46,-7.8 -3.47,-6.94 -8.68,-1.3 -4.77,-7.37 -7.8,-5.21 -3.04,-5.63 -8.24,-3.47 -3.46,-3.04 -5.21,-1.73 -7.37,-3.04 -12.57,-13.44 -12.14,0 -4.77,5.64 -6.94,-0.44 -6.94,0.44 -3.04,-4.77 -5.2,0.43 -0.87,-10.84 -1.73,-8.24 0.87,-5.63 -1.17,-1.64 0,0 5.2,-5.64 15.17,-7.37 6.07,2.17 5.64,5.63 6.94,4.77 6.07,1.73 12.57,0 6.5,-2.6 5.64,-0.87 8.24,5.21 3.9,0.43 4.77,-3.9 8.24,-1.3 4.77,3.9 6.07,4.77 6.07,-0.43 11.28,-5.21 9.1,-1.73 13.44,3.03 10.41,5.64 5.2,-2.6 4.77,-3.46 6.94,-2.17 5.64,3.47 -0.87,6.07 0,0 -3.46,7.8 -3.47,6.94 0,0 -7.38,-5.21 0,0 -8.67,-1.3 -4.77,-7.37 -3.04,-5.63 -8.24,-3.47 z" title="Pljevlja" id="ME-14"/><path d="m 289.43215,469.85756 -1.79,-3.39 z m 0,0 1.79,3.39 0,0 z" title="Plužine" id="ME-15"/><path d="m 385.17215,406.23756 -2.5,3.71 -6.76,8.71 -5.02,7.18 -0.19,0.52 -0.34,5.89 1.16,1.84 0,1.41 1.01,4.06 -0.15,1.24 -0.73,0.59 -1.14,0.39 -1.54,0.89 -0.48,0.47 -0.19,0.64 0.1,1.29 -0.32,0.42 -12.5,7.17 -0.38,0.82 -0.19,4.6 -0.79,2.44 -1.42,2.3 -1.68,1.28 -0.63,1.79 -2.4,3.76 -0.63,3.11 -2.71,4.48 -2.56,2.05 -0.86,3.88 -0.56,0.42 -3.67,1.41 -1.29,1.88 -0.82,0.81 -0.38,1.02 -0.38,2.68 -0.13,0.22 -1.2,-0.22 -0.53,0.56 -0.98,4.35 -2.21,4.17 -2.5,3.88 -3.19,2.43 -1.67,0.81 -1.49,0.34 -2.36,-0.13 -1.96,1.02 -0.63,0.51 -1.52,2.35 -1.67,1.57 -1.27,2.56 0.16,4.42 -0.41,0.64 -2.24,1.19 -0.19,0.3 0.85,6.43 1.71,3.49 -4.96,5.28 -2.56,4.21 -4.32,4.21 -0.16,1.57 0.16,2.64 -0.86,2.13 -6.82,8.2 -1.13,1.7 -1.05,2.26 -0.49,1.84 0,0 -4.45,-0.49 -3.91,-2.17 -5.2,-3.9 -2.6,-2.6 -6.51,-1.3 -5.2,-1.74 -6.94,1.3 -4.77,2.17 -11.27,3.04 -1.73,-4.34 -2.61,-1.73 -3.03,-1.3 -1.3,-3.04 -5.21,-3.47 -1.3,-2.6 -0.43,-6.5 1.73,-4.78 3.91,-2.16 0,0 0,-2.86 0,0 3.03,-5.17 -2.6,-9.53 -4.34,-3.91 -6.93,-3.9 -6.51,-4.77 -4.33,-5.2 -3.04,-7.37 -2.6,-5.21 -3.9,-1.3 -7.38,-5.2 -2.6,-5.21 -5.63,-6.07 -3.04,-0.86 -3.03,-1.3 -6.51,-1.74 -0.43,-3.9 0,0 7.8,-2.88 0,0 6.07,2.88 6.94,2.6 7.37,1.74 3.47,5.63 8.67,-1.73 10.41,0.43 4.34,-3.47 6.5,3.04 6.07,3.47 5.64,-3.91 6.07,-7.37 1.3,-5.2 -1.3,-9.97 -0.87,-9.98 2.6,-8.67 5.64,-2.6 4.77,-2.6 1.74,-8.24 -2.17,-5.64 0.43,-9.54 5.2,-3.03 5.64,-3.91 0,0 -0.36,-0.9 0,0 4.7,-0.83 5.63,3.47 4.77,-1.3 7.81,3.9 6.94,0.87 5.2,-3.91 7.37,-3.46 6.51,-2.17 0.86,-5.64 8.68,-1.3 4.77,-1.3 0.43,-4.34 3.47,-13.01 5.63,-0.86 9.54,0.86 4.77,14.31 5.21,6.07 9.1,0.44 0,0 5.64,7.8 0,0 4.34,12.58 z" title="Podgorica" id="ME-16"/><path d="m 514.64215,339.78756 -1.79,-3.39 -2.61,-13.87 6.94,-8.67 7.81,-6.51 3.03,-9.97 0.87,-9.98 9.97,-9.54 1.74,-9.1 5.63,-8.24 0.87,-12.17 0,0 2.53,0.91 1.48,1.59 0.86,0.51 1.48,0.26 3.92,1.42 1.48,0.17 0.51,0.22 1.16,1.29 3.92,1.42 6.95,3.05 1.64,0.99 3.66,3.87 2.37,1.2 3.7,0.99 5.11,0.56 5.59,1.16 0.38,0.47 0.41,2.54 0.73,1.42 -0.04,0.73 -0.41,0.47 0.1,0.3 1.99,1.03 0.76,0.69 0.66,1.03 3.95,0.22 1.58,1.03 1.26,1.16 3.32,1.85 2.49,2.06 1.29,1.8 0.32,3.05 -0.09,9.37 -0.92,4.54 0.54,7.65 -0.6,2.4 -2.18,3.39 -1.71,0.99 -0.76,0.17 -2.08,-0.22 -5.05,-1.41 -1.39,0.34 -1.33,1.07 -1.64,2.06 -1.26,1.16 -1.96,0.77 -4.14,2.23 -2.11,2.02 -1.71,2.19 -0.19,1.2 0.79,3.26 1.55,2.79 0.35,1.07 -0.13,0.81 -2.05,2.49 -1.11,0.98 -7.67,10.81 -3.32,1.54 -3.69,-0.05 -4.36,-1.58 -4.99,-0.51 -7.23,0.04 -4.04,-0.34 -2.37,0.42 -2.91,-0.64 -3.28,-1.11 -2.88,-1.59 -3.56,-0.56 -3.64,-1.8 -3.19,-1.28 -2.02,-0.34 -1.07,-0.73 -2.21,-0.43 -3.95,-1.59 -1.07,-0.13 z" title="Rožaje" id="ME-17"/><path d="m 183.56215,202.41756 3.03,4.77 1.3,3.9 3.04,5.2 10.41,1.3 2.6,-4.33 7.8,0.43 6.07,8.24 6.07,5.64 4.77,0.43 5.21,-1.74 4.77,-0.86 6.5,5.63 4.77,9.11 6.07,3.04 5.21,0.86 7.37,3.47 0,0 7.37,3.9 0,0 1.73,8.24 2.6,6.07 6.94,0.87 3.47,6.94 0,0 -2.17,6.94 0,0 -6.07,4.77 -8.24,0.86 -18.21,1.3 -4.77,-1.3 -9.54,1.3 -0.86,3.91 -6.94,7.8 1.05,7.02 0,0 -16.66,1.22 0,0 -11.71,-11.27 -10.84,-4.77 -11.27,-7.37 -7.38,-4.34 -4.33,-1.74 0,0 -3.18,-6.35 0,0 4.91,-2.32 2.17,-4.33 -3.47,-5.64 -16.91,-7.37 -3.47,-6.51 -0.87,-13.44 4.77,-4.77 1.3,-6.94 2.17,-6.5 6.51,-7.37 6.5,-1.74 7.81,-2.6 2.6,0.87 0,0 z" title="Šavnik" id="ME-18"/><path d="m 103.87215,491.17756 0.03,0.23 -5.220003,7.01 -0.97,7.55 -3.02,3.99 -8.52,7.14 -2.41,0.54 0,0 -0.08,-1.62 -1.01,-1.45 -0.35,-0.34 -1.51,-0.47 -1.11,-1.4 -0.15,-0.47 0.15,-0.6 0.98,-0.64 -2.15,-2.34 0.1,-1.45 -0.51,-0.25 -0.25,0.12 -0.03,0.86 -0.28,0.34 -1.55,-0.13 -3.03,-1.32 -1.78,0.55 0,0 -1.68,-2.99 -3.91,-2.6 -0.86,-3.9 0.15,-2.42 0,0 3.18,1.52 3.79,0.64 0.35,0.85 0.6,-0.26 1.07,0.73 6.13,0.38 2.02,1.28 2.31,2.81 2.36,0.9 0.64,-0.52 0.37,-1.83 -1.89,-1.66 -0.13,-0.38 0.79,-0.26 0.26,-0.3 -0.67,-0.51 -2.05,0 -0.25,-0.68 0.6,-0.38 1.29,0.51 1.77,-0.34 0.35,-0.94 -0.51,-1.71 0.22,-0.89 -0.98,-0.94 -0.94,-1.45 -0.79,-0.21 -0.1,-0.34 -0.63,-0.39 -0.63,-1.61 -0.51,0 -1.16,-1.03 -0.64,-1.06 -0.15,-2.18 -1.11,-0.94 -1.26,0 0.5,-0.76 -0.06,-1.03 -2.05,-3.88 -0.22,-0.98 0.41,-2.47 0.88,-2.3 0.32,-2.39 0.6,-1.15 1.35,-1.63 0.95,0.17 1.49,0.69 1.07,0.12 1.67,1.2 1.71,-0.17 1.33,0.85 1.23,0.26 3.03,1.53 1.7,0.52 1.08,1.96 3.03,2.47 0.54,1.75 1.260003,1.32 0.13,0.56 -0.38,1.06 0.6,1.24 -0.22,0.98 1.16,2.26 0.41,3.32 1.05,1.45 z" title="Tivat" id="ME-19"/><path d="m 301.37215,633.26756 -2.1,3.92 -1.7,2.5 -0.86,5.51 0.04,4.11 -1.14,1.57 -1.3,3.81 0.19,2.08 -0.22,1.82 0.98,2.84 -0.41,5.59 0.25,1.56 0.22,0.6 1.43,1.6 0.56,1.23 0.54,1.86 0.32,2.46 -0.13,1.4 -1.33,2.58 -0.19,1.56 0.73,0.98 2.05,1.44 0.79,1.01 0.03,0.64 -0.79,1.27 -0.82,0.42 -3.82,0.55 -3.88,0.17 -1.39,0.63 -1.01,0.98 0.19,2.32 -0.45,3.13 0.23,1.1 0.75,1.15 0.86,0.76 3.57,2.32 0.56,0.59 0.67,1.15 0.16,1.48 -0.64,1.35 -1.61,1.31 -1.32,0.42 -1.8,0.21 -2.66,0.85 -0.82,0.68 -0.41,1.26 0.29,1.65 0.82,0.81 2.27,1.01 3.16,0.59 0.6,0.38 0.35,0.59 0.5,2.54 0.57,0.93 0.85,0.42 2.09,0.21 0.69,0.72 -0.28,1.4 -1.42,2.24 -0.26,5.91 -0.82,2.03 -0.12,2.32 -0.38,0.72 -1.93,0.63 -0.82,-0.12 -1.67,-2.58 -1.08,-1.18 -4.07,-2.33 -0.85,-1.05 -1.99,-3.59 -2.88,-2.88 -1.29,-0.88 -5.12,-2.96 -6.6,-2.96 -4.26,-2.28 -5.37,-1.82 -1.67,-0.25 -1.42,-0.51 -0.48,0.04 -0.44,0.34 -0.22,1.18 -0.54,-0.12 -1.32,-1.61 -2.97,-2.54 -2.21,-0.84 -1.61,-1.06 -1.42,0.13 0.12,-0.98 -0.16,-0.33 -1.1,0.29 -0.25,-0.67 -0.54,-0.17 -0.51,-0.6 -0.66,0.22 -0.72,-0.26 -0.67,-0.55 -0.6,0.21 -0.91,-0.5 -0.45,-0.47 -0.12,-0.51 -0.67,-0.17 -0.72,-0.76 -0.63,0.05 -0.89,-1.19 -1.1,-0.13 -0.73,-0.59 -0.25,-0.5 -3.25,-2.8 -0.45,-0.8 -0.72,-0.08 -1.17,-0.94 -0.6,-1.9 2.62,0.42 1.86,0.81 0.48,-0.09 0.41,-0.84 -1.52,-2.37 -1.99,-1.1 -0.98,-1.91 -1.73,-0.8 -0.7,-0.68 -0.69,-2.03 -0.79,-0.76 0,-0.42 0.88,-1.65 0.79,-0.3 1.71,0.38 0.79,-0.97 -0.04,-0.76 -0.5,-1.02 -1.36,-1.1 -1.29,-0.38 0.28,-0.68 1.48,-0.63 -0.69,-1.32 0.09,-0.76 0.38,-0.72 -1.29,-1.48 -0.13,-0.68 1.04,-1.82 0.48,-0.17 -0.08,-0.65 0.71,-0.1 0,0 4.25,-0.56 5.63,0 4.34,2.6 9.97,4.77 4.77,0.86 4.34,-1.73 1.73,-3.9 -0.86,-2.6 -0.87,-6.08 -3.04,-0.86 -1.73,-3.47 -2.6,-2.17 0.43,-3.9 2.17,-4.34 1.3,-3.47 -0.87,-1.73 -3.47,-1.3 -2.16,-0.44 0,-4.33 1.73,-1.74 3.9,-2.6 3.47,2.17 2.17,4.34 5.64,3.9 4.33,0 3.04,-1.3 6.94,1.3 4.33,-3.04 3.47,-5.2 0,0 9.54,0.87 0,0 z" title="Ulcinj" id="ME-20"/><path d="m 185.86215,134.86756 1.17,1.64 -0.87,5.63 1.73,8.24 0.87,10.84 5.2,-0.43 3.04,4.77 6.94,-0.44 6.94,0.44 4.77,-5.64 12.14,0 12.57,13.44 7.37,3.04 5.21,1.73 3.46,3.04 8.24,3.47 3.04,5.63 7.8,5.21 4.77,7.37 8.68,1.3 3.47,6.94 3.46,7.8 0,0 7.38,5.21 0,0 -4.34,3.47 -0.87,2.6 -1.3,7.37 -6.07,0.43 -7.37,0.87 -5.64,1.3 0,9.11 -1.93,2.06 0,0 -7.17,-3.8 0,0 -7.37,-3.47 -5.21,-0.86 -6.07,-3.04 -4.77,-9.11 -6.5,-5.63 -4.77,0.86 -5.21,1.74 -4.77,-0.43 -6.07,-5.64 -6.07,-8.24 -7.8,-0.43 -2.6,4.33 -10.41,-1.3 -3.04,-5.2 -1.3,-3.9 -3.03,-4.77 0,0 0,-7.81 0,0 -5.64,-6.5 -4.77,-6.94 0,-7.81 1.3,-9.97 -0.87,-12.57 1.31,-9.98 1.6,-7.33 0,0 1.01,1.46 1.11,0.65 1.1,0.13 1.08,0.82 0.53,0.99 0.32,1.39 2.65,-1.9 z" title="Žabljak" id="ME-21"/></svg>`;
+const SVG_MAPA = `<svg xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="18.438402 43.565072 20.376798 41.848772" xmlns:mapsvg="http://mapsvg.com" width="612.50226" height="735.39343">
+  <path
+     d="m 463.88215,377.57756 -0.47,0.23 0,0 -11.27,4.34 -7.37,7.37 -6.51,7.37 -2.6,6.94 -1.3,8.24 -9.97,2.6 -3.5,2.41 0,0 -1.74,-1.79 -1.55,-3.85 -1.8,-0.94 -0.48,-0.64 0.07,-1.92 -0.89,-2.23 -0.12,-1.37 0.25,-0.68 1.89,-2.05 0.16,-0.77 -0.28,-0.86 -1.74,-1.2 -2.49,-0.34 -0.38,-0.3 -1.36,-2.09 -1.64,-4.41 -1.55,-1.28 -1.36,-0.09 -0.82,0.26 -3.06,1.97 -1.9,0.25 -0.31,0.69 -1.39,1.45 0.06,2.44 -3.54,3.34 -1.95,3.03 -0.6,0.34 -0.98,0.13 -2.53,-1.02 -1.1,0.08 -0.48,0.26 -2.11,2.75 0,0 -3.88,-6.7 -4.34,-12.58 0,0 -2.1,-2.91 0,0 5.14,-2.12 3.03,-4.33 0,-6.51 4.34,-2.17 1.3,-6.93 -3.47,-2.6 -0.87,-9.54 2.6,-5.21 0.44,-5.2 -6.51,-4.77 -4.77,-5.64 -1.3,-6.5 5.64,-6.07 0,0 6.59,-1.94 0,0 5.72,3.02 7.38,4.77 20.81,12.14 7.81,3.9 7.8,2.61 9.11,0.86 3.9,-3.47 4.33,0.44 -0.43,6.07 -2.6,3.9 -5.2,4.34 0,5.2 3.9,5.2 3.03,6.07 5.64,4.34 z"
+     title="Andrijevica"
+     id="ME-01" />
+  <path
+     d="m 206.30215,540.47756 -0.19,0.2 0,0 4.33,4.77 3.04,3.9 1.3,4.77 0.43,8.67 1.74,6.07 3.03,3.47 5.21,1.31 6.5,0.86 6.5,0 3.04,1.3 3.03,6.94 2.17,8.24 2.6,8.67 5.64,4.34 3.04,6.5 13,4.34 8.24,10.84 4.34,3.47 4,2.61 0,0 -0.1,-0.01 0,0 -3.47,5.2 -4.33,3.04 -6.94,-1.3 -3.04,1.3 -4.33,0 -5.64,-3.9 -2.17,-4.34 -3.47,-2.17 -3.9,2.6 -1.73,1.74 0,4.33 2.16,0.44 3.47,1.3 0.87,1.73 -1.3,3.47 -2.17,4.34 -0.43,3.9 2.6,2.17 1.73,3.47 3.04,0.86 0.87,6.08 0.86,2.6 -1.73,3.9 -4.34,1.73 -4.77,-0.86 -9.97,-4.77 -4.34,-2.6 -5.63,0 -4.25,0.56 0,0 0.19,-0.18 -0.1,-1.27 -0.82,-0.3 -0.79,-0.8 -0.79,-0.21 0.1,-0.98 1.39,-0.42 0.31,-2.79 -2.62,-1.66 0,-0.29 0.79,-0.77 -0.03,-0.38 -0.5,-0.59 0,-0.25 0.44,-0.22 -0.16,-0.67 0.41,-0.47 -0.54,-1.44 -1.35,-1.31 -0.67,-0.17 -0.79,-0.6 -6.91,-5.93 -1.83,-0.76 -2.37,-2.25 -2.24,-1.14 -1.77,-1.66 0.03,-0.21 0.57,0 -0.03,-0.25 -1.68,-1.02 -1.83,-1.52 -1.39,-1.66 -0.16,-0.97 1.77,-0.13 0.57,0.59 2.46,0.64 0.35,-0.25 -0.03,-0.39 -0.79,-0.76 0,-0.3 0.28,-0.08 0.7,0.59 0.41,0 -0.1,-0.76 -0.5,-0.17 -0.13,-0.34 0.1,-0.51 0.28,-0.08 0.54,0.38 0.63,-0.89 0.09,-1.7 -1.04,-3.14 -1.01,-1.99 -0.88,-1.06 -3.92,-2.8 -0.57,-0.63 -2.08,-0.47 0.63,-1.06 0.06,-0.68 -1.13,-3.01 -2.72,-1.62 -0.79,0 -0.69,0.47 -3.82,-0.42 -1.71,0.17 -0.95,0.42 -0.47,-1.61 -0.38,-0.42 -0.63,0 -1.07,0.33 -1.24,2.08 -0.5,0.64 -0.32,0.04 -3,-6.45 0.19,-1.99 0.51,-0.98 -0.07,-0.59 -0.91,-0.98 -0.88,-1.54 0,0 3.15,-6.65 2.17,-3.91 3.9,-3.9 -2.6,-6.94 -3.9,-5.2 -5.64,-5.2 -5.64,-4.77 -2.17,-8.24 -1.3,-1.74 -0.87,-3.9 -2.16,-4.77 0,0 4.77,-0.87 0,0 6.07,1.74 4.77,2.17 2.6,3.9 8.24,0.87 5.63,-2.61 0.87,-3.46 -2.6,-4.34 -1.3,-3.47 1.73,-3.47 6.07,-0.87 5.21,2.17 z"
+     title="Bar"
+     id="ME-02" />
+  <path
+     d="m 463.88215,377.57756 -5.67,-3.67 -5.64,-4.34 -3.03,-6.07 -3.9,-5.2 0,-5.2 5.2,-4.34 2.6,-3.9 0.43,-6.07 -4.33,-0.44 -3.9,3.47 -9.11,-0.86 -7.8,-2.61 -7.81,-3.9 -20.81,-12.14 -7.38,-4.77 -5.72,-3.02 0,0 0.78,-0.23 0,0 -3.9,-12.58 1.3,-10.4 0,0 -0.9,0.1 0,0 8.7,-8.34 0,0 1.59,-2.11 0,0 7.69,0.81 8.68,-2.61 7.8,-3.46 4.77,-4.77 4.34,-5.21 6.94,-2.6 3.9,1.74 2.6,3.03 4.77,1.3 6.5,1.3 7.37,-1.3 5.21,-4.33 6.07,-2.6 7.8,-1.74 6.51,-2.6 4.33,-4.77 4.34,-1.74 8.67,-0.86 6.07,-3.04 4.77,-2.6 4.96,-6.82 0,0 1.18,1.1 3.6,1.03 2.08,1.12 4.65,4.69 3.53,4 3.13,2.15 1.93,0.04 2.21,-0.68 4.51,-3.02 1.61,-0.17 0,0 -0.87,12.17 -5.63,8.24 -1.74,9.1 -9.97,9.54 -0.87,9.98 -3.03,9.97 -7.81,6.51 -6.94,8.67 2.61,13.87 1.79,3.39 0,0 -0.44,0.33 -0.95,2.14 -0.06,1.72 -0.32,1.67 -0.47,1.16 -1.33,2.01 -2.11,2.4 -0.64,1.03 -0.09,1.03 0.32,1.28 1.26,2.32 0.76,2.18 1.2,4.76 0.6,0.85 0.98,2.49 0.66,0.68 3,0.94 1.36,1.2 0.81,1.28 0,0 -14.57,2.65 -13.01,1.3 -9.97,-0.87 -11.28,0 0,0 z"
+     title="Berane"
+     id="ME-03" />
+  <path
+     d="m 518.67215,238.08756 -4.96,6.82 -4.77,2.6 -6.07,3.04 -8.67,0.86 -4.34,1.74 -4.33,4.77 -6.51,2.6 -7.8,1.74 -6.07,2.6 -5.21,4.33 -7.37,1.3 -6.5,-1.3 -4.77,-1.3 -2.6,-3.03 -3.9,-1.74 -6.94,2.6 -4.34,5.21 -4.77,4.77 -7.8,3.46 -8.68,2.61 -7.69,-0.81 0,0 1.02,-1.36 0,0 -12.14,-9.11 -2.61,-3.9 4.77,-9.1 0,-6.94 -5.2,-6.94 -7.37,-4.77 -6.07,-0.87 -11.71,-0.86 -7.37,-2.17 -9.11,-5.64 -4.33,-3.04 -9.11,-0.86 -7.8,-3.47 0,0 -0.53,0.16 0,0 2.26,-7.1 -0.43,-9.97 3.46,-5.21 4.77,-3.9 7.38,0 2.6,-5.2 0.43,-6.51 4.34,-2.6 2.6,-3.03 0,-5.64 -2.6,-4.34 0,-3.9 5.2,-3.03 3.04,-5.64 3.9,-2.17 2.17,-14.74 -3.47,-5.64 0.83,-4.16 0,0 7.48,4.32 6.91,4.8 2.28,1.04 2.62,1.55 1.2,1.38 5.65,11.96 1.77,3.28 1.07,1 4.17,2.37 3.16,2.29 3.6,2.2 4.99,1.51 3.41,0.43 2.34,1.04 4.38,1.16 2.85,1.51 1.99,1.9 0.6,0 0.82,-0.34 1.23,-6.61 0.88,-1.12 1.65,-1.12 1.95,0.73 1.83,1.82 1.65,3.1 0.09,4.36 0.25,0.99 3.79,6.82 0.7,2.84 0.69,5.48 0.51,0.56 1.67,0.3 8.5,0.43 0.72,0.26 3.07,4.23 0.56,0.69 0.41,0.12 0.48,-0.04 0.41,-0.34 1.64,-2.2 0.63,-0.48 0.76,-0.04 1.14,0.43 3.31,2.98 1.01,0.56 7.05,0.99 4.23,0 5.46,-0.52 2.59,-0.77 2.15,-2.2 1.64,-2.29 1.48,-1.33 1.74,-0.52 1.23,0.04 0.82,0.78 2.56,7.2 1.71,2.5 0.94,2.97 1.33,1.25 1.23,0.56 2.72,4.78 10.17,11.46 2.78,3.53 2.05,1.94 5.3,4.26 z"
+     title="Bijelo Polje"
+     id="ME-04" />
+  <path
+     d="m 163.00215,546.54756 -1.12,0.2 0,0 2.16,4.77 0.87,3.9 1.3,1.74 2.17,8.24 5.64,4.77 5.64,5.2 3.9,5.2 2.6,6.94 -3.9,3.9 -2.17,3.91 -3.15,6.65 0,0 -0.42,-0.03 -0.44,0.85 -1.07,0.21 -0.44,-1.74 -0.54,-0.17 -0.7,0.51 -0.18,-1.44 -2.47,-1.23 -2.84,-2.17 -0.38,-0.68 -0.16,-0.93 1.36,-2.38 0.1,-1.19 -1.01,-1.87 -1.84,-1.86 -0.91,-0.39 -1.14,0.6 -1.07,-0.43 -0.44,-0.46 0.03,-1.53 -1.42,0.04 -0.92,-0.77 -0.32,-0.93 -0.66,-0.55 -1.1,0.21 -2.25,-0.81 -0.63,0.3 -0.31,-0.08 -0.23,-1.7 -0.41,-0.73 -0.34,-0.21 -1.2,0.04 -3.82,-3.01 -0.73,-1.45 0.22,-1.31 -0.44,-1.24 0.03,-0.97 -1.1,-1.74 -0.38,0.46 -0.22,-0.08 0,-1.07 -0.8,0 -0.47,-0.63 0.22,-0.64 0.7,-0.77 -0.03,-0.93 -0.76,-1.4 0.5,-1.49 -0.63,-1.7 -0.88,-0.89 0.28,-0.81 -0.76,-2.85 0.1,-1.02 -0.7,-0.55 -0.31,-1.41 -0.7,-0.72 -1.61,-0.21 0.19,-1.74 -0.19,-0.35 -1.8,-0.21 -2.49,0.09 -1.61,0.59 -0.41,1.28 -0.92,-1.11 -0.35,-1.06 -1.42,-1.57 -2.14,0.04 -2.28,1.27 0,0.81 0.57,0.68 -0.32,0.47 -0.34,0.17 -0.86,-0.08 -1.16,0.68 -0.6,0.76 -1.46,-1.27 -2.24,-0.43 -0.09,-1.49 -0.56,-0.44 0,0 0,-4.36 -1.3,-1.3 0.43,-2.6 3.47,-7.37 -3.47,-3.04 -1.3,-2.6 -1.3,-3.9 1.73,-3.04 0,0 4.34,-2.17 0,0 3.9,0.87 3.9,3.47 5.64,1.73 5.2,1.31 6.07,2.6 3.91,0 5.2,1.3 3.04,6.07 2.6,6.5 z"
+     title="Budva"
+     id="ME-05" />
+  <path
+     d="m 227.79215,527.84756 0,-1.05 0,0 -3.04,-0.86 -5.64,-3.04 -3.46,2.17 -5.21,-1.73 -3.47,-3.47 -3.47,0 -2.16,4.77 2.6,3.47 3.03,4.76 0.87,2.17 0,3.91 0,0 -1.54,1.53 0,0 -2.36,-1.97 -5.21,-2.17 -6.07,0.87 -1.73,3.47 1.3,3.47 2.6,4.34 -0.87,3.46 -5.63,2.61 -8.24,-0.87 -2.6,-3.9 -4.77,-2.17 -6.07,-1.74 0,0 -3.65,0.67 0,0 -1.12,-1.97 -2.6,-6.5 -3.04,-6.07 -5.2,-1.3 -3.91,0 -6.07,-2.6 -5.2,-1.31 -5.64,-1.73 -3.9,-3.47 -3.9,-0.87 0,0 -3.13,1.57 0,0 -0.77,-3.08 -0.44,-11.71 -4.33,-4.34 -3.47,-3.9 -2.61,-4.77 0.87,-4.77 3.47,-4.34 0.43,-6.93 -1.73,-12.58 -2.17,-7.37 -6.07,-6.5 -6.070003,-2.17 -5.2,-6.94 -2.6,-5.64 -2.61,-7.8 -5.63,-6.94 -4.34,-4.77 0,0 -4.04,-12.11 0,0 6.21,-1.33 5.2,-3.04 0,-17.78 6.51,-5.2 2.16,-2.17 0.44,-4.33 0,-4.77 5.64,0 13.000003,8.67 16.05,-0.43 6.07,3.9 8.24,9.97 8.24,4.34 5.2,3.47 3.9,4.33 0,0 2.17,8.68 0,0 -0.87,7.37 6.94,1.73 4.77,3.47 3.47,8.24 4.77,2.17 4.77,4.77 -1.3,3.46 -7.37,3.91 0,9.1 0,0 -8.24,3.04 0,0 0.43,3.9 6.51,1.74 3.03,1.3 3.04,0.86 5.63,6.07 2.6,5.21 7.38,5.2 3.9,1.3 2.6,5.21 3.04,7.37 4.33,5.2 6.51,4.77 6.93,3.9 4.34,3.91 2.6,9.53 z"
+     title="Cetinje"
+     id="ME-06" />
+  <path
+     d="m 175.75215,454.32756 0.44,-0.16 0,0 0,-9.1 7.37,-3.91 1.3,-3.46 -4.77,-4.77 -4.77,-2.17 -3.47,-8.24 -4.77,-3.47 -6.94,-1.73 0.87,-7.37 0,0 -0.52,-2.07 0,0 13.96,0.33 5.64,-3.47 -0.43,-9.1 0.86,-10.84 4.77,-6.08 6.51,-4.77 6.07,-3.46 7.8,0.43 9.11,3.47 9.1,0.43 10.41,-0.43 9.54,1.3 4.77,-3.47 -3.04,-3.47 -3.46,-3.03 -3.47,-6.07 -0.44,-4.34 3.91,-2.17 3.03,-3.03 0,0 3.47,0 0,0 6.07,3.46 2.17,7.81 1.73,10.84 2.61,3.47 7.37,8.24 0,0 1.73,4.33 0,0 -5.64,3.91 -5.2,3.03 -0.43,9.54 2.17,5.64 -1.74,8.24 -4.77,2.6 -5.64,2.6 -2.6,8.67 0.87,9.98 1.3,9.97 -1.3,5.2 -6.07,7.37 -5.64,3.91 -6.07,-3.47 -6.5,-3.04 -4.34,3.47 -10.41,-0.43 -8.67,1.73 -3.47,-5.63 -7.37,-1.74 -6.94,-2.6 z"
+     title="Danilovgrad"
+     id="ME-07" />
+  <path
+     d="m 64.902147,495.11756 -0.15,2.42 0.87,3.9 3.9,2.6 1.68,2.99 0,0 -0.97,0.22 -0.38,0.56 -0.82,0.47 0,2.47 1.55,1.41 0.03,0.26 -0.09,0.26 -0.76,0.13 -1.14,1.24 0.32,1.75 -0.31,0.64 -1.04,-0.08 -1.42,-0.51 -0.54,-0.64 0.13,-1.32 -1.2,-0.72 -0.6,0.09 -0.41,0.51 -1.17,-0.64 -0.54,0.26 0.54,1.41 -0.03,0.73 -0.3,0.83 -0.5,0.34 -1.01,-0.08 -1.17,-0.68 -1.29,-0.26 -0.19,-0.13 0.03,-1.11 -0.44,-0.17 -0.41,0.26 -0.22,0.81 -2.02,0.6 -0.44,-0.68 0.51,-1.06 -0.92,-0.34 -0.22,-0.6 -1.04,0.6 -0.76,-0.08 -0.19,-1.28 -0.6,-0.43 -1.2,-0.34 -1.48,-1.24 -0.13,-0.55 0.85,-0.89 -0.13,-0.43 -1.89,0.34 -0.57,-0.38 -0.28,-1.36 -1.14,-0.6 -0.5,0.38 -0.66,-0.17 -1.99,-2.6 0.19,-0.3 1.17,-0.17 1.2,-0.77 -0.47,-0.43 -0.13,-0.55 0.22,-0.26 1.01,-0.04 -0.09,-0.64 -0.6,-0.38 -4.96,-1.28 -1.26,-0.81 -0.76,-1.53 0.35,-1.41 -2.27,-0.17 -0.79,-0.47 -0.16,-0.56 0.19,-1.15 -0.35,-1.79 0.51,-1.02 2.46,-2 0.79,-0.3 0.63,-0.68 0.6,-0.3 1.93,-0.34 2.81,0.38 11.84,3.71 7.04,3.58 1.75,0.57 z m -40.71,-73.98 6.19,0.3 1.05,-0.63 0,0 6.87,9.52 3.47,9.54 2.6,3.04 5.2,3.9 10.41,1.3 5.2,1.3 6.94,3.47 1.62,4.06 0,0 -0.83,0.34 -2.27,1.62 -1.01,1.11 -1.58,1.11 -0.38,1.19 1.33,0.9 0.88,-0.13 3.66,0.43 5.81,2.9 0.16,0.38 -0.35,0.68 -1.36,1.62 -0.73,1.54 -1.64,1.79 -0.32,1.45 0.82,1.07 -0.22,0.68 -0.54,0.43 -2.65,1.07 -1.99,1.15 -1.17,1.45 -1.29,-0.26 -0.82,0.3 -2.84,2.43 -3.13,1.54 -4.99,1.15 -1.33,1.02 -2.08,0.04 -1.23,0.64 -2.08,-1.36 -2.59,-0.68 -0.47,-0.26 -0.76,-1.11 -1.17,-0.38 -1.99,-3.03 -1.36,-1.36 -2.21,-0.43 -0.88,0.85 -1.48,0.73 -2.15,0.21 -1.64,-0.51 -1.17,0.47 -0.63,0 -1.93,-1.06 -1.74,-1.71 -1.42,-0.98 -0.6,-0.3 -0.63,0.04 -3.16,2.6 -0.54,1.58 0.44,0.38 0.32,1.24 1.58,2.64 1.45,1.11 0.76,1.62 1.2,0.51 2.31,2.22 0.13,0.43 -0.16,0.56 -0.82,0.21 -1.26,1.66 -3.41,-0.85 -0.88,-1.66 -5.18,-5.24 -6.32,-7.68 -4.6699997,-6.1 -3.66,-3.67 -0.44,-1.58 -0.31,-2.47 0.16,-2.35 0.16,-0.47 2.69,-3.24 0.51,-0.98 -0.03,-1.15 -3.32,-9.82 -1.35999997,-5.04 -0.69,-4.2 0.35,-3.33 2.58999997,-0.51 2.21,0.3 1.48,-0.04 2.18,-0.56 2.3999997,-0.3 2.31,-0.68 2.31,-3.5 4.64,-6.15 1.42,-0.47 2.05,0.41 z"
+     title="Herceg-Novi"
+     id="ME-08" />
+  <path
+     d="m 374.85215,384.04756 -3.54,-4.89 0,0 -9.1,-0.44 -5.21,-6.07 -4.77,-14.31 -9.54,-0.86 -5.63,0.86 -3.47,13.01 -0.43,4.34 -4.77,1.3 -8.68,1.3 -0.86,5.64 -6.51,2.17 -7.37,3.46 -5.2,3.91 -6.94,-0.87 -7.81,-3.9 -4.77,1.3 -5.63,-3.47 -4.7,0.83 0,0 -1.37,-3.43 0,0 -7.37,-8.24 -2.61,-3.47 -1.73,-10.84 -2.17,-7.81 -6.07,-3.46 0,0 -2.01,0 0,0 -5.36,-4.6 -2.17,-4.77 0.87,-10.41 3.9,-3.47 2.6,-5.2 -1.3,-4.77 -3.47,-5.64 -5.63,-5.2 0,0 -1.12,0.08 0,0 -1.05,-7.02 6.94,-7.8 0.86,-3.91 9.54,-1.3 4.77,1.3 18.21,-1.3 8.24,-0.86 6.07,-4.77 0,0 1.97,-6.31 0,0 6.71,0.24 2.6,3.9 2.17,2.6 7.37,4.34 8.67,1.73 6.94,3.04 15.17,1.3 4.34,-2.6 6.94,-1.74 6.94,3.04 7.37,-0.87 5.63,3.47 6.51,-0.44 0,0 7.37,-0.86 0,0 -1.3,10.4 3.9,12.58 0,0 -7.37,2.17 0,0 -5.64,6.07 1.3,6.5 4.77,5.64 6.51,4.77 -0.44,5.2 -2.6,5.21 0.87,9.54 3.47,2.6 -1.3,6.93 -4.34,2.17 0,6.51 -3.03,4.33 z"
+     title="Kolašin"
+     id="ME-09" />
+  <path
+     d="m 73.742147,456.92756 -1.62,-4.06 -6.94,-3.47 -5.2,-1.3 -10.41,-1.3 -5.2,-3.9 -2.6,-3.04 -3.47,-9.54 -6.87,-9.51 0,0 1,-0.61 0.57,-0.77 0.28,-0.77 -0.19,-0.76 -1.01,-1.33 -3.23,-2.49 0,0 10.75,-1.53 6.94,-2.6 9.1,-3.04 9.97,-3.9 6.07,1.73 0,0 4.34,13.01 0,0 4.34,4.77 5.63,6.94 2.61,7.8 2.6,5.64 5.2,6.94 6.070003,2.17 6.07,6.5 2.17,7.37 1.73,12.58 -0.43,6.93 -3.47,4.34 -0.87,4.77 2.61,4.77 3.47,3.9 4.33,4.34 0.44,11.71 0.77,3.08 0,0 -1.21,0.6 0,0 -1.73,3.04 1.3,3.9 1.3,2.6 3.47,3.04 -3.47,7.37 -0.43,2.6 1.3,1.3 0,4.36 0,0 -0.77,-0.75 -1.29,-0.3 -2.5,1.79 0.1,0.85 1.13,1.79 -0.28,0.46 -3.16,-2.67 -2.97,-1.37 -0.19,0.34 0.54,1.19 -0.32,1.54 0.16,0.76 0.51,0.77 -0.07,0.68 -0.38,0.3 -0.78,0.12 -0.95,0.81 -1.58,-0.51 -1.45,-2.34 -1.55,-1.32 -0.57,-0.89 -0.79,-0.17 -0.19,-0.98 -1.61,-1.15 -1.580003,-1.78 -0.31,-0.56 0.22,-0.93 -0.82,-0.17 -0.32,-0.3 -1.39,-2.25 -0.82,-0.56 -1.11,-1.36 -1.16,0.04 0.44,-1.14 -0.1,-0.34 -2.14,-0.77 -0.13,-1.11 -2.21,-1.74 -2.59,-2.81 -1.11,-0.38 0.13,-0.6 1.26,-1.32 0.89,-0.12 0.19,-0.43 0,-0.26 -2.02,-2.08 -0.03,-1.7 0.22,-0.9 -2.25,-1.87 -0.63,-1.07 -1.1,-0.21 -0.16,-0.93 -1.99,-1.32 -0.51,-1.45 0,-0.73 0.32,-0.42 1.33,0 1.1,0.34 2.53,1.45 0.41,-0.05 0.03,-0.68 -1.69,-1.91 0,0 2.41,-0.54 8.52,-7.14 3.02,-3.99 0.97,-7.55 5.220003,-7.01 -0.03,-0.23 0,0 0.43,-0.6 0.13,-3.02 -1.01,-2.3 -0.7,-0.77 -0.22,-0.94 1.05,-2.47 -0.23,-1.41 0.26,-1.75 -0.63,-4.39 -0.19,-5.33 0.66,-3.42 -0.06,-0.64 -0.48,-0.81 -0.5,-0.25 -1.42,0 -1.360003,0.38 -4.27,2.09 -2.36,0.39 -6.79,-0.09 -1.9,-0.38 -1.26,-0.6 -2.37,-1.49 -0.57,-0.86 -0.25,-1.96 0.47,-1.79 -0.12,-1.03 0.69,-0.55 -0.25,-1.2 1.01,-1.23 -0.7,-2.22 -1.1,-1.03 -0.95,0.04 -0.79,0.65 -0.44,1.1 -0.95,1.11 -0.66,1.97 -0.73,0.38 z"
+     title="Kotor"
+     id="ME-10" />
+  <path
+     d="m 384.29215,291.40756 -6.47,0.76 0,0 -6.51,0.44 -5.63,-3.47 -7.37,0.87 -6.94,-3.04 -6.94,1.74 -4.34,2.6 -15.17,-1.3 -6.94,-3.04 -8.67,-1.73 -7.37,-4.34 -2.17,-2.6 -2.6,-3.9 -6.71,-0.24 0,0 0.2,-0.63 0,0 -3.47,-6.94 -6.94,-0.87 -2.6,-6.07 -1.73,-8.24 0,0 -0.2,-0.1 0,0 1.93,-2.06 0,-9.11 5.64,-1.3 7.37,-0.87 6.07,-0.43 1.3,-7.37 0.87,-2.6 4.34,-3.47 0,0 -0.19,-0.13 0,0 7.56,0.13 0,0 6.94,-2.17 0,0 7.8,3.47 9.11,0.86 4.33,3.04 9.11,5.64 7.37,2.17 11.71,0.86 6.07,0.87 7.37,4.77 5.2,6.94 0,6.94 -4.77,9.1 2.61,3.9 12.14,9.11 0,0 -2.61,3.47 0,0 z"
+     title="Mojkovac"
+     id="ME-11" />
+  <path
+     d="m 246.59215,350.10756 -1.46,0 0,0 -3.03,3.03 -3.91,2.17 0.44,4.34 3.47,6.07 3.46,3.03 3.04,3.47 -4.77,3.47 -9.54,-1.3 -10.41,0.43 -9.1,-0.43 -9.11,-3.47 -7.8,-0.43 -6.07,3.46 -6.51,4.77 -4.77,6.08 -0.86,10.84 0.43,9.1 -5.64,3.47 -13.96,-0.33 0,0 -1.65,-6.61 0,0 -3.9,-4.33 -5.2,-3.47 -8.24,-4.34 -8.24,-9.97 -6.07,-3.9 -16.05,0.43 -13.000003,-8.67 -5.64,0 0,4.77 -0.44,4.33 -2.16,2.17 -6.51,5.2 0,17.78 -5.2,3.04 -6.21,1.33 0,0 -0.3,-0.9 0,0 -6.07,-1.73 -9.97,3.9 -9.1,3.04 -6.94,2.6 -10.75,1.53 0,0 -0.43,-0.33 -2.25,-6.13 1.79,-6.28 1.94,-3.87 5.12,-0.27 1.74,-0.98 1.83,-0.35 2.9,-0.17 0.89,-0.38 0.19,-0.34 -0.48,-5.82 -1.8,-5.65 -1.07,-7.79 0.69,-2.06 2.09,-3.38 0.35,-0.9 0.25,-2.01 -0.16,-1.33 -0.76,-1.67 -1.64,-1.58 -0.66,-0.47 -0.89,-0.22 -0.69,0 -1.83,1.03 -3.19,0.94 -4.42,0.04 -1.71,-0.34 -1.23,-0.55 -1.01,-0.99 -1.26,-1.8 -0.38,-0.73 0.31,-1.37 -4.73,-7.45 -2.06,-0.73 -1.29,0.13 -1.58,-0.47 -0.7,-0.43 -0.75,-1.07 -0.16,-1.33 0.16,-0.9 1.35,-4.33 -0.75,-1.54 -0.7,-0.43 -0.5,-0.69 -0.29,-4.11 -0.28,-0.6 -0.79,-0.3 -0.2199997,-0.43 0.2499997,-0.73 0.44,-0.39 2.97,0.13 2.91,-1.11 1.13,-1.68 0.1,-2.1 -1.2,-3.56 -0.86,-1.8 -1.67,-5.45 -0.22,-3.43 0.25,-0.26 0.35,-2.74 3.28,-6.19 2.06,-1.54 0.82,-1.12 0.22,-0.73 -0.98,-3.3 -0.06,-1.93 0.91,-0.82 2.78,-1.5 0.38,-1.08 -0.19,-1.8 -1.07,-0.65 -1.58,-0.55 -2.97,-5.07 0.13,-6.66 -2.56,-4.13 0.06,-1.72 0.51,-0.6 2.74,-1.37 1.23,-1.42 6.13,-12.69 1.2,-4.68 1.14,-2.67 2.05,-5.98 0.89,-1.25 2.27,-1.89 1.74,-2.54 0.98,-0.73 1.8,-0.56 1.86,0.08 16.7,2.84 2.25,0.48 4.89,1.81 3.6,0.34 2.81,-0.47 4.14,-1.38 3.76,-1.85 1.26,-0.43 3.19,-0.48 0.44,-0.34 0.28,-0.69 -0.5,-2.49 -2.37,-4.48 -9.14,-23.8 0,0 12.51,-2.08 9.1,3.03 7.370003,6.07 3.91,9.97 2.16,9.54 4.34,11.71 4.77,8.67 5.2,10.85 6.07,5.63 4.77,2.6 23.42,0 14.31,0.44 0,0 3.47,6.93 0,0 4.33,1.74 7.38,4.34 11.27,7.37 10.84,4.77 11.71,11.27 0,0 17.78,-1.3 0,0 5.63,5.2 3.47,5.64 1.3,4.77 -2.6,5.2 -3.9,3.47 -0.87,10.41 2.17,4.77 z"
+     title="Nikšić"
+     id="ME-12" />
+  <path
+     d="m 420.89215,417.07756 3.5,-2.41 9.97,-2.6 1.3,-8.24 2.6,-6.94 6.51,-7.37 7.37,-7.37 11.27,-4.34 0,0 6.94,-3.47 0,0 11.28,0 9.97,0.87 13.01,-1.3 14.57,-2.65 0,0 0.42,0.65 1.01,0.77 1.64,0.47 1.93,0.09 2.52,1.41 1.93,2.78 2.24,4.2 1.07,1.41 2.06,1.92 3.22,2.1 0.25,1.16 -3.79,4.7 -2.84,4.11 -4.07,4.62 -3.7,1.97 -1.51,1.41 -1.74,2.61 -0.63,2.99 0.31,4.19 1.58,4.27 0.35,2.31 -0.35,2.65 -4.45,11.24 -1.45,-0.22 -4.27,-1.28 -1.67,2.91 -0.88,0.76 -1.58,0.47 -5.06,2.18 -2.65,0.26 -0.72,0.34 -0.51,0.68 -0.22,0.81 0.35,2.82 -0.13,1.2 -1.8,4.23 -0.38,2.3 -1.2,1.71 -0.69,0.25 -2.69,-0.94 -2.4,-0.12 -0.95,-0.35 -0.91,-0.04 -1.52,0.17 -1.77,0.77 -1.61,0.09 -3.63,-0.64 -2.9,-2.39 -1.55,0.08 -1.9,0.56 -1.98,1.11 -1.84,1.53 -1.99,1.2 -2.36,0.3 -0.45,1.02 -0.31,1.67 0.16,3.28 -0.35,0.81 -0.6,0.3 -1.26,1.79 -0.83,-0.21 -1.29,-0.94 -1.48,-2.09 -2.56,-1.32 -0.57,0.51 -0.32,1.45 -0.6,1.11 -0.31,1.19 -1.3,1.71 -1.42,0.13 -1.67,-0.6 -1.2,-0.13 -0.76,1.2 -0.95,0.72 -3.47,0.09 -0.29,0.77 0.19,1.4 -0.12,0.86 -1.77,2.39 -3.85,-1.33 -2.02,-1.62 -6.48,-3.88 -0.79,-0.94 -1.8,-3.67 -1.39,-1.53 -4.42,-2.14 -0.31,-0.34 -1.11,-4.44 -0.44,-3.8 -1.01,-1.11 -0.92,-1.88 -0.34,-1.83 -1.3,-1.45 -1.58,-3.55 0.16,-1.24 1.23,-0.38 0.54,-0.47 -0.1,-2.56 1.65,-3.42 0,-1.11 -1.05,-0.94 -0.38,-0.64 -0.37,-1.63 0.41,-0.94 0.69,-0.51 0.13,-1.71 0.19,-0.17 1.23,0.22 4.83,0 0.73,-0.3 0.34,-0.43 0.1,-0.56 -0.57,-2.05 0.06,-2.01 -0.47,-0.89 z"
+     title="Plav"
+     id="ME-13" />
+  <path
+     d="m 353.50215,129.30756 -0.83,4.16 3.47,5.64 -2.17,14.74 -3.9,2.17 -3.04,5.64 -5.2,3.03 0,3.9 2.6,4.34 0,5.64 -2.6,3.03 -4.34,2.6 -0.43,6.51 -2.6,5.2 -7.38,0 -4.77,3.9 -3.46,5.21 0.43,9.97 -2.26,7.1 0,0 -6.41,2.01 0,0 -7.56,-0.13 0,0 -7.19,-5.08 0,0 -3.46,-7.8 -3.47,-6.94 -8.68,-1.3 -4.77,-7.37 -7.8,-5.21 -3.04,-5.63 -8.24,-3.47 -3.46,-3.04 -5.21,-1.73 -7.37,-3.04 -12.57,-13.44 -12.14,0 -4.77,5.64 -6.94,-0.44 -6.94,0.44 -3.04,-4.77 -5.2,0.43 -0.87,-10.84 -1.73,-8.24 0.87,-5.63 -1.17,-1.64 0,0 3.23,-5.73 1.77,-2.33 1.74,-1.52 1.83,-1.03 2.49,-0.87 9.95,-1.04 0.48,-1.86 0.56,-4.1 0.45,-5.8 -0.29,-1.99 -1.36,-3.59 -3,-4.45 -3.41,-7.489998 -2.65,-3.98 -3.28,-4.02 -3.82,-3.9 -5.34,-12.51 -0.98,-3.86 0.35,-3.33 -0.35,-3.21 -0.25,-0.95 -1.8,-2.56 -0.1,-3.43 -0.57,-0.39 -0.63,0.14 -0.6,-0.53 -0.47,0.05 -0.76,0.73 -0.6,1.7 -0.47,0.04 -1.61,-2.73 -1.24,-0.83 -0.47,-1.77 -2.21,-1.35 -1.29,-0.47 -0.54,-3.08 -1.14,-3.56 0.16,-3.38 -0.6,-1.91 -0.88,-1.82 0.19,-4.81 1.7,-3.87 -0.16,-1.64 -0.41,-1.05 -1.13,-1.73 -0.48,-0.26 -0.63,-0.05 -0.79,0.39 -1.42,1.31 -1.11,3.73 -0.85,1.6 -0.66,0.39 -1.23,-0.39 -1.01,-1.91 -0.79,-6.16 0.12,-0.6 0.67,-1 2.24,-2.04 1.74,-0.91 5.36,0.04 0.73,-0.13 1.07,-0.74 0.98,-1.26 1.11,-4.2500002 2.43,-5 1.64,-1.26 1.71,-0.3 1.73,0.61 0.32,2.13 0.44,0.91 0.57,0.08 0.51,-0.17 0.6,-2.13 0.34,-0.43 1.71,-0.65 2.4,0.43 1.29,0.78 0.86,-0.04 1.92,-0.65 3.13,0.17 0.88,0.7 3.13,3.99 0.66,0.52 5.02,2.22 9.03,6.9000002 0.98,0.48 3.73,3.03 1.36,-0.04 1.36,-0.69 2.62,-3.13 5.3,-5.08 0.98,-0.4300002 2.15,-0.13 4.04,2.2100002 0.85,-0.3 1.68,-1.43 1.48,-0.2600002 2.46,2.4700002 0.6,-0.13 1.55,-1.48 0.57,-0.26 0.63,0.09 1.86,1 2.03,2.13 1.2,15.4 2.21,3.38 3.44,3.52 4.13,3.6 1.71,2.68 3.06,3.69 7.39,7.67 11.18,7.46 3.88,1.81 6.32,1.78 1.74,0.69 2.43,1.43 2.53,3.51 5.18,5.07 6.22,3.72 9.09,2.73 0.47,1.26 2.47,10.99 4.45,6.139998 2.43,2.12 1.8,0.87 9.51,2.12 1.36,0.78 2.65,4.62 3.57,15.65 0.75,1.13 1.33,1.21 z"
+     title="Pljevlja"
+     id="ME-14" />
+  <path
+     d="m 176.49215,133.50756 -1.6,7.33 -1.31,9.98 0.87,12.57 -1.3,9.97 0,7.81 4.77,6.94 5.64,6.5 0,0 0,8.24 0,0 -2.6,-0.87 -7.81,2.6 -6.5,1.74 -6.51,7.37 -2.17,6.5 -1.3,6.94 -4.77,4.77 0.87,13.44 3.47,6.51 16.91,7.37 3.47,5.64 -2.17,4.33 -4.91,2.32 0,0 -0.29,-0.58 0,0 -14.31,-0.44 -23.42,0 -4.77,-2.6 -6.07,-5.63 -5.2,-10.85 -4.77,-8.67 -4.34,-11.71 -2.16,-9.54 -3.91,-9.97 -7.370003,-6.07 -9.1,-3.03 -12.51,2.08 0,0 -3.93,-10.23 -0.86,-4.27 0.04,-3.41 0.56,-3.66 1.05,-4.32 1.7,-4.57 2.02,-3.36 4.55,-6.78 3.6,-4.83 6.54,-7.17 1.26,-1.9 1.23,-2.63 0,-1.69 -0.79,-1.38 -6.5,-4.06 -1.14,-1.77 -0.35,-2.24 0.29,-1.86 1.64,-2.08 8.68,-6.31 11.060003,-7.65 10.8,-6.57 8.81,-3.63 3.91,-1.3 4.14,-0.73 2.84,0.08 -0.5,-1.08 -0.1,-1.51 -0.85,-1.73 -0.1,-1.17 -1.57,-2.679998 -1.8,-1.73 0,-2.43 2.36,-0.21 5.37,-2.08 2.21,-0.22 1.68,-0.82 2.14,-0.04 2.5,0.73 1.1,0.09 1.52,-0.43 2.81,-2.12 0.41,-0.05 1.26,0.78 4.2,3.98 0.64,1.6 2.55,2.9 2.15,3.459998 0.95,0.35 3.09,-0.13 0.48,0.3 0.69,2.69 -0.54,2.76 -2.02,2.12 -1.01,3.98 0,0.82 1.42,4.15 0.82,1.26 1.55,0.08 4.27,1.69 2.84,1.94 1.39,3.33 -0.19,1.39 -1.08,1.68 -0.06,0.69 0.66,0.82 1.93,1.08 z"
+     title="Plužine"
+     id="ME-15" />
+  <path
+     d="m 385.17215,406.23756 -2.5,3.71 -6.76,8.71 -5.02,7.18 -0.19,0.52 -0.34,5.89 1.16,1.84 0,1.41 1.01,4.06 -0.15,1.24 -0.73,0.59 -1.14,0.39 -1.54,0.89 -0.48,0.47 -0.19,0.64 0.1,1.29 -0.32,0.42 -12.5,7.17 -0.38,0.82 -0.19,4.6 -0.79,2.44 -1.42,2.3 -1.68,1.28 -0.63,1.79 -2.4,3.76 -0.63,3.11 -2.71,4.48 -2.56,2.05 -0.86,3.88 -0.56,0.42 -3.67,1.41 -1.29,1.88 -0.82,0.81 -0.38,1.02 -0.38,2.68 -0.13,0.22 -1.2,-0.22 -0.53,0.56 -0.98,4.35 -2.21,4.17 -2.5,3.88 -3.19,2.43 -1.67,0.81 -1.49,0.34 -2.36,-0.13 -1.96,1.02 -0.63,0.51 -1.52,2.35 -1.67,1.57 -1.27,2.56 0.16,4.42 -0.41,0.64 -2.24,1.19 -0.19,0.3 0.85,6.43 1.71,3.49 -4.96,5.28 -2.56,4.21 -4.32,4.21 -0.16,1.57 0.16,2.64 -0.86,2.13 -6.82,8.2 -1.13,1.7 -1.05,2.26 -0.49,1.84 0,0 -4.45,-0.49 -3.91,-2.17 -5.2,-3.9 -2.6,-2.6 -6.51,-1.3 -5.2,-1.74 -6.94,1.3 -4.77,2.17 -11.27,3.04 -1.73,-4.34 -2.61,-1.73 -3.03,-1.3 -1.3,-3.04 -5.21,-3.47 -1.3,-2.6 -0.43,-6.5 1.73,-4.78 3.91,-2.16 0,0 0,-2.86 0,0 3.03,-5.17 -2.6,-9.53 -4.34,-3.91 -6.93,-3.9 -6.51,-4.77 -4.33,-5.2 -3.04,-7.37 -2.6,-5.21 -3.9,-1.3 -7.38,-5.2 -2.6,-5.21 -5.63,-6.07 -3.04,-0.86 -3.03,-1.3 -6.51,-1.74 -0.43,-3.9 0,0 7.8,-2.88 0,0 6.07,2.88 6.94,2.6 7.37,1.74 3.47,5.63 8.67,-1.73 10.41,0.43 4.34,-3.47 6.5,3.04 6.07,3.47 5.64,-3.91 6.07,-7.37 1.3,-5.2 -1.3,-9.97 -0.87,-9.98 2.6,-8.67 5.64,-2.6 4.77,-2.6 1.74,-8.24 -2.17,-5.64 0.43,-9.54 5.2,-3.03 5.64,-3.91 0,0 -0.36,-0.9 0,0 4.7,-0.83 5.63,3.47 4.77,-1.3 7.81,3.9 6.94,0.87 5.2,-3.91 7.37,-3.46 6.51,-2.17 0.86,-5.64 8.68,-1.3 4.77,-1.3 0.43,-4.34 3.47,-13.01 5.63,-0.86 9.54,0.86 4.77,14.31 5.21,6.07 9.1,0.44 0,0 5.64,7.8 0,0 4.34,12.58 z"
+     title="Podgorica"
+     id="ME-16" />
+  <path
+     d="m 514.64215,339.78756 -1.79,-3.39 -2.61,-13.87 6.94,-8.67 7.81,-6.51 3.03,-9.97 0.87,-9.98 9.97,-9.54 1.74,-9.1 5.63,-8.24 0.87,-12.17 0,0 2.53,0.91 1.48,1.59 0.86,0.51 1.48,0.26 3.92,1.42 1.48,0.17 0.51,0.22 1.16,1.29 3.92,1.42 6.95,3.05 1.64,0.99 3.66,3.87 2.37,1.2 3.7,0.99 5.11,0.56 5.59,1.16 0.38,0.47 0.41,2.54 0.73,1.42 -0.04,0.73 -0.41,0.47 0.1,0.3 1.99,1.03 0.76,0.69 0.66,1.03 3.95,0.22 1.58,1.03 1.26,1.16 3.32,1.85 2.49,2.06 1.29,1.8 0.32,3.05 -0.09,9.37 -0.92,4.54 0.54,7.65 -0.6,2.4 -2.18,3.39 -1.71,0.99 -0.76,0.17 -2.08,-0.22 -5.05,-1.41 -1.39,0.34 -1.33,1.07 -1.64,2.06 -1.26,1.16 -1.96,0.77 -4.14,2.23 -2.11,2.02 -1.71,2.19 -0.19,1.2 0.79,3.26 1.55,2.79 0.35,1.07 -0.13,0.81 -2.05,2.49 -1.11,0.98 -7.67,10.81 -3.32,1.54 -3.69,-0.05 -4.36,-1.58 -4.99,-0.51 -7.23,0.04 -4.04,-0.34 -2.37,0.42 -2.91,-0.64 -3.28,-1.11 -2.88,-1.59 -3.56,-0.56 -3.64,-1.8 -3.19,-1.28 -2.02,-0.34 -1.07,-0.73 -2.21,-0.43 -3.95,-1.59 -1.07,-0.13 z"
+     title="Rožaje"
+     id="ME-17" />
+  <path
+     d="m 183.56215,202.41756 3.03,4.77 1.3,3.9 3.04,5.2 10.41,1.3 2.6,-4.33 7.8,0.43 6.07,8.24 6.07,5.64 4.77,0.43 5.21,-1.74 4.77,-0.86 6.5,5.63 4.77,9.11 6.07,3.04 5.21,0.86 7.37,3.47 0,0 7.37,3.9 0,0 1.73,8.24 2.6,6.07 6.94,0.87 3.47,6.94 0,0 -2.17,6.94 0,0 -6.07,4.77 -8.24,0.86 -18.21,1.3 -4.77,-1.3 -9.54,1.3 -0.86,3.91 -6.94,7.8 1.05,7.02 0,0 -16.66,1.22 0,0 -11.71,-11.27 -10.84,-4.77 -11.27,-7.37 -7.38,-4.34 -4.33,-1.74 0,0 -3.18,-6.35 0,0 4.91,-2.32 2.17,-4.33 -3.47,-5.64 -16.91,-7.37 -3.47,-6.51 -0.87,-13.44 4.77,-4.77 1.3,-6.94 2.17,-6.5 6.51,-7.37 6.5,-1.74 7.81,-2.6 2.6,0.87 0,0 z"
+     title="Šavnik"
+     id="ME-18" />
+  <path
+     d="m 103.87215,491.17756 0.03,0.23 -5.220003,7.01 -0.97,7.55 -3.02,3.99 -8.52,7.14 -2.41,0.54 0,0 -0.08,-1.62 -1.01,-1.45 -0.35,-0.34 -1.51,-0.47 -1.11,-1.4 -0.15,-0.47 0.15,-0.6 0.98,-0.64 -2.15,-2.34 0.1,-1.45 -0.51,-0.25 -0.25,0.12 -0.03,0.86 -0.28,0.34 -1.55,-0.13 -3.03,-1.32 -1.78,0.55 0,0 -1.68,-2.99 -3.91,-2.6 -0.86,-3.9 0.15,-2.42 0,0 3.18,1.52 3.79,0.64 0.35,0.85 0.6,-0.26 1.07,0.73 6.13,0.38 2.02,1.28 2.31,2.81 2.36,0.9 0.64,-0.52 0.37,-1.83 -1.89,-1.66 -0.13,-0.38 0.79,-0.26 0.26,-0.3 -0.67,-0.51 -2.05,0 -0.25,-0.68 0.6,-0.38 1.29,0.51 1.77,-0.34 0.35,-0.94 -0.51,-1.71 0.22,-0.89 -0.98,-0.94 -0.94,-1.45 -0.79,-0.21 -0.1,-0.34 -0.63,-0.39 -0.63,-1.61 -0.51,0 -1.16,-1.03 -0.64,-1.06 -0.15,-2.18 -1.11,-0.94 -1.26,0 0.5,-0.76 -0.06,-1.03 -2.05,-3.88 -0.22,-0.98 0.41,-2.47 0.88,-2.3 0.32,-2.39 0.6,-1.15 1.35,-1.63 0.95,0.17 1.49,0.69 1.07,0.12 1.67,1.2 1.71,-0.17 1.33,0.85 1.23,0.26 3.03,1.53 1.7,0.52 1.08,1.96 3.03,2.47 0.54,1.75 1.260003,1.32 0.13,0.56 -0.38,1.06 0.6,1.24 -0.22,0.98 1.16,2.26 0.41,3.32 1.05,1.45 z"
+     title="Tivat"
+     id="ME-19" />
+  <path
+     d="m 301.37215,633.26756 -2.1,3.92 -1.7,2.5 -0.86,5.51 0.04,4.11 -1.14,1.57 -1.3,3.81 0.19,2.08 -0.22,1.82 0.98,2.84 -0.41,5.59 0.25,1.56 0.22,0.6 1.43,1.6 0.56,1.23 0.54,1.86 0.32,2.46 -0.13,1.4 -1.33,2.58 -0.19,1.56 0.73,0.98 2.05,1.44 0.79,1.01 0.03,0.64 -0.79,1.27 -0.82,0.42 -3.82,0.55 -3.88,0.17 -1.39,0.63 -1.01,0.98 0.19,2.32 -0.45,3.13 0.23,1.1 0.75,1.15 0.86,0.76 3.57,2.32 0.56,0.59 0.67,1.15 0.16,1.48 -0.64,1.35 -1.61,1.31 -1.32,0.42 -1.8,0.21 -2.66,0.85 -0.82,0.68 -0.41,1.26 0.29,1.65 0.82,0.81 2.27,1.01 3.16,0.59 0.6,0.38 0.35,0.59 0.5,2.54 0.57,0.93 0.85,0.42 2.09,0.21 0.69,0.72 -0.28,1.4 -1.42,2.24 -0.26,5.91 -0.82,2.03 -0.12,2.32 -0.38,0.72 -1.93,0.63 -0.82,-0.12 -1.67,-2.58 -1.08,-1.18 -4.07,-2.33 -0.85,-1.05 -1.99,-3.59 -2.88,-2.88 -1.29,-0.88 -5.12,-2.96 -6.6,-2.96 -4.26,-2.28 -5.37,-1.82 -1.67,-0.25 -1.42,-0.51 -0.48,0.04 -0.44,0.34 -0.22,1.18 -0.54,-0.12 -1.32,-1.61 -2.97,-2.54 -2.21,-0.84 -1.61,-1.06 -1.42,0.13 0.12,-0.98 -0.16,-0.33 -1.1,0.29 -0.25,-0.67 -0.54,-0.17 -0.51,-0.6 -0.66,0.22 -0.72,-0.26 -0.67,-0.55 -0.6,0.21 -0.91,-0.5 -0.45,-0.47 -0.12,-0.51 -0.67,-0.17 -0.72,-0.76 -0.63,0.05 -0.89,-1.19 -1.1,-0.13 -0.73,-0.59 -0.25,-0.5 -3.25,-2.8 -0.45,-0.8 -0.72,-0.08 -1.17,-0.94 -0.6,-1.9 2.62,0.42 1.86,0.81 0.48,-0.09 0.41,-0.84 -1.52,-2.37 -1.99,-1.1 -0.98,-1.91 -1.73,-0.8 -0.7,-0.68 -0.69,-2.03 -0.79,-0.76 0,-0.42 0.88,-1.65 0.79,-0.3 1.71,0.38 0.79,-0.97 -0.04,-0.76 -0.5,-1.02 -1.36,-1.1 -1.29,-0.38 0.28,-0.68 1.48,-0.63 -0.69,-1.32 0.09,-0.76 0.38,-0.72 -1.29,-1.48 -0.13,-0.68 1.04,-1.82 0.48,-0.17 -0.08,-0.65 0.71,-0.1 0,0 4.25,-0.56 5.63,0 4.34,2.6 9.97,4.77 4.77,0.86 4.34,-1.73 1.73,-3.9 -0.86,-2.6 -0.87,-6.08 -3.04,-0.86 -1.73,-3.47 -2.6,-2.17 0.43,-3.9 2.17,-4.34 1.3,-3.47 -0.87,-1.73 -3.47,-1.3 -2.16,-0.44 0,-4.33 1.73,-1.74 3.9,-2.6 3.47,2.17 2.17,4.34 5.64,3.9 4.33,0 3.04,-1.3 6.94,1.3 4.33,-3.04 3.47,-5.2 0,0 9.54,0.87 0,0 z"
+     title="Ulcinj"
+     id="ME-20" />
+  <path
+     d="m 185.86215,134.86756 1.17,1.64 -0.87,5.63 1.73,8.24 0.87,10.84 5.2,-0.43 3.04,4.77 6.94,-0.44 6.94,0.44 4.77,-5.64 12.14,0 12.57,13.44 7.37,3.04 5.21,1.73 3.46,3.04 8.24,3.47 3.04,5.63 7.8,5.21 4.77,7.37 8.68,1.3 3.47,6.94 3.46,7.8 0,0 7.38,5.21 0,0 -4.34,3.47 -0.87,2.6 -1.3,7.37 -6.07,0.43 -7.37,0.87 -5.64,1.3 0,9.11 -1.93,2.06 0,0 -7.17,-3.8 0,0 -7.37,-3.47 -5.21,-0.86 -6.07,-3.04 -4.77,-9.11 -6.5,-5.63 -4.77,0.86 -5.21,1.74 -4.77,-0.43 -6.07,-5.64 -6.07,-8.24 -7.8,-0.43 -2.6,4.33 -10.41,-1.3 -3.04,-5.2 -1.3,-3.9 -3.03,-4.77 0,0 0,-7.81 0,0 -5.64,-6.5 -4.77,-6.94 0,-7.81 1.3,-9.97 -0.87,-12.57 1.31,-9.98 1.6,-7.33 0,0 1.01,1.46 1.11,0.65 1.1,0.13 1.08,0.82 0.53,0.99 0.32,1.39 2.65,-1.9 z"
+     title="Žabljak"
+     id="ME-21" />
+</svg>`;
 
 // ══════════════════════════════════════════
 // DOGAĐAJI (kampanja)
@@ -396,6 +675,7 @@ let G = {
   runda: 0,
   mandati: {},
   finalMandati: {},
+  regionRep: {},
 };
 
 let selectedParty = null;
@@ -453,6 +733,7 @@ function startGame() {
   document.getElementById('gh-dot').style.background = G.stranka.boja;
   document.getElementById('gh-name').textContent = G.stranka.naziv + ' — ' + G.stranka.pun;
   initMap();
+  initRegionalnaReputacija();
   nextRound();
   showScreen(2);
 }
@@ -517,6 +798,10 @@ function applyChoice(ch) {
   // Adjust mandati for our party
   G.mandati[G.stranka.naziv] = G.popularnost;
   
+  // Primijeni regionalni efekat — idx izbora je pozicija u nizu
+  const choiceIdx = EVENTS[G.runda-1]?.choices.indexOf(ch) ?? 0;
+  applyRegionalniEfekat(G.runda - 1, choiceIdx);
+  
   updateHUD();
   
   const nb = document.getElementById('btn-next');
@@ -535,15 +820,17 @@ function initMap() {
   wrap.querySelectorAll('path').forEach(path => {
     const naziv = path.getAttribute('title');
     const pobjednik = getPobjednikOpstine(naziv);
+    const region = getRegionZaOpstinu(naziv);
     if (pobjednik) {
-      const s = STRANKE.find(x=>x.naziv===pobjednik) || {boja:'#444'};
-      path.style.fill = s.boja || '#444';
+      path.style.fill = getBojaStranke(pobjednik);
     } else {
       path.style.fill = '#2a2d3a';
     }
     path.addEventListener('mouseenter', e => {
       const pob = getPobjednikOpstine(naziv);
-      tt.textContent = naziv + (pob ? ' — ' + pob : '');
+      const reg = getRegionZaOpstinu(naziv);
+      const repTxt = (reg && G.regionRep) ? ` · ${reg}: ${Math.round(G.regionRep[reg])}` : '';
+      tt.textContent = naziv + (pob ? ' — ' + pob : '') + repTxt;
       tt.style.opacity = '1';
     });
     path.addEventListener('mousemove', e => {
@@ -551,7 +838,28 @@ function initMap() {
       tt.style.top = (e.clientY+12)+'px';
     });
     path.addEventListener('mouseleave', () => { tt.style.opacity = '0'; });
+    path.addEventListener('click', e => {
+      e.stopPropagation();
+      wrap.querySelectorAll('path').forEach(p => { p.style.stroke='var(--bg3)'; p.style.strokeWidth='2'; });
+      path.style.stroke = 'var(--gold)';
+      path.style.strokeWidth = '3';
+      showOpstinPopup(naziv, path);
+    });
   });
+}
+
+// Boje za stranke koje nisu u STRANKE listi ali pobjeđuju na opštinskom nivou
+const EXTRA_BOJE = {
+  'SNP-DEMOS': '#5b8dee',
+  'DNP': '#9b59b6',
+  'AA': '#1abc9c',
+  'AF': '#e67e22',
+};
+
+function getBojaStranke(naziv) {
+  const s = STRANKE.find(x => x.naziv === naziv);
+  if (s) return s.boja;
+  return EXTRA_BOJE[naziv] || '#666';
 }
 
 function getPobjednikOpstine(naziv) {
@@ -601,9 +909,21 @@ function getMandatiData() {
     return v >= cenzus;
   });
   const total = prihvacene.reduce((s, x) => s + (x.naziv===G.stranka?.naziv ? G.popularnost : x.procenti), 0);
+  
   return prihvacene.map(s => {
     const v = s.naziv===G.stranka?.naziv ? G.popularnost : s.procenti;
-    return { ...s, mandati: Math.round(v/total*81) };
+    let bazniMandati = Math.round(v/total*81);
+    
+    // Ako je naša stranka — koriguj mandate na osnovu regionalne reputacije
+    if (s.naziv === G.stranka?.naziv && G.regionRep) {
+      const avgRep = Object.values(G.regionRep).reduce((a,b)=>a+b,0) / Object.keys(G.regionRep).length;
+      // Reputacija ~50 = neutralno, >50 = bonus, <50 = malus (max ±20%)
+      const repFaktor = 0.8 + (avgRep / 100) * 0.4;
+      bazniMandati = Math.round(bazniMandati * repFaktor);
+      bazniMandati = Math.max(1, Math.min(81, bazniMandati));
+    }
+    
+    return { ...s, mandati: bazniMandati };
   }).sort((a,b)=>b.mandati-a.mandati);
 }
 
@@ -765,6 +1085,20 @@ function showPremierScreen(total, koalPartners) {
   document.getElementById('fin-koal').textContent = koalPartners.length - 1;
   document.getElementById('fin-pop').textContent = G.popularnost.toFixed(1) + '%';
   document.getElementById('premier-emoji').style.borderColor = G.stranka.boja;
+  
+  // Prikaži regionalnu reputaciju na ekranu pobjede
+  const avgRep = G.regionRep ? Math.round(Object.values(G.regionRep).reduce((a,b)=>a+b,0)/Object.keys(G.regionRep).length) : 0;
+  const regSummary = G.regionRep ? Object.entries(G.regionRep).map(([r,v])=>`${r}: ${Math.round(v)}`).join(' · ') : '';
+  const existing = document.getElementById('reg-premier-info');
+  if (!existing) {
+    const info = document.createElement('p');
+    info.id = 'reg-premier-info';
+    info.style.cssText = 'font-family:var(--mono);font-size:10px;color:var(--dimmer);margin-top:0.5rem';
+    info.textContent = '📍 ' + regSummary;
+    document.getElementById('premier-sub').insertAdjacentElement('afterend', info);
+  } else {
+    existing.textContent = '📍 ' + regSummary;
+  }
 }
 
 function showPoraz(title, sub) {
@@ -776,14 +1110,406 @@ function showPoraz(title, sub) {
 function restart() {
   selectedParty = null;
   selectedChoice = null;
-  G = { stranka:null, popularnost:0, budzet:500, povjerenje:50, runda:0, mandati:{}, finalMandati:{} };
+  G = { stranka:null, popularnost:0, budzet:500, povjerenje:50, runda:0, mandati:{}, finalMandati:{}, regionRep:{} };
   buildPartyGrid();
   showScreen(1);
 }
 
 // ══════════════════════════════════════════
-// TOAST
+// OPSTINA POPUP
 // ══════════════════════════════════════════
+let popupLocked = false;
+
+function showOpstinPopup(naziv, anchorEl) {
+  const res = LOKALNI[naziv];
+  if (!res) return;
+
+  const region = getRegionZaOpstinu(naziv);
+  const pobjednik = getPobjednikOpstine(naziv);
+  const isPlayer = pobjednik === G.stranka?.naziv;
+  const pobBoja = pobjednik ? getBojaStranke(pobjednik) : '#666';
+
+  document.getElementById('op-dot').style.background = pobBoja;
+  document.getElementById('op-naziv').textContent = naziv;
+  document.getElementById('op-region').textContent = region ? `📍 ${region}` : '';
+
+  const winEl = document.getElementById('op-winner');
+  winEl.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:${pobBoja};display:inline-block;margin-right:6px"></span><span style="color:${pobBoja}">${pobjednik || 'Nepoznato'}</span>`;
+
+  const barsEl = document.getElementById('op-bars');
+  barsEl.innerHTML = '';
+  const sorted = Object.entries(res)
+    .filter(([k]) => STRANKE.find(s => s.naziv === k))
+    .sort((a,b) => b[1]-a[1]).slice(0,6);
+  const maxV = sorted[0]?.[1] || 1;
+  sorted.forEach(([ime, glasovi]) => {
+    const boja = getBojaStranke(ime);
+    const pct = Math.round(glasovi/maxV*100);
+    const row = document.createElement('div');
+    row.className = 'op-bar-row';
+    row.innerHTML = `
+      <span class="op-bar-name" style="color:${boja}">${ime}</span>
+      <div class="op-bar-track"><div class="op-bar-fill" style="background:${boja};width:0%" data-w="${pct}%"></div></div>
+      <span class="op-bar-num">${glasovi.toLocaleString()}</span>`;
+    barsEl.appendChild(row);
+  });
+  setTimeout(() => barsEl.querySelectorAll('.op-bar-fill').forEach(b => b.style.width = b.dataset.w), 50);
+
+  const repSection = document.getElementById('op-rep-section');
+  if (G.stranka && region && G.regionRep) {
+    repSection.style.display = '';
+    const rep = G.regionRep[region] || 50;
+    const repColor = rep >= 60 ? 'var(--green)' : rep >= 40 ? 'var(--gold)' : 'var(--red)';
+    const fill = document.getElementById('op-rep-fill');
+    fill.style.background = repColor;
+    fill.style.width = '0%';
+    setTimeout(() => { fill.style.width = rep + '%'; }, 60);
+    document.getElementById('op-rep-label').textContent = `${Math.round(rep)} / 100`;
+
+    const note = document.getElementById('op-player-note');
+    if (isPlayer) {
+      note.textContent = `✓ ${G.stranka.naziv} vodi u ovoj opštini`;
+      note.className = 'op-player-note winning';
+    } else {
+      const playerGlasovi = res[G.stranka.naziv] || 0;
+      const liderGlasovi = sorted[0]?.[1] || 1;
+      const gap = Math.round((liderGlasovi - playerGlasovi) / liderGlasovi * 100);
+      if (gap <= 15) {
+        note.textContent = `≈ Izjednačeno — razlika ${gap}%`;
+        note.className = 'op-player-note close';
+      } else {
+        note.textContent = `✗ Zaostajete za ${gap}% od lidera`;
+        note.className = 'op-player-note losing';
+      }
+    }
+  } else {
+    repSection.style.display = 'none';
+  }
+
+  const popup = document.getElementById('opstina-popup');
+  const rect = anchorEl ? anchorEl.getBoundingClientRect() : null;
+  if (rect) {
+    let left = rect.right + 12;
+    let top = rect.top;
+    if (left + 315 > window.innerWidth) left = Math.max(8, rect.left - 315);
+    if (top + 420 > window.innerHeight) top = window.innerHeight - 425;
+    if (top < 8) top = 8;
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+    popup.style.transform = '';
+  } else {
+    popup.style.left = '50%';
+    popup.style.top = '50%';
+    popup.style.transform = 'translate(-50%,-50%)';
+  }
+  popup.classList.add('show');
+  popupLocked = true;
+}
+
+function closeOpstinPopup() {
+  document.getElementById('opstina-popup').classList.remove('show');
+  popupLocked = false;
+  document.querySelectorAll('path.highlighted').forEach(el => el.classList.remove('highlighted'));
+}
+
+document.addEventListener('click', e => {
+  if (popupLocked && !e.target.closest('.opstina-popup') && !e.target.closest('path')) {
+    closeOpstinPopup();
+  }
+});
+
+// ══════════════════════════════════════════
+// STRATEŠKA MAPA
+// ══════════════════════════════════════════
+let prevScreen = 2;
+
+function openStrateskaMapaFromGame() {
+  prevScreen = 2;
+  closeOpstinPopup();
+  buildStrateskaMap();
+  showScreen('_mapa');
+}
+
+function backToGame() {
+  closeOpstinPopup();
+  showScreen(prevScreen);
+}
+
+function buildStrateskaMap() {
+  const legendEl = document.getElementById('sm-legend');
+  legendEl.innerHTML = '';
+  STRANKE.forEach(s => {
+    const item = document.createElement('div');
+    item.className = 'sm-leg-item';
+    item.innerHTML = `<div class="sm-leg-dot" style="background:${s.boja}"></div>${s.naziv}`;
+    legendEl.appendChild(item);
+  });
+  Object.entries(EXTRA_BOJE).forEach(([ime, boja]) => {
+    const item = document.createElement('div');
+    item.className = 'sm-leg-item';
+    item.innerHTML = `<div class="sm-leg-dot" style="background:${boja}"></div>${ime}`;
+    legendEl.appendChild(item);
+  });
+
+  document.getElementById('sm-round-tag').textContent = G.runda ? `Runda ${G.runda} / 5` : 'Pregled mape';
+
+  const statsGrid = document.getElementById('sm-stats-grid');
+  if (G.stranka && G.regionRep) {
+    const pobjednicke = Object.keys(LOKALNI).filter(o => getPobjednikOpstine(o) === G.stranka.naziv).length;
+    const avgRep = Math.round(Object.values(G.regionRep).reduce((a,b)=>a+b,0)/Object.keys(G.regionRep).length);
+    const proj = getMandatiData().find(s=>s.naziv===G.stranka.naziv)?.mandati || 0;
+    statsGrid.innerHTML = `
+      <div class="sm-stat-box"><div class="sm-stat-val" style="color:${G.stranka.boja}">${pobjednicke}</div><div class="sm-stat-lbl">Opština vodim</div></div>
+      <div class="sm-stat-box"><div class="sm-stat-val" style="color:var(--red)">${Object.keys(LOKALNI).length - pobjednicke}</div><div class="sm-stat-lbl">Opština gubim</div></div>
+      <div class="sm-stat-box"><div class="sm-stat-val" style="color:${avgRep>=60?'var(--green)':avgRep>=40?'var(--gold)':'var(--red)'}">${avgRep}</div><div class="sm-stat-lbl">Avg reputacija</div></div>
+      <div class="sm-stat-box"><div class="sm-stat-val" style="color:${G.stranka.boja}">${proj}</div><div class="sm-stat-lbl">Proj. mandata</div></div>`;
+  } else {
+    statsGrid.innerHTML = `<div class="sm-stat-box" style="grid-column:span 2;text-align:center"><div class="sm-stat-lbl" style="padding:8px 0">Pokrenite igru za statistike</div></div>`;
+  }
+
+  // SVG mapa
+  const wrap = document.getElementById('sm-map-wrap');
+  wrap.innerHTML = SVG_MAPA;
+  wrap.querySelectorAll('path').forEach(path => {
+    const naziv = path.getAttribute('title');
+    const pobjednik = getPobjednikOpstine(naziv);
+    path.style.fill = pobjednik ? getBojaStranke(pobjednik) : '#2a2d3a';
+    path.style.opacity = pobjednik === G.stranka?.naziv ? '1' : '0.72';
+    path.style.cursor = 'pointer';
+    path.style.stroke = 'var(--bg3)';
+    path.style.strokeWidth = '2';
+
+    path.addEventListener('mouseenter', () => {
+      path.style.filter = 'brightness(1.3)';
+      const tt = document.getElementById('map-tt');
+      tt.textContent = naziv + (pobjednik ? ' — ' + pobjednik : '');
+      tt.style.opacity = '1';
+    });
+    path.addEventListener('mousemove', e => {
+      const tt = document.getElementById('map-tt');
+      tt.style.left = (e.clientX+14)+'px';
+      tt.style.top = (e.clientY+14)+'px';
+    });
+    path.addEventListener('mouseleave', () => {
+      path.style.filter = '';
+      document.getElementById('map-tt').style.opacity = '0';
+    });
+    path.addEventListener('click', e => {
+      e.stopPropagation();
+      wrap.querySelectorAll('path').forEach(p => { p.style.stroke='var(--bg3)'; p.style.strokeWidth='2'; });
+      path.style.stroke = 'var(--gold)';
+      path.style.strokeWidth = '3';
+      const row = document.querySelector(`[data-opstina="${naziv}"]`);
+      if (row) row.scrollIntoView({behavior:'smooth', block:'nearest'});
+      showOpstinPopup(naziv, path);
+    });
+  });
+
+  // Lista opština
+  const olist = document.getElementById('sm-olist');
+  olist.innerHTML = '';
+  const sortedOps = Object.keys(LOKALNI).sort((a,b) => {
+    const wa = getPobjednikOpstine(a) === G.stranka?.naziv ? 0 : 1;
+    const wb = getPobjednikOpstine(b) === G.stranka?.naziv ? 0 : 1;
+    return wa - wb || a.localeCompare(b,'sr');
+  });
+  sortedOps.forEach(naziv => {
+    const pobjednik = getPobjednikOpstine(naziv);
+    const isPlayer = pobjednik === G.stranka?.naziv;
+    const region = getRegionZaOpstinu(naziv);
+    const rep = (region && G.regionRep) ? Math.round(G.regionRep[region]) : null;
+    const repColor = rep !== null ? (rep>=60?'var(--green)':rep>=40?'var(--gold)':'var(--red)') : 'var(--dimmer)';
+
+    const row = document.createElement('div');
+    row.className = 'sm-orow ' + (isPlayer ? 'player-win' : 'player-lose');
+    row.dataset.opstina = naziv;
+    row.innerHTML = `
+      <div>
+        <div class="sm-oname">${naziv}</div>
+        <div class="sm-owinner" style="color:${pobjednik ? getBojaStranke(pobjednik) : 'var(--dim)'}">${pobjednik || '?'}</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:8px;color:var(--dimmer);text-align:center">${region||''}</div>
+      <div class="sm-orep" style="color:${repColor}">${rep !== null ? rep : '—'}</div>`;
+    row.onclick = () => {
+      wrap.querySelectorAll('path').forEach(p => { p.style.stroke='var(--bg3)'; p.style.strokeWidth='2'; });
+      const pathEl = wrap.querySelector(`path[title="${naziv}"]`);
+      if (pathEl) { pathEl.style.stroke='var(--gold)'; pathEl.style.strokeWidth='3'; }
+      showOpstinPopup(naziv, row);
+    };
+    olist.appendChild(row);
+  });
+}
+
+// ══════════════════════════════════════════
+// REGIONALNA REPUTACIJA
+// ══════════════════════════════════════════
+
+// Regioni i opštine koje pokrivaju
+const REGIONI = {
+  "Jug": { opstine: ["Bar","Ulcinj","Budva","Herceg-Novi","Kotor","Tivat"], boja:"#4f7cff" },
+  "Centar": { opstine: ["Podgorica","Danilovgrad","Cetinje","Nikšić"], boja:"#c8a96e" },
+  "Sjever": { opstine: ["Bijelo Polje","Berane","Pljevlja","Rožaje","Plav","Mojkovac","Kolašin","Žabljak","Šavnik","Plužine","Andrijevica","Petnjica","Gusinje","Tuzi"], boja:"#3ecf8e" },
+};
+
+// Svaki region ima reputaciju 0-100
+// Svaki event sada ima i regionalne efekte
+const REGIONALNI_EFEKTI = {
+  0: { // Kickoff u Podgorici
+    "Jug":   [+3, +0, -3],
+    "Centar":[+8, +5, -5],
+    "Sjever":[-2, +2, +4],
+  },
+  1: { // TV debata
+    "Jug":   [+4, +3, -2],
+    "Centar":[+6, +4, -4],
+    "Sjever":[+2, +3, -5],
+  },
+  2: { // Skandal
+    "Jug":   [+2, -4, -6],
+    "Centar":[-3, -5, -8],
+    "Sjever":[+4, -3, -5],
+  },
+  3: { // Kampanja na sjeveru
+    "Jug":   [-2, +0, +1],
+    "Centar":[+1, +3, -1],
+    "Sjever":[+8, +6, -5],
+  },
+  4: { // Posljednji dan
+    "Jug":   [+6, +3, +4],
+    "Centar":[+7, +4, +5],
+    "Sjever":[+4, +3, +3],
+  },
+};
+
+function initRegionalnaReputacija() {
+  // Postavi početne vrijednosti reputacije na osnovu stranke
+  G.regionRep = {};
+  const stranka = G.stranka;
+  
+  // Svaka stranka ima prirodne jačine po regionima
+  const startRep = {
+    "DPS":  { "Jug": 55, "Centar": 65, "Sjever": 40 },
+    "NSD":  { "Jug": 35, "Centar": 40, "Sjever": 65 },
+    "PES":  { "Jug": 50, "Centar": 55, "Sjever": 45 },
+    "BS":   { "Jug": 45, "Centar": 35, "Sjever": 60 },
+    "DEM":  { "Jug": 65, "Centar": 45, "Sjever": 30 },
+    "URA":  { "Jug": 50, "Centar": 60, "Sjever": 30 },
+    "ES":   { "Jug": 45, "Centar": 55, "Sjever": 40 },
+  };
+  
+  const rep = startRep[stranka.naziv] || { "Jug": 45, "Centar": 50, "Sjever": 40 };
+  Object.keys(REGIONI).forEach(r => {
+    G.regionRep[r] = rep[r] || 45;
+  });
+  
+  updateRegionalPanel();
+}
+
+function applyRegionalniEfekat(roundIdx, choiceIdx) {
+  const efekti = REGIONALNI_EFEKTI[roundIdx];
+  if (!efekti) return;
+  
+  let opis = [];
+  Object.keys(REGIONI).forEach(region => {
+    const delta = efekti[region]?.[choiceIdx] ?? 0;
+    if (delta !== 0) {
+      G.regionRep[region] = Math.max(0, Math.min(100, G.regionRep[region] + delta));
+      if (Math.abs(delta) >= 4) {
+        opis.push(`${region} ${delta > 0 ? '↑' : '↓'}${Math.abs(delta)}`);
+      }
+    }
+  });
+  
+  if (opis.length > 0) {
+    const notice = document.getElementById('reg-event-notice');
+    notice.textContent = '📍 Regionalni uticaj: ' + opis.join('  ·  ');
+    notice.classList.add('show');
+    setTimeout(() => notice.classList.remove('show'), 3500);
+  }
+  
+  updateRegionalPanel();
+  updateMapColors(); // Osvježi mapu jer se reputacija promijenila
+}
+
+function getRegionMultiplier(region) {
+  // Pretvori reputaciju (0-100) u multiplikator mandata (0.7 - 1.4)
+  const rep = G.regionRep[region] || 50;
+  return 0.7 + (rep / 100) * 0.7;
+}
+
+function updateRegionalPanel() {
+  const list = document.getElementById('reg-list');
+  if (!list) return;
+  
+  list.innerHTML = '';
+  let totalRep = 0;
+  let count = 0;
+  
+  Object.keys(REGIONI).forEach(region => {
+    const rep = G.regionRep[region] || 50;
+    totalRep += rep;
+    count++;
+    
+    const color = rep >= 60 ? 'var(--green)' : rep >= 40 ? 'var(--gold)' : 'var(--red)';
+    const row = document.createElement('div');
+    row.className = 'reg-row';
+    row.innerHTML = `
+      <span class="reg-name" style="color:${REGIONI[region].boja}">${region}</span>
+      <div class="reg-track">
+        <div class="reg-bar" style="background:${color};width:${rep}%"></div>
+      </div>
+      <span class="reg-val" style="color:${color}">${Math.round(rep)}</span>
+    `;
+    list.appendChild(row);
+    
+    // Opštine ispod regiona (sažeto)
+    const opstineRow = document.createElement('div');
+    opstineRow.style.cssText = 'font-family:var(--mono);font-size:8px;color:var(--dimmer);padding:0 0 4px 0;margin-bottom:2px;border-bottom:1px solid var(--border)';
+    const opstineStr = REGIONI[region].opstine.slice(0,4).join(', ') + (REGIONI[region].opstine.length > 4 ? '...' : '');
+    opstineRow.textContent = opstineStr;
+    list.appendChild(opstineRow);
+  });
+  
+  const avg = Math.round(totalRep / count);
+  const avgEl = document.getElementById('reg-avg-badge');
+  if (avgEl) {
+    const color = avg >= 60 ? '#3ecf8e' : avg >= 40 ? '#c8a96e' : '#ff5e5e';
+    avgEl.innerHTML = `⌀ <span style="color:${color};font-weight:600">${avg}</span>`;
+  }
+}
+
+function updateMapColors() {
+  // Osvježi boje mape uzimajući u obzir regionalnu reputaciju
+  const wrap = document.getElementById('mini-map-wrap');
+  if (!wrap) return;
+  wrap.querySelectorAll('path').forEach(path => {
+    const naziv = path.getAttribute('title');
+    const pobjednik = getPobjednikOpstine(naziv);
+    const region = getRegionZaOpstinu(naziv);
+    
+    if (pobjednik === G.stranka?.naziv && region) {
+      // Naša opština — intenzitet boje zavisi od reputacije
+      const rep = G.regionRep[region] || 50;
+      const alpha = 0.4 + (rep/100) * 0.6;
+      path.style.fill = G.stranka.boja;
+      path.style.opacity = alpha.toFixed(2);
+    } else if (pobjednik) {
+      path.style.fill = getBojaStranke(pobjednik);
+      path.style.opacity = '0.7';
+    } else {
+      path.style.fill = '#2a2d3a';
+      path.style.opacity = '1';
+    }
+  });
+}
+
+function getRegionZaOpstinu(opstina) {
+  for (const [region, data] of Object.entries(REGIONI)) {
+    if (data.opstine.includes(opstina)) return region;
+  }
+  return null;
+}
+
 let toastTimer;
 function showToast(msg, type='info') {
   const t = document.getElementById('toast');
