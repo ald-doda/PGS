@@ -3,378 +3,1232 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Izborni Simulator — Crna Gora 2027</title>
+<title>Izbori 2027 — Crna Gora</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0d0e12; --bg2: #13151c; --bg3: #1a1d27;
-  --border: rgba(255,255,255,0.07); --border-b: rgba(255,255,255,0.14);
-  --text: #e8eaf0; --dim: #7a7f94; --dimmer: #454a5e;
-  --gold: #c8a96e; --blue: #4f7cff; --green: #3ecf8e; --red: #ff5e5e;
-  --r: 14px; --font: 'DM Sans',sans-serif; --mono: 'DM Mono',monospace; --display: 'Syne',sans-serif;
+  --bg:    #080a0f;
+  --bg2:   #0f1219;
+  --bg3:   #161b24;
+  --bg4:   #1c2230;
+  --border:  rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --border3: rgba(255,255,255,0.2);
+  --text:  #dde3f0;
+  --dim:   #6b7490;
+  --dimmer:#3a4058;
+  --gold:  #d4a843;
+  --gold2: #f0c96a;
+  --blue:  #4f8eff;
+  --green: #2ecc8a;
+  --red:   #e8455a;
+  --r: 12px;
+  --font:    'Outfit', sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+  --display: 'Bebas Neue', sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden}
 
-/* GRAIN */
-.grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:128px}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-/* SCREENS */
-.screen{display:none;min-height:100vh;padding:0}
-.screen.active{display:flex;flex-direction:column}
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
 
-/* ===== SCREEN 0: INTRO ===== */
-#s0{align-items:center;justify-content:center;text-align:center;padding:2rem}
-.intro-tag{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem}
-.intro-h{font-family:var(--display);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;letter-spacing:-0.03em;line-height:1;margin-bottom:0.5rem}
-.intro-h em{font-style:normal;color:var(--gold)}
-.intro-sub{color:var(--dim);font-size:15px;margin-bottom:3rem;max-width:420px}
-.btn-start{background:var(--gold);color:#0d0e12;font-family:var(--display);font-size:13px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:14px 40px;border-radius:8px;border:none;cursor:pointer;transition:opacity 0.2s,transform 0.1s}
-.btn-start:hover{opacity:0.9;transform:translateY(-2px)}
-.intro-deco{display:flex;gap:12px;margin-bottom:2.5rem;justify-content:center;flex-wrap:wrap}
-.deco-flag{font-family:var(--mono);font-size:10px;padding:4px 12px;border:1px solid var(--border-b);border-radius:4px;color:var(--dimmer)}
+/* ── SCREENS ── */
+.screen { display: none; min-height: 100vh; position: relative; z-index: 1; }
+.screen.active { display: flex; flex-direction: column; }
 
-/* ===== SCREEN 1: CHOOSE PARTY ===== */
-#s1{padding:2rem}
-.screen-header{text-align:center;margin-bottom:2.5rem}
-.screen-tag{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem}
-.screen-h{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.5rem);font-weight:800;letter-spacing:-0.02em}
-.screen-sub{color:var(--dim);font-size:14px;margin-top:0.5rem}
-.parties-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;max-width:1100px;margin:0 auto}
-.party-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;cursor:pointer;transition:border-color 0.2s,transform 0.15s,background 0.2s;position:relative;overflow:hidden}
-.party-card:hover{border-color:var(--border-b);transform:translateY(-3px);background:var(--bg3)}
-.party-card.selected{border-color:var(--gold)!important;background:rgba(200,169,110,0.06)}
-.party-card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0}
-.party-name{font-family:var(--display);font-size:20px;font-weight:800;margin-bottom:4px}
-.party-full{font-size:11px;color:var(--dim);margin-bottom:12px;font-family:var(--mono)}
-.party-desc{font-size:12px;color:var(--dim);line-height:1.5;margin-bottom:12px}
-.party-stats{display:flex;gap:8px;flex-wrap:wrap}
-.pstat{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;background:var(--bg3);color:var(--dimmer)}
-.pstat.good{background:rgba(62,207,142,0.1);color:var(--green)}
-.pstat.warn{background:rgba(255,94,94,0.1);color:var(--red)}
-.btn-confirm{background:var(--gold);color:#0d0e12;font-family:var(--display);font-size:12px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;padding:12px 32px;border-radius:8px;border:none;cursor:pointer;display:block;margin:2.5rem auto 0;transition:opacity 0.2s}
-.btn-confirm:disabled{opacity:0.3;cursor:not-allowed}
-.btn-confirm:not(:disabled):hover{opacity:0.9}
+/* ════════════════════════════════════════
+   SCREEN 0 — INTRO
+════════════════════════════════════════ */
+#s0 {
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 120%, rgba(212,168,67,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 10%, rgba(79,142,255,0.05) 0%, transparent 60%);
+}
+.intro-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 12px; justify-content: center;
+}
+.intro-eyebrow::before, .intro-eyebrow::after {
+  content: '';
+  width: 32px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.intro-eyebrow::after { transform: scaleX(-1); }
+.intro-h {
+  font-family: var(--display);
+  font-size: clamp(4rem, 12vw, 9rem);
+  letter-spacing: 0.04em;
+  line-height: 0.9;
+  margin-bottom: 0.6rem;
+  background: linear-gradient(160deg, #fff 30%, var(--gold2) 60%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.intro-sub-line {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 4vw, 2.8rem);
+  letter-spacing: 0.12em;
+  color: var(--dim);
+  margin-bottom: 2.5rem;
+}
+.intro-pills {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.intro-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  color: var(--dim);
+  background: var(--bg2);
+}
+.btn-start {
+  position: relative;
+  background: var(--gold);
+  color: #080a0f;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  padding: 16px 52px;
+  border: none; border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 0 0 0 rgba(212,168,67,0);
+}
+.btn-start:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(212,168,67,0.3);
+}
+.btn-start:active { transform: translateY(-1px); }
+.intro-scroll-hint {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; color: var(--dimmer);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  animation: float 2s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-6px)} }
 
-/* ===== SCREEN 2: KAMPANJA ===== */
-#s2{display:flex;flex-direction:column;min-height:100vh}
-.game-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.gh-left{display:flex;align-items:center;gap:16px}
-.gh-party-dot{width:10px;height:10px;border-radius:50%}
-.gh-party-name{font-family:var(--display);font-size:14px;font-weight:700}
-.gh-stats{display:flex;gap:8px;flex-wrap:wrap}
-.gh-stat{background:var(--bg3);border-radius:6px;padding:6px 12px;text-align:center}
-.gh-stat-val{font-family:var(--mono);font-size:15px;font-weight:500}
-.gh-stat-lbl{font-family:var(--mono);font-size:9px;color:var(--dimmer);text-transform:uppercase;letter-spacing:0.08em}
-.gh-round{font-family:var(--mono);font-size:11px;color:var(--gold)}
+/* ════════════════════════════════════════
+   SCREEN 1 — CHOOSE PARTY
+════════════════════════════════════════ */
+#s1 { padding: 2.5rem 2rem; }
+.screen-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+.screen-h {
+  font-family: var(--display);
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: 0.06em;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.screen-sub {
+  color: var(--dim);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+.parties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.party-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.18s, background 0.2s;
+}
+.party-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.party-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-4px);
+  background: var(--bg3);
+}
+.party-card:hover::before { opacity: 1; }
+.party-card.selected {
+  border-color: var(--gold) !important;
+  background: rgba(212,168,67,0.05);
+  transform: translateY(-4px);
+}
+.party-accent {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: var(--r) var(--r) 0 0;
+}
+.party-tag {
+  font-family: var(--display);
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+.party-full {
+  font-size: 10px;
+  color: var(--dimmer);
+  font-family: var(--mono);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.party-desc {
+  font-size: 12px;
+  color: var(--dim);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  font-weight: 300;
+}
+.party-pills {
+  display: flex; gap: 5px; flex-wrap: wrap;
+}
+.party-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg3);
+  color: var(--dimmer);
+  letter-spacing: 0.05em;
+}
+.party-pill.pos { background: rgba(46,204,138,0.1); color: var(--green); }
+.party-pill.neg { background: rgba(232,69,90,0.1); color: var(--red); }
+.btn-confirm {
+  display: block;
+  margin: 2.5rem auto 0;
+  background: var(--gold);
+  color: #080a0f;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  padding: 14px 48px;
+  border: none; border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+}
+.btn-confirm:disabled { opacity: 0.25; cursor: not-allowed; }
+.btn-confirm:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(212,168,67,0.3);
+}
 
-.game-body{flex:1;display:grid;grid-template-columns:1fr 380px;gap:0}
-@media(max-width:800px){.game-body{grid-template-columns:1fr}}
+/* ════════════════════════════════════════
+   SCREEN 2 — KAMPANJA
+════════════════════════════════════════ */
+#s2 { min-height: 100vh; }
 
-/* LIJEVA: Event panel */
-.event-panel{padding:24px;border-right:1px solid var(--border)}
-.phase-badge{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:4px;display:inline-block;margin-bottom:16px}
-.phase-badge.kampanja{background:rgba(79,124,255,0.15);color:var(--blue)}
-.phase-badge.debata{background:rgba(200,169,110,0.15);color:var(--gold)}
-.phase-badge.skandal{background:rgba(255,94,94,0.15);color:var(--red)}
-.phase-badge.izbori{background:rgba(62,207,142,0.15);color:var(--green)}
-.event-title{font-family:var(--display);font-size:clamp(1.2rem,3vw,1.8rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:8px;line-height:1.2}
-.event-desc{color:var(--dim);font-size:13px;line-height:1.6;margin-bottom:24px;max-width:520px}
-.choices-grid{display:flex;flex-direction:column;gap:8px;max-width:560px}
-.choice-btn{background:var(--bg2);border:1px solid var(--border-b);border-radius:10px;padding:14px 18px;cursor:pointer;text-align:left;transition:all 0.2s;display:flex;flex-direction:column;gap:4px}
-.choice-btn:hover{border-color:var(--gold);background:rgba(200,169,110,0.06)}
-.choice-btn.selected-choice{border-color:var(--gold);background:rgba(200,169,110,0.1)}
-.choice-main{font-size:14px;font-weight:500;color:var(--text)}
-.choice-effect{font-family:var(--mono);font-size:10px;color:var(--dimmer)}
-.choice-effect.pos{color:var(--green)}
-.choice-effect.neg{color:var(--red)}
-.choice-effect.mid{color:var(--gold)}
+/* Header */
+.game-header {
+  background: rgba(9,11,16,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky; top: 0; z-index: 100;
+  flex-wrap: wrap;
+}
+.gh-party {
+  display: flex; align-items: center; gap: 8px;
+}
+.gh-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+.gh-name {
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+.gh-divider {
+  width: 1px; height: 24px;
+  background: var(--border2);
+}
+.gh-stats {
+  display: flex; gap: 6px; flex: 1; flex-wrap: wrap;
+}
+.gh-stat {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.gh-stat-val {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+}
+.gh-stat-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.gh-runda {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.btn-map {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  padding: 7px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-map:hover {
+  background: rgba(212,168,67,0.1);
+  border-color: var(--gold);
+}
 
-/* DESNA: Mapa + Polls */
-.map-panel{padding:20px;background:var(--bg3);display:flex;flex-direction:column;gap:16px;overflow-y:auto;max-height:calc(100vh - 80px)}
-.mini-map-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px;overflow:hidden}
-.mini-map-wrap svg{width:100%;height:auto;display:block}
-.mini-map-wrap path{cursor:pointer;stroke:var(--bg3);stroke-width:2;transition:filter 0.15s}
-.mini-map-wrap path:hover{filter:brightness(1.3)}
-.polls-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px}
-.polls-title{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.poll-row{display:grid;grid-template-columns:56px 1fr 38px;align-items:center;gap:8px;margin-bottom:6px}
-.poll-name{font-family:var(--display);font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.poll-track{background:var(--bg3);border-radius:3px;height:18px;overflow:hidden}
-.poll-bar{height:100%;border-radius:3px;transition:width 0.8s cubic-bezier(0.16,1,0.3,1);display:flex;align-items:center;padding-left:6px;font-family:var(--mono);font-size:9px;color:rgba(0,0,0,0.7);font-weight:500}
-.poll-num{font-family:var(--mono);font-size:10px;color:var(--dim);text-align:right}
-.parlament-mini{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;text-align:center}
-.parl-title{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
-#parl-canvas{border-radius:6px}
+/* Body layout */
+.game-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+}
+@media(max-width: 900px) { .game-body { grid-template-columns: 1fr; } }
 
-/* ===== SCREEN 3: IZBORI ===== */
-#s3{align-items:center;justify-content:center;padding:2rem;text-align:center}
-.voting-anim{font-family:var(--display);font-size:clamp(2rem,5vw,3.5rem);font-weight:800;color:var(--gold);margin-bottom:1rem}
-.voting-sub{color:var(--dim);font-size:14px;margin-bottom:2rem}
-.progress-wrap{width:min(400px,90vw);height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;margin:0 auto}
-.progress-bar{height:100%;background:var(--gold);width:0;transition:width 0.1s linear}
+/* Event panel */
+.event-panel {
+  padding: 28px 32px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.ev-round-track {
+  display: flex; gap: 6px;
+}
+.ev-round-pip {
+  flex: 1; height: 3px; border-radius: 2px;
+  background: var(--bg4);
+  transition: background 0.4s;
+}
+.ev-round-pip.done { background: var(--gold); }
+.ev-round-pip.active { background: var(--gold2); }
+.ev-phase {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.ev-phase.kampanja { background: rgba(79,142,255,0.12); color: var(--blue); border: 1px solid rgba(79,142,255,0.2); }
+.ev-phase.debata   { background: rgba(212,168,67,0.12); color: var(--gold); border: 1px solid rgba(212,168,67,0.2); }
+.ev-phase.skandal  { background: rgba(232,69,90,0.12); color: var(--red); border: 1px solid rgba(232,69,90,0.2); }
+.ev-phase.izbori   { background: rgba(46,204,138,0.12); color: var(--green); border: 1px solid rgba(46,204,138,0.2); }
+.ev-phase::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.ev-title {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+.ev-desc {
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 560px;
+  font-weight: 300;
+  border-left: 2px solid var(--border2);
+  padding-left: 14px;
+}
+.choices-wrap {
+  display: flex; flex-direction: column; gap: 8px;
+  max-width: 600px;
+}
+.choice-btn {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 16px 20px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.choice-btn::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.choice-btn:hover {
+  border-color: rgba(212,168,67,0.4);
+  background: var(--bg3);
+}
+.choice-btn:hover::before { opacity: 1; }
+.choice-btn.selected-choice {
+  border-color: var(--gold);
+  background: rgba(212,168,67,0.06);
+}
+.choice-btn.selected-choice::before { opacity: 1; }
+.choice-main {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+.choice-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+.choice-tag.pos { background: rgba(46,204,138,0.1); color: var(--green); }
+.choice-tag.neg { background: rgba(232,69,90,0.1); color: var(--red); }
+.choice-tag.mid { background: rgba(212,168,67,0.1); color: var(--gold); }
+.btn-next {
+  display: none;
+  margin-top: 4px;
+  background: var(--gold);
+  color: #080a0f;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  padding: 12px 36px;
+  border: none; border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+  align-self: flex-start;
+}
+.btn-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212,168,67,0.3);
+}
 
-/* ===== SCREEN 4: REZULTATI ===== */
-#s4{padding:2rem}
-.result-header{text-align:center;margin-bottom:2rem}
-.result-winner{font-family:var(--display);font-size:clamp(1.8rem,5vw,3.5rem);font-weight:800;letter-spacing:-0.02em;line-height:1.1}
-.result-sub{color:var(--dim);font-size:14px;margin-top:0.5rem}
-.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;margin:0 auto 2rem}
-@media(max-width:600px){.result-grid{grid-template-columns:1fr}}
-.result-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px}
-.rb-title{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmer);margin-bottom:12px}
-.mandati-list{display:flex;flex-direction:column;gap:5px}
-.mand-row{display:grid;grid-template-columns:60px 1fr 30px;align-items:center;gap:8px}
-.mand-name{font-family:var(--display);font-size:11px;font-weight:700}
-.mand-track{background:var(--bg3);height:16px;border-radius:3px;overflow:hidden}
-.mand-bar{height:100%;border-radius:3px;transition:width 1s ease}
-.mand-num{font-family:var(--mono);font-size:10px;color:var(--dim);text-align:right}
-.koal-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px}
-.koal-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.koal-chip{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:20px;border:1px solid var(--border-b);background:var(--bg3);cursor:pointer;font-family:var(--mono);font-size:10px;color:var(--dim);user-select:none;transition:all 0.2s}
-.koal-chip:hover{border-color:var(--border-b);color:var(--text)}
-.koal-chip.on{color:var(--text);box-shadow:0 0 0 1.5px var(--gold)}
-.koal-dot{width:7px;height:7px;border-radius:50%}
-.koal-status{font-family:var(--mono);font-size:11px;padding:10px;border-radius:8px;margin-top:10px;text-align:center;font-weight:500}
-.koal-status.da{background:rgba(62,207,142,0.1);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
-.koal-status.ne{background:rgba(255,94,94,0.08);color:var(--red);border:1px solid rgba(255,94,94,0.15)}
-.koal-mandati{font-family:var(--mono);font-size:10px;color:var(--gold);text-align:right}
+/* Right panel */
+.right-panel {
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  max-height: calc(100vh - 57px);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.rp-section {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.rp-section:last-child { border-bottom: none; }
+.rp-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.rp-label span { color: var(--gold); }
 
-/* ===== SCREEN 5: PREMIER ===== */
-#s5{align-items:center;justify-content:center;padding:2rem;text-align:center}
-.premier-anim{position:relative;width:120px;height:120px;margin:0 auto 2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;border:2px solid var(--gold);animation:spin-halo 4s linear infinite}
-@keyframes spin-halo{from{box-shadow:0 0 20px rgba(200,169,110,0.2)}to{box-shadow:0 0 40px rgba(200,169,110,0.6)}}
-.premier-title{font-family:var(--display);font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem}
-.premier-title em{color:var(--gold);font-style:normal}
-.premier-subtitle{color:var(--dim);font-size:14px;margin-bottom:2.5rem}
-.stats-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
-.stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 24px;min-width:120px}
-.stat-num{font-family:var(--mono);font-size:24px;font-weight:500}
-.stat-lbl{font-family:var(--mono);font-size:10px;color:var(--dimmer);margin-top:4px}
-.btn-restart{background:var(--bg3);border:1px solid var(--border-b);color:var(--text);font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:12px 28px;border-radius:8px;cursor:pointer;transition:all 0.2s}
-.btn-restart:hover{background:var(--border-b);color:var(--text)}
+/* Mini map */
+.mini-map-wrap {
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg3);
+}
+.mini-map-wrap svg { width: 100%; height: auto; display: block; }
+.mini-map-wrap path {
+  cursor: pointer;
+  stroke: var(--bg2);
+  stroke-width: 2.5;
+  transition: filter 0.12s, stroke 0.12s;
+}
+.mini-map-wrap path:hover {
+  filter: brightness(1.35);
+  stroke: rgba(255,255,255,0.3);
+}
 
-/* ===== SCREEN 6: PORAZ ===== */
-#s6{align-items:center;justify-content:center;padding:2rem;text-align:center}
-.poraz-icon{font-size:4rem;margin-bottom:1rem;opacity:0.7}
-.poraz-title{font-family:var(--display);font-size:clamp(2rem,5vw,3rem);font-weight:800;color:var(--red);margin-bottom:0.5rem;letter-spacing:-0.02em}
-.poraz-sub{color:var(--dim);font-size:14px;margin-bottom:2rem}
+/* Polls */
+.poll-row {
+  display: grid;
+  grid-template-columns: 44px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+.poll-name {
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.poll-track {
+  background: var(--bg4);
+  border-radius: 3px;
+  height: 16px;
+  overflow: hidden;
+}
+.poll-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
+  display: flex; align-items: center; padding-left: 6px;
+  font-family: var(--mono); font-size: 8px;
+  color: rgba(0,0,0,0.65); font-weight: 500;
+}
+.poll-pct {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+  text-align: right;
+}
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--border-b);border-radius:10px;padding:10px 20px;font-family:var(--mono);font-size:12px;z-index:1000;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
-.toast.show{opacity:1}
-.toast.pos{border-color:rgba(62,207,142,0.4);color:var(--green)}
-.toast.neg{border-color:rgba(255,94,94,0.4);color:var(--red)}
-.toast.info{border-color:rgba(200,169,110,0.4);color:var(--gold)}
+/* Regionalna reputacija */
+.reg-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 32px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.reg-name {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+}
+.reg-track {
+  background: var(--bg4);
+  border-radius: 3px;
+  height: 14px;
+  overflow: hidden;
+}
+.reg-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reg-val {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-align: right;
+}
+.reg-event-notice {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--gold);
+  margin-bottom: 10px;
+  padding: 5px 8px;
+  background: rgba(212,168,67,0.07);
+  border-radius: 5px;
+  border: 1px solid rgba(212,168,67,0.15);
+  display: none;
+}
+.reg-event-notice.show { display: block; }
 
-/* MAP TOOLTIP */
-.map-tt{position:fixed;background:var(--bg2);border:1px solid var(--border-b);border-radius:6px;padding:5px 10px;font-family:var(--mono);font-size:10px;pointer-events:none;z-index:500;opacity:0;transition:opacity 0.15s}
+/* Parlament mini */
+#parl-canvas { border-radius: 6px; display: block; margin: 0 auto; }
 
-/* OPSTINA POPUP */
-.opstina-popup{position:fixed;z-index:800;background:var(--bg2);border:1px solid var(--border-b);border-radius:14px;padding:20px;width:300px;box-shadow:0 8px 40px rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity 0.18s,transform 0.18s;transform:translateY(6px) scale(0.97)}
-.opstina-popup.show{opacity:1;pointer-events:all;transform:translateY(0) scale(1)}
-.op-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.op-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-.op-naziv{font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:-0.02em}
-.op-region{font-family:var(--mono);font-size:9px;color:var(--dimmer);margin-top:2px}
-.op-close{margin-left:auto;background:none;border:none;color:var(--dimmer);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;border-radius:4px;transition:color 0.15s}
-.op-close:hover{color:var(--text)}
-.op-section{margin-bottom:12px}
-.op-sec-title{font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dimmer);margin-bottom:7px}
-.op-winner-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:6px;border:1px solid var(--border-b);background:var(--bg3);font-family:var(--display);font-size:13px;font-weight:700}
-.op-bar-list{display:flex;flex-direction:column;gap:4px}
-.op-bar-row{display:grid;grid-template-columns:36px 1fr 40px;align-items:center;gap:6px}
-.op-bar-name{font-family:var(--display);font-size:10px;font-weight:700}
-.op-bar-track{background:var(--bg3);border-radius:2px;height:12px;overflow:hidden}
-.op-bar-fill{height:100%;border-radius:2px;transition:width 0.5s cubic-bezier(0.16,1,0.3,1)}
-.op-bar-num{font-family:var(--mono);font-size:9px;color:var(--dim);text-align:right}
-.op-rep-wrap{margin-top:6px}
-.op-rep-track{background:var(--bg3);border-radius:3px;height:18px;overflow:hidden;position:relative}
-.op-rep-fill{height:100%;border-radius:3px;transition:width 0.6s}
-.op-rep-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:500;color:rgba(0,0,0,0.6)}
-.op-player-note{font-family:var(--mono);font-size:10px;padding:6px 8px;border-radius:6px;margin-top:8px;text-align:center}
-.op-player-note.winning{background:rgba(62,207,142,0.1);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
-.op-player-note.losing{background:rgba(255,94,94,0.08);color:var(--red);border:1px solid rgba(255,94,94,0.15)}
-.op-player-note.close{background:rgba(200,169,110,0.1);color:var(--gold);border:1px solid rgba(200,169,110,0.2)}
+/* ════════════════════════════════════════
+   SCREEN 3 — GLASANJE
+════════════════════════════════════════ */
+#s3 {
+  align-items: center; justify-content: center;
+  text-align: center; padding: 2rem;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,168,67,0.05) 0%, transparent 70%);
+}
+.vote-title {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--gold2), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.75rem;
+  animation: pulse-text 1.5s ease-in-out infinite;
+}
+@keyframes pulse-text { 0%,100%{opacity:1} 50%{opacity:0.65} }
+.vote-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+.vote-progress-wrap {
+  width: min(400px, 90vw);
+  height: 2px;
+  background: var(--bg3);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.vote-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  width: 0;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px var(--gold);
+}
+.vote-dots {
+  display: flex; gap: 8px; justify-content: center; margin-top: 2rem;
+}
+.vote-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--bg4);
+  animation: dot-pulse 1.4s ease-in-out infinite;
+}
+.vote-dot:nth-child(2) { animation-delay: 0.2s; }
+.vote-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dot-pulse { 0%,80%,100%{background:var(--bg4)} 40%{background:var(--gold)} }
 
-/* STRATEŠKI EKRAN (S2b) */
-#s_mapa{display:none;min-height:100vh;flex-direction:column}
-#s_mapa.active{display:flex}
-.sm-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.sm-title{font-family:var(--display);font-size:16px;font-weight:800}
-.sm-tag{font-family:var(--mono);font-size:10px;color:var(--gold)}
-.sm-body{flex:1;display:grid;grid-template-columns:1fr 340px;overflow:hidden}
-@media(max-width:800px){.sm-body{grid-template-columns:1fr}}
-.sm-map-area{padding:20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
-.sm-map-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;flex:1}
-.sm-map-wrap svg{width:100%;height:auto;display:block}
-.sm-map-wrap path{cursor:pointer;stroke:var(--bg3);stroke-width:2;transition:filter 0.15s,stroke 0.15s}
-.sm-map-wrap path:hover{filter:brightness(1.25);stroke:rgba(255,255,255,0.3);stroke-width:2.5}
-.sm-map-wrap path.highlighted{stroke:var(--gold)!important;stroke-width:3!important}
-.sm-legend{display:flex;flex-wrap:wrap;gap:6px}
-.sm-leg-item{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;color:var(--dim);background:var(--bg2);border:1px solid var(--border);padding:3px 8px;border-radius:4px}
-.sm-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.sm-side{padding:20px;background:var(--bg3);border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;gap:12px}
-.sm-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.sm-stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.sm-stat-val{font-family:var(--mono);font-size:18px;font-weight:500}
-.sm-stat-lbl{font-family:var(--mono);font-size:9px;color:var(--dimmer);margin-top:2px;text-transform:uppercase;letter-spacing:0.08em}
-.sm-opstine-list{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.sm-opstine-title{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dimmer);padding:10px 14px;border-bottom:1px solid var(--border)}
-.sm-orow{display:grid;grid-template-columns:1fr 50px 40px;align-items:center;gap:6px;padding:7px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
-.sm-orow:last-child{border-bottom:none}
-.sm-orow:hover{background:var(--bg3)}
-.sm-orow.player-win{border-left:2px solid var(--green)}
-.sm-orow.player-lose{border-left:2px solid var(--red)}
-.sm-oname{font-family:var(--display);font-size:11px;font-weight:700}
-.sm-owinner{font-family:var(--mono);font-size:9px;color:var(--dim)}
-.sm-orep{font-family:var(--mono);font-size:10px;text-align:right}
-.btn-back-game{background:var(--bg3);border:1px solid var(--border-b);color:var(--text);font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all 0.2s}
-.btn-back-game:hover{background:var(--border-b)}
-.btn-open-map{background:var(--bg3);border:1px solid var(--border-b);color:var(--gold);font-family:var(--mono);font-size:10px;padding:6px 14px;border-radius:6px;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.btn-open-map:hover{background:rgba(200,169,110,0.1)}
+/* ════════════════════════════════════════
+   SCREEN 4 — REZULTATI
+════════════════════════════════════════ */
+#s4 { padding: 2.5rem 2rem; }
+.result-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.result-h {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  letter-spacing: 0.05em;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.result-sub {
+  color: var(--dim);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+@media(max-width: 680px) { .result-grid { grid-template-columns: 1fr; } }
+.result-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px;
+}
+.rb-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.rb-label span { color: var(--gold); }
+.mand-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 32px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.mand-name { font-family: var(--display); font-size: 12px; letter-spacing: 0.04em; }
+.mand-track { background: var(--bg4); height: 14px; border-radius: 3px; overflow: hidden; }
+.mand-bar { height: 100%; border-radius: 3px; transition: width 1.1s cubic-bezier(0.16,1,0.3,1); }
+.mand-num { font-family: var(--mono); font-size: 10px; color: var(--dim); text-align: right; }
+.koal-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; margin-bottom: 12px; }
+.koal-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  cursor: pointer;
+  font-family: var(--mono); font-size: 10px; color: var(--dim);
+  transition: all 0.2s;
+  user-select: none;
+}
+.koal-chip:hover { border-color: var(--border3); color: var(--text); }
+.koal-chip.on { color: var(--text); box-shadow: 0 0 0 1.5px var(--gold); border-color: var(--gold); }
+.koal-dot { width: 7px; height: 7px; border-radius: 50%; }
+.koal-status {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.koal-status.da { background: rgba(46,204,138,0.08); color: var(--green); border: 1px solid rgba(46,204,138,0.2); }
+.koal-status.ne { background: rgba(232,69,90,0.06); color: var(--red); border: 1px solid rgba(232,69,90,0.15); }
+.koal-mandati { font-family: var(--mono); font-size: 10px; color: var(--gold); }
 
-/* REGIONALNA REPUTACIJA */
-.reg-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
-.reg-title{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.reg-subtitle{font-family:var(--mono);font-size:9px;color:var(--dimmer)}
-.reg-list{display:flex;flex-direction:column;gap:5px;max-height:220px;overflow-y:auto}
-.reg-row{display:grid;grid-template-columns:80px 1fr 36px;align-items:center;gap:6px}
-.reg-name{font-family:var(--mono);font-size:10px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.reg-track{background:var(--bg3);border-radius:3px;height:14px;overflow:hidden;position:relative}
-.reg-bar{height:100%;border-radius:3px;transition:width 0.6s cubic-bezier(0.16,1,0.3,1)}
-.reg-val{font-family:var(--mono);font-size:10px;text-align:right}
-.reg-boost-badge{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(62,207,142,0.12);color:var(--green);border:1px solid rgba(62,207,142,0.2)}
-.reg-event-notice{font-family:var(--mono);font-size:9px;color:var(--gold);margin-bottom:8px;padding:5px 8px;background:rgba(200,169,110,0.08);border-radius:5px;border:1px solid rgba(200,169,110,0.15);display:none}
-.reg-event-notice.show{display:block}
+/* ════════════════════════════════════════
+   SCREEN 5 — PREMIJER
+════════════════════════════════════════ */
+#s5 {
+  align-items: center; justify-content: center;
+  text-align: center; padding: 3rem 2rem;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(212,168,67,0.08) 0%, transparent 70%);
+}
+.premier-icon {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,67,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 2rem;
+  background: radial-gradient(circle, rgba(212,168,67,0.1) 0%, transparent 70%);
+  animation: halo 3s ease-in-out infinite;
+}
+@keyframes halo {
+  0%,100% { box-shadow: 0 0 20px rgba(212,168,67,0.15); }
+  50% { box-shadow: 0 0 50px rgba(212,168,67,0.35); }
+}
+.premier-h {
+  font-family: var(--display);
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+.premier-h em { color: var(--gold); font-style: normal; }
+.premier-sub {
+  color: var(--dim);
+  font-size: 15px;
+  margin-bottom: 3rem;
+  font-weight: 300;
+  max-width: 480px;
+}
+.stats-row {
+  display: flex; gap: 12px; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 2.5rem;
+}
+.stat-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 28px;
+  min-width: 130px;
+}
+.stat-num {
+  font-family: var(--display);
+  font-size: 2.5rem;
+  letter-spacing: 0.04em;
+}
+.stat-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--dimmer);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 4px;
+}
+
+/* ════════════════════════════════════════
+   SCREEN 6 — PORAZ
+════════════════════════════════════════ */
+#s6 {
+  align-items: center; justify-content: center;
+  text-align: center; padding: 3rem 2rem;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(232,69,90,0.05) 0%, transparent 70%);
+}
+.poraz-icon { font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.5; }
+.poraz-h {
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  color: var(--red);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+.poraz-sub {
+  color: var(--dim);
+  font-size: 15px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+/* ════════════════════════════════════════
+   SHARED BUTTONS
+════════════════════════════════════════ */
+.btn-restart {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  padding: 13px 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-restart:hover { background: var(--bg4); border-color: var(--border3); }
+
+/* ════════════════════════════════════════
+   TOAST
+════════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translateX(-50%) translateY(8px);
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.pos { border-color: rgba(46,204,138,0.35); color: var(--green); }
+.toast.neg { border-color: rgba(232,69,90,0.35); color: var(--red); }
+.toast.info { border-color: rgba(212,168,67,0.35); color: var(--gold); }
+
+/* ════════════════════════════════════════
+   MAP TOOLTIP
+════════════════════════════════════════ */
+.map-tt {
+  position: fixed;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  pointer-events: none;
+  z-index: 500;
+  opacity: 0;
+  transition: opacity 0.12s;
+  white-space: nowrap;
+}
+
+/* ════════════════════════════════════════
+   OPSTINA POPUP
+════════════════════════════════════════ */
+.opstina-popup {
+  position: fixed;
+  z-index: 800;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s, transform 0.18s;
+  transform: translateY(8px) scale(0.97);
+}
+.opstina-popup.show {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0) scale(1);
+}
+.op-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.op-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+.op-naziv { font-family: var(--display); font-size: 1.3rem; letter-spacing: 0.04em; }
+.op-region { font-family: var(--mono); font-size: 9px; color: var(--dimmer); margin-top: 1px; }
+.op-close {
+  margin-left: auto;
+  background: none; border: none;
+  color: var(--dimmer); cursor: pointer;
+  font-size: 18px; line-height: 1;
+  padding: 2px 5px; border-radius: 4px;
+  transition: color 0.15s;
+}
+.op-close:hover { color: var(--text); }
+.op-section { margin-bottom: 12px; }
+.op-sec-title {
+  font-family: var(--mono);
+  font-size: 8px; letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin-bottom: 7px;
+}
+.op-winner-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  font-family: var(--display);
+  font-size: 13px; letter-spacing: 0.04em;
+}
+.op-bar-list { display: flex; flex-direction: column; gap: 4px; }
+.op-bar-row { display: grid; grid-template-columns: 38px 1fr 42px; align-items: center; gap: 6px; }
+.op-bar-name { font-family: var(--display); font-size: 10px; letter-spacing: 0.04em; }
+.op-bar-track { background: var(--bg4); border-radius: 2px; height: 11px; overflow: hidden; }
+.op-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1); }
+.op-bar-num { font-family: var(--mono); font-size: 9px; color: var(--dim); text-align: right; }
+.op-rep-track { background: var(--bg4); border-radius: 3px; height: 16px; overflow: hidden; position: relative; }
+.op-rep-fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
+.op-rep-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: rgba(0,0,0,0.5); }
+.op-player-note {
+  font-family: var(--mono); font-size: 10px;
+  padding: 6px 9px; border-radius: 6px;
+  margin-top: 8px; text-align: center;
+}
+.op-player-note.winning { background: rgba(46,204,138,0.08); color: var(--green); border: 1px solid rgba(46,204,138,0.2); }
+.op-player-note.losing { background: rgba(232,69,90,0.07); color: var(--red); border: 1px solid rgba(232,69,90,0.15); }
+.op-player-note.close { background: rgba(212,168,67,0.08); color: var(--gold); border: 1px solid rgba(212,168,67,0.2); }
+
+/* ════════════════════════════════════════
+   STRATEŠKA MAPA
+════════════════════════════════════════ */
+#s_mapa { display: none; min-height: 100vh; }
+#s_mapa.active { display: flex; flex-direction: column; }
+.sm-header {
+  background: rgba(9,11,16,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.sm-header-left { display: flex; flex-direction: column; gap: 2px; }
+.sm-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.sm-title { font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.06em; }
+.sm-body { flex: 1; display: grid; grid-template-columns: 1fr 340px; overflow: hidden; }
+@media(max-width: 800px) { .sm-body { grid-template-columns: 1fr; } }
+.sm-map-area { padding: 20px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+.sm-map-wrap {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px;
+}
+.sm-map-wrap svg { width: 100%; height: auto; display: block; }
+.sm-map-wrap path {
+  cursor: pointer;
+  stroke: var(--bg2);
+  stroke-width: 2.5;
+  transition: filter 0.12s, stroke 0.12s;
+}
+.sm-map-wrap path:hover { filter: brightness(1.3); stroke: rgba(255,255,255,0.25); }
+.sm-legend { display: flex; flex-wrap: wrap; gap: 6px; }
+.sm-leg-item {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 9px; color: var(--dim);
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 3px 9px; border-radius: 4px;
+}
+.sm-leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.sm-side {
+  padding: 20px;
+  background: var(--bg3);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.sm-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sm-stat-box {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px; text-align: center;
+}
+.sm-stat-val { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.04em; }
+.sm-stat-lbl { font-family: var(--mono); font-size: 9px; color: var(--dimmer); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+.sm-opstine-list { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.sm-opstine-title { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dimmer); padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.sm-orow {
+  display: grid;
+  grid-template-columns: 1fr 52px 38px;
+  align-items: center; gap: 6px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sm-orow:last-child { border-bottom: none; }
+.sm-orow:hover { background: var(--bg3); }
+.sm-orow.player-win { border-left: 2px solid var(--green); }
+.sm-orow.player-lose { border-left: 2px solid rgba(232,69,90,0.4); }
+.sm-oname { font-family: var(--display); font-size: 11px; letter-spacing: 0.04em; }
+.sm-owinner { font-family: var(--mono); font-size: 9px; color: var(--dim); }
+.sm-orep { font-family: var(--mono); font-size: 10px; text-align: right; }
+.btn-back-game {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-back-game:hover { background: var(--bg4); }
+.btn-open-map {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.btn-open-map:hover { background: rgba(212,168,67,0.1); border-color: rgba(212,168,67,0.4); }
 </style>
 </head>
 <body>
-<div class="grain"></div>
 
-<!-- SCREEN 0: INTRO -->
+<!-- SCREEN 0 — INTRO -->
 <div id="s0" class="screen active">
-  <div class="intro-tag">Crna Gora — 2027</div>
-  <h1 class="intro-h">Izborni <em>Simulator</em></h1>
-  <p class="intro-sub">Odaberi stranku, vodi kampanju, osvoji mandate i postani premijer.</p>
-  <div class="intro-deco">
-    <span class="deco-flag">81 poslanik</span>
-    <span class="deco-flag">24 opštine</span>
-    <span class="deco-flag">6 stranaka</span>
-    <span class="deco-flag">5 rundi</span>
+  <div class="intro-eyebrow">Crna Gora &mdash; Izbori 2027</div>
+  <h1 class="intro-h">IZBORI</h1>
+  <div class="intro-sub-line">SIMULATOR</div>
+  <div class="intro-pills">
+    <span class="intro-pill">81 poslanik</span>
+    <span class="intro-pill">24 opštine</span>
+    <span class="intro-pill">7 stranaka</span>
+    <span class="intro-pill">5 rundi kampanje</span>
   </div>
-  <button class="btn-start" onclick="showScreen(1)">Počni igru →</button>
+  <button class="btn-start" onclick="showScreen(1)">POČNI IGRU &rarr;</button>
+  <div class="intro-scroll-hint">↓ odaberi stranku</div>
 </div>
 
-<!-- SCREEN 1: CHOOSE PARTY -->
+<!-- SCREEN 1 — CHOOSE PARTY -->
 <div id="s1" class="screen">
-  <div class="screen-header">
-    <div class="screen-tag">Korak 1 od 3</div>
-    <h2 class="screen-h">Odaberi svoju <em style="color:var(--gold);font-style:normal">stranku</em></h2>
-    <p class="screen-sub">Svaka stranka ima različite početne pozicije, prednosti i mane.</p>
+  <div style="padding:2.5rem 2rem 1.5rem">
+    <div class="screen-eyebrow">Korak 1 — Odabir stranke</div>
+    <h2 class="screen-h">IZABERI <span style="color:var(--gold)">STRANKU</span></h2>
+    <p class="screen-sub">Svaka stranka ima različite prednosti, mane i početne pozicije.</p>
   </div>
-  <div class="parties-grid" id="parties-grid"></div>
-  <button class="btn-confirm" id="btn-confirm" disabled onclick="startGame()">Potvrdi izbor →</button>
+  <div class="parties-grid" style="padding:0 2rem 1rem;max-width:1200px;margin:0 auto;width:100%" id="parties-grid"></div>
+  <button class="btn-confirm" id="btn-confirm" disabled onclick="startGame()">POTVRDI IZBOR &rarr;</button>
 </div>
 
-<!-- SCREEN 2: KAMPANJA -->
+<!-- SCREEN 2 — KAMPANJA -->
 <div id="s2" class="screen">
   <div class="game-header">
-    <div class="gh-left">
-      <div class="gh-party-dot" id="gh-dot"></div>
-      <span class="gh-party-name" id="gh-name"></span>
+    <div class="gh-party">
+      <div class="gh-dot" id="gh-dot"></div>
+      <span class="gh-name" id="gh-name"></span>
     </div>
+    <div class="gh-divider"></div>
     <div class="gh-stats">
-      <div class="gh-stat"><div class="gh-stat-val" id="stat-popularnost">0%</div><div class="gh-stat-lbl">Popularnost</div></div>
-      <div class="gh-stat"><div class="gh-stat-val" id="stat-budzet">€0</div><div class="gh-stat-lbl">Budžet</div></div>
-      <div class="gh-stat"><div class="gh-stat-val" id="stat-povjerenje">0</div><div class="gh-stat-lbl">Povjerenje</div></div>
+      <div class="gh-stat">
+        <div class="gh-stat-val" id="stat-popularnost">—</div>
+        <div class="gh-stat-lbl">Popularnost</div>
+      </div>
+      <div class="gh-stat">
+        <div class="gh-stat-val" id="stat-budzet">—</div>
+        <div class="gh-stat-lbl">Budžet (k€)</div>
+      </div>
+      <div class="gh-stat">
+        <div class="gh-stat-val" id="stat-povjerenje">—</div>
+        <div class="gh-stat-lbl">Povjerenje</div>
+      </div>
     </div>
-    <div class="gh-round" id="gh-round">Runda 1 / 5</div>
-    <button class="btn-open-map" onclick="openStrateskaMapaFromGame()">🗺 Mapa</button>
+    <div class="gh-runda" id="gh-round">R1 / 5</div>
+    <button class="btn-map" onclick="openStrateskaMapaFromGame()">🗺 MAPA</button>
   </div>
+
   <div class="game-body">
+    <!-- Lijeva strana: event -->
     <div class="event-panel" id="event-panel">
-      <div class="phase-badge kampanja" id="phase-badge">Kampanja</div>
-      <h2 class="event-title" id="event-title"></h2>
-      <p class="event-desc" id="event-desc"></p>
-      <div class="choices-grid" id="choices-grid"></div>
+      <div class="ev-round-track" id="ev-round-track">
+        <div class="ev-round-pip active" data-r="1"></div>
+        <div class="ev-round-pip" data-r="2"></div>
+        <div class="ev-round-pip" data-r="3"></div>
+        <div class="ev-round-pip" data-r="4"></div>
+        <div class="ev-round-pip" data-r="5"></div>
+      </div>
+      <div>
+        <div class="ev-phase kampanja" id="phase-badge">Kampanja</div>
+      </div>
+      <h2 class="ev-title" id="event-title"></h2>
+      <p class="ev-desc" id="event-desc"></p>
+      <div class="choices-wrap" id="choices-grid"></div>
+      <button class="btn-next" id="btn-next" onclick="nextRound()">SLJEDEĆA FAZA &rarr;</button>
     </div>
-    <div class="map-panel">
-      <div class="mini-map-wrap" id="mini-map-wrap"></div>
-      <div class="polls-box">
-        <div class="polls-title">Ankete — nacionalno</div>
+
+    <!-- Desna strana: mapa + ankete -->
+    <div class="right-panel">
+      <div class="rp-section">
+        <div class="rp-label">Mapa opština</div>
+        <div class="mini-map-wrap" id="mini-map-wrap"></div>
+      </div>
+      <div class="rp-section">
+        <div class="rp-label">Ankete &mdash; nacionalno</div>
         <div id="polls-list"></div>
       </div>
-      <div class="reg-panel">
-        <div class="reg-title">
+      <div class="rp-section">
+        <div class="rp-label">
           Regionalna reputacija
-          <span class="reg-subtitle" id="reg-avg-badge">⌀ —</span>
+          <span id="reg-avg-badge"></span>
         </div>
         <div class="reg-event-notice" id="reg-event-notice"></div>
-        <div class="reg-list" id="reg-list"></div>
+        <div id="reg-list"></div>
       </div>
-      <div class="parlament-mini">
-        <div class="parl-title">Projekcija mandata</div>
-        <canvas id="parl-canvas" width="260" height="140"></canvas>
+      <div class="rp-section">
+        <div class="rp-label">Projekcija mandata</div>
+        <canvas id="parl-canvas" width="250" height="130"></canvas>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SCREEN 3: BROJANJE GLASOVA -->
+<!-- SCREEN 3 — GLASANJE -->
 <div id="s3" class="screen">
-  <div class="voting-anim">Glasanje u toku...</div>
-  <p class="voting-sub">Čeka se konačan ishod sa svih biračkih mjesta</p>
-  <div class="progress-wrap"><div class="progress-bar" id="vote-progress"></div></div>
+  <div class="vote-title">GLASANJE</div>
+  <div class="vote-sub">u toku &mdash; čeka se konačni ishod</div>
+  <div class="vote-progress-wrap">
+    <div class="vote-progress-bar" id="vote-progress"></div>
+  </div>
+  <div class="vote-dots">
+    <div class="vote-dot"></div>
+    <div class="vote-dot"></div>
+    <div class="vote-dot"></div>
+  </div>
 </div>
 
-<!-- SCREEN 4: REZULTATI IZBORA -->
+<!-- SCREEN 4 — REZULTATI -->
 <div id="s4" class="screen">
-  <div class="result-header">
-    <div class="screen-tag" id="result-tag">Rezultati izbora</div>
-    <h2 class="result-winner" id="result-winner"></h2>
+  <div style="padding:2.5rem 2rem 1.5rem;text-align:center">
+    <div class="result-eyebrow">Rezultati izbora 2027</div>
+    <div class="result-eyebrow" id="result-tag" style="margin-bottom:0.3rem"></div>
+    <h2 class="result-h" id="result-winner"></h2>
     <p class="result-sub" id="result-sub"></p>
   </div>
-  <div class="result-grid">
+  <div class="result-grid" style="padding:0 2rem 2rem">
     <div class="result-box">
-      <div class="rb-title">Raspodjela mandata</div>
-      <canvas id="result-parl" width="280" height="150" style="display:block;margin:0 auto 12px"></canvas>
-      <div class="mandati-list" id="mandati-list"></div>
+      <div class="rb-label">Raspodjela mandata</div>
+      <canvas id="result-parl" width="280" height="140" style="display:block;margin:0 auto 14px"></canvas>
+      <div id="mandati-list"></div>
     </div>
-    <div class="koal-box">
-      <div class="rb-title">Koalicioni kalkulator <span class="koal-mandati" id="koal-count">0 / 41</span></div>
-      <p style="font-size:12px;color:var(--dim);margin-bottom:6px">Klikni stranke da formirate koaliciju:</p>
+    <div class="result-box">
+      <div class="rb-label">
+        Koalicioni kalkulator
+        <span class="koal-mandati" id="koal-count">0 / 41</span>
+      </div>
+      <p style="font-size:12px;color:var(--dim);margin-bottom:8px;font-weight:300">Klikni stranke za koaliciju:</p>
       <div class="koal-chips" id="koal-chips"></div>
-      <div class="koal-status ne" id="koal-status">Izaberi stranke</div>
-      <button class="btn-confirm" id="btn-formkoal" style="margin-top:16px;display:block" onclick="formKoaliciju()">Formiraj vladu →</button>
+      <div class="koal-status ne" id="koal-status">Izaberi partnere</div>
+      <button class="btn-confirm" id="btn-formkoal" style="margin-top:14px" onclick="formKoaliciju()">FORMIRAJ VLADU &rarr;</button>
     </div>
   </div>
 </div>
 
-<!-- SCREEN 5: PREMIJER -->
+<!-- SCREEN 5 — PREMIJER -->
 <div id="s5" class="screen">
-  <div class="premier-anim" id="premier-emoji">🏛️</div>
-  <h2 class="premier-title" id="premier-title">Čestitamo, <em id="premier-party">Premijer!</em></h2>
-  <p class="premier-subtitle" id="premier-sub">Uspješno ste formirali vladu Crne Gore.</p>
+  <div class="premier-icon" id="premier-emoji">🏛️</div>
+  <h2 class="premier-h" id="premier-title">Čestitamo!</h2>
+  <p class="premier-sub" id="premier-sub">Uspješno ste formirali vladu.</p>
+  <p id="reg-premier-info" style="font-family:var(--mono);font-size:10px;color:var(--dimmer);margin-bottom:1rem"></p>
   <div class="stats-row">
-    <div class="stat-box"><div class="stat-num" id="fin-mandati">0</div><div class="stat-lbl">Mandata</div></div>
-    <div class="stat-box"><div class="stat-num" id="fin-koal">0</div><div class="stat-lbl">Koalicionih partnera</div></div>
-    <div class="stat-box"><div class="stat-num" id="fin-pop">0%</div><div class="stat-lbl">Podrška</div></div>
+    <div class="stat-box">
+      <div class="stat-num" id="fin-mandati" style="color:var(--gold)">0</div>
+      <div class="stat-lbl">Mandata</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="fin-koal">0</div>
+      <div class="stat-lbl">Partnera</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="fin-pop">0%</div>
+      <div class="stat-lbl">Podrška</div>
+    </div>
   </div>
-  <button class="btn-restart" onclick="restart()">↺ Igraj ponovo</button>
+  <button class="btn-restart" onclick="restart()">↺ IGRAJ PONOVO</button>
 </div>
 
-<!-- SCREEN 6: PORAZ -->
+<!-- SCREEN 6 — PORAZ -->
 <div id="s6" class="screen">
   <div class="poraz-icon">📉</div>
-  <h2 class="poraz-title" id="poraz-title">Niste uspjeli</h2>
+  <h2 class="poraz-h" id="poraz-title">NISTE USPJELI</h2>
   <p class="poraz-sub" id="poraz-sub">Nema dovoljno mandata za formiranje vlade.</p>
-  <button class="btn-restart" style="margin-top:1rem" onclick="restart()">↺ Pokušaj ponovo</button>
+  <button class="btn-restart" onclick="restart()">↺ POKUŠAJ PONOVO</button>
 </div>
 
+<!-- TOAST & TOOLTIP -->
 <div class="toast" id="toast"></div>
 <div class="map-tt" id="map-tt"></div>
 
@@ -398,7 +1252,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
   </div>
   <div class="op-section" id="op-rep-section">
     <div class="op-sec-title">Vaša reputacija u regionu</div>
-    <div class="op-rep-wrap">
+    <div style="margin-top:6px">
       <div class="op-rep-track">
         <div class="op-rep-fill" id="op-rep-fill"></div>
         <div class="op-rep-label" id="op-rep-label"></div>
@@ -408,16 +1262,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
   </div>
 </div>
 
-<!-- SCREEN S_MAPA: STRATEŠKA MAPA -->
+<!-- SCREEN S_MAPA — STRATEŠKA MAPA -->
 <div id="s_mapa" class="screen">
   <div class="sm-header">
-    <div>
-      <div class="sm-tag">Strateška analiza</div>
-      <div class="sm-title">Mapa Crne Gore</div>
+    <div class="sm-header-left">
+      <div class="sm-eyebrow">Strateška analiza</div>
+      <div class="sm-title">MAPA CRNE GORE</div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
       <div id="sm-round-tag" style="font-family:var(--mono);font-size:10px;color:var(--dimmer)"></div>
-      <button class="btn-back-game" onclick="backToGame()">← Nazad na igru</button>
+      <button class="btn-back-game" onclick="backToGame()">← NAZAD</button>
     </div>
   </div>
   <div class="sm-body">
@@ -447,86 +1301,36 @@ const STRANKE = [
   { naziv:"DEM", pun:"Demokratska Crna Gora", boja:"#e67e22", procenti:7, opis:"Umjerena reformska stranka sa jakim prisustvom na primorju. Pobijeda u Herceg-Novom.", prednosti:["Primorje","Reformski imidž","Liderstvo Bečića"], mane:["Unutarnji sukobi","Koalicioni problemi","Umjeren rast"] },
   { naziv:"URA", pun:"Ujedinjena reformska akcija", boja:"#7d3c98", procenti:4, opis:"Liberalna, progresivna stranka sa jakim urbanim glasačima i aktivistima.", prednosti:["Urbana baza","Mladi glasači","EU vrijednosti"], mane:["Mali kapacitet","Blizu cenzusa","Nema podrsku na sjeveru"] },
   { naziv:"ES", pun:"Evropski savez (SDP-SD-LP)", boja: "pink", procenti: 3, opis:"Koalicija socijaldemokratskih/ljevičarskih partija. Jaka na Cetinju, Bijelom Polju i u Baru.", prednosti:["EU integracije","Jaka u velikim gradovima"], mane:["Slab koalicioni kapacitet", "Slaba u ruralnim sredinama"] }, 
-  { naziv:"AA", pun:"Albanska alijansa", boja:"aqua",procenti:1.5,opis:"Manjinska albanska partija, tradicionalno jaka u Ulcinju", prednosti:["EU integracije"], mane:["Rivalstvo sa BS"] },
-  { naziv:"SNP-DEMOS", pun:"Socijalisticka narodna partija", boja:"navy",procenti:2.7,opis:"Zastupanje srpskih nacionalnih interesa, jaka u Beranama, Pluzinama i Andrijevici.", prednosti:["Lojalno biracko tijelo"], mane:["Nedostatak motivacije vise biraca"] },
 ];
 
 const LOKALNI = {
-   "Bijelo Polje": {
-        "BS": 4100, "HGI": 38, "SEP": 884, "SNP-DEMOS": 1200, "URA": 800, "DNP": 1000, "Preokret": 71, "PZP": 94, "AA": 9, "DPS": 5200, "PES": 1750, "ES": 1650, "DEM": 1965, "NSD": 5068, "AF": 202, 
-  },
-  "Bar": {
-       "BS": 1344, "HGI": 138, "SEP": 547, "SNP-DEMOS": 201, "URA": 568, "AA": 253, "Preokret": 196, "PZP": 121, "DNP": 722, "DPS": 5396, "PES": 639, "ES": 1994, "DEM": 1043, "NSD": 5002, "AF": 133, 
-  },
-  "Cetinje": {
-        "BS": 9, "HGI": 90, "DNP": 34, "SNP-DEMOS": 34, "URA": 130, "AA": 8, "Preokret": 124, "PZP": 26, "SEP": 600, "DPS": 2420, "PES": 315, "ES": 2527, "DEM": 330, "ZBCG": 145, "AF": 6, 
-  },
-  "Pljevlja": {
-        "BS": 1500, "HGI": 27, "DNP": 700, "SNP-DEMOS": 523, "AA": 4, "Preokret": 36, "PZP": 47, "URA": 225, "DPS": 1800, "PES": 825, "ES": 375, "DEM": 450, "NSD": 7550, "AF": 12, "SEP": 600,
-  },
-  "Tivat": {
-       "BS": 34, "HGI": 953, "SEP": 283, "SNP-DEMOS": 23, "DNP": 45, "AA": 3, "Preokret": 98, "PZP": 41, "URA": 36, "DPS": 1443, "PES": 931, "SDP": 638, "DEM": 454, "NSD": 725, "AF": 6, 
-  },
-  "Rožaje": {
-       "BS": 7302, "HGI": 13, "DNP": 13, "SNP-DEMOS": 86, "URA": 710, "AA": 10, "Preokret": 25, "SEP": 377, "DPS": 1269, "PES": 887, "ES": 813, "DEM": 187, "NSD": 70, "AF": 121, 
-  },
-  "Plav": {
-        "BS": 1043, "HGI": 6, "DNP": 245, "SNP-DEMOS": 120, "SEP": 332, "AA": 10, "Preokret": 14, "PZP": 4, "URA": 322, "DPS": 565, "PES": 415, "ES": 1121, "DEM": 63, "NSD": 178, "AF": 165, 
-  },
-  "Mojkovac": {
-       "BS": 6, "HGI": 8, "SEP": 620, "SNP-DEMOS": 210, "DNP": 230, "AA": 3, "Preokret": 29, "PZP": 51, "URA": 80, "DPS": 700, "PES": 650, "ES": 250, "DEM": 280, "NSD": 550, "AF": 4, 
-  },
-  "Kolašin": {
-       "BS": 7, "HGI": 11, "DNP": 132, "SNP-DEMOS": 353, "SEP": 227, "AA": 2, "Preokret": 41, "PZP": 14, "URA": 122, "DPS": 959, "PES": 484, "ES": 186, "DEM": 359, "NSD": 1018, "AF": 4, 
-  },
-  "Žabljak": {
-       "BS": 3, "HGI": 3, "DNP": 110, "SNP-DEMOS": 100, "SEP": 150, "AA": 1, "Preokret": 8, "PZP": 33, "URA": 70, "DPS": 440, "PES": 250, "ES": 110, "DEM": 100, "NSD": 530, "AF": 0, 
-  },
-  "Šavnik": {
-       "BS": 0, "HGI": 1, "DNP": 41, "SNP-DEMOS": 120, "URA": 15, "AA": 0, "Preokret": 5, "PZP": 3, "SEP": 16, "DPS": 787, "PES": 199, "ES": 25, "DEM": 57, "NSD": 291, "AF": 2, 
-  },
-  "Plužine": {
-        "BS": 1, "HGI": 2, "DNP": 62, "SNP-DEMOS": 546, "URA": 67, "AA": 0, "Preokret": 2, "PZP": 7, "SEP": 23, "DPS": 218, "PES": 278, "ES": 28, "DEM": 74, "NSD": 240, "AF": 1, 
-  },
-  "Andrijevica": {
-    "BS": 2, "HGI": 7, "SEP": 18, "SNP-DEMOS": 400, "DNP": 219, "AA": 0, "Preokret": 10, "PZP": 7, "URA": 13, "DPS": 977, "PES": 381, "ES": 30, "DEM": 157, "NSD": 452, "AF": 0, 
-  },
-  "Petnjica": {
-    "BS": 508, "HGI": 1, "SEP": 202, "SNP-DEMOS": 96, "DNP": 0, "AA": 0, "Preokret": 2, "PZP": 2, "URA": 71, "DPS": 919, "PES": 105, "ES": 335, "DEM": 90, "NSD": 1, "AF": 0, 
-  },
-  "Tuzi": {
-        "BS": 1094, "HGI": 10, "DNP": 9, "SNP-DEMOS": 56, "URA": 128, "AA": 278, "Preokret": 73, "PZP": 5, "SEP": 400, "DPS": 1076, "PES": 269, "ES": 289, "DEM": 259, "NSD": 34, "AF": 3166, 
-  },
-  "Danilovgrad": {
-        "BS": 5, "HGI": 19, "DNP": 196, "SNP-DEMOS": 214, "SEP": 112, "AA": 8, "Preokret": 219, "PZP": 64, "URA": 229, "DPS": 2323, "PES": 1340, "ES": 289, "DEM": 408, "NSD": 2310, "AF": 10, 
-  },
-  "Ulcinj":{
-      "AA": 5500, "DPS": 3300, "SEP": 400, "PES": 1300,"BS": 200, "ES": 900, "AF": 300, "URA": 1500, "BS": 289, "DEM": 330, "NSD": 21, "DNP": 17,
-  },
-   "Podgorica": {
-      "BS": 955, "HGI": 294, "DNP": 5032, "SNP-DEMOS": 1258, "AA": 95, "Preokret": 2704, "URA": 2561, "SEP": 2504, "DPS": 25051, "PES": 10594, "ES": 5157, "DEM": 7068, "NSD": 10064, "AF": 682, "Jakov": 5476, "PZP" : 500, "Kadic": 2235,
-  },
-  "Nikšić": {
-      "BS": 54, "HGI": 49, "SNP-DEMOS": 1916, "AA": 15, "Preokret": 370, "PZP": 153, "URA": 783, "DPS": 15198, "PES": 2188, "ES": 2103, "DEM": 2738, "NSD": 13413, "AF": 240, "DNP": 3490, "SEP": 386,
-  },
-  "Herceg-Novi": {
-       "BS": 23, "HGI": 133, "URA": 618, "SNP-DEMOS": 267, "SEP": 174, "AA": 11, "Preokret": 135, "PZP": 85, "DNP": 300, "DPS": 1972, "PES": 2720, "ES": 438, "DEM": 2267, "NSD": 4061, "AF": 71, "Idemo" : 595, 
-  },
-  "Kotor": {
-      "BS": 14, "HGI": 452, "SEP": 312, "SNP-DEMOS": 167, "DNP": 403, "AA": 7, "Preokret": 125, "PZP": 68, "URA": 167, "DPS": 3334, "PES": 1000, "ES": 896, "DEM": 1783, "NSD": 1500, "AF": 14,
-  },
-  "Budva": {
-      "SEP": 130, "BS": 30, "HGI": 55, "BNG": 2907, "SNP-DEMOS": 396, "DNP": 763, "AA": 5, "Preokret": 154, "PZP": 136, "URA": 412, "DPS": 2523, "PES": 400, "ES": 678, "DEM": 771, "NSD": 1820, "AF": 3, "PZG" : 874,
-  },
-  "Gusinje": {
-     "BS": 366, "HGI": 1, "SEP": 45, "SNP-DEMOS": 23, "DNP": 2, "AA": 157, "Preokret": 1, "PZP": 1, "URA": 15, "DPS": 435, "PES": 12, "ES": 551, "DEM": 80, "NSD": 3, "AF": 494, 
-  },
-  "Berane": {
-        "BS": 895, "HGI": 24, "DNP": 388, "SNP-DEMOS": 2727, "URA": 40, "AA": 11, "Preokret": 44, "PZP": 156, "SEP": 238, "DPS": 2854, "PES": 1318, "ES": 250, "DEM": 1203, "NSD": 3300, "AF": 43, 
-  },
+  "Podgorica":{"DPS":25051,"NSD":10064,"PES":10594,"BS":955,"DEM":7068,"URA":2561,"SNP-DEMOS":1258,"ES":5157,"DNP":5032,"AF":682},
+  "Nikšić":{"DPS":15198,"NSD":9413,"PES":5188,"BS":54,"DEM":3038,"URA":783,"SNP-DEMOS":1916,"ES":2103,"DNP":3490},
+  "Herceg-Novi":{"DPS":1972,"NSD":1361,"PES":3320,"BS":23,"DEM":4067,"URA":618,"SNP-DEMOS":267,"ES":438,"DNP":300},
+  "Kotor":{"DPS":3334,"NSD":1500,"PES":1000,"BS":14,"DEM":1783,"URA":167,"SNP-DEMOS":167,"ES":896,"DNP":403},
+  "Budva":{"DPS":2523,"NSD":1820,"PES":400,"BS":30,"DEM":771,"URA":412,"SNP-DEMOS":396,"ES":678,"DNP":763},
+  "Gusinje":{"DPS":435,"NSD":3,"PES":12,"BS":366,"DEM":80,"URA":15,"ES":551,"AF":494,"AA":157},
+  "Bar":{"DPS":6396,"NSD":2202,"PES":4139,"BS":1344,"DEM":2243,"URA":800,"SNP-DEMOS":201},
+  "Berane":{"DPS":2065,"NSD":1972,"PES":3729,"BS":425,"DEM":1345,"URA":500,"SNP-DEMOS":2057},
+  "Bijelo Polje":{"DPS":4207,"NSD":3068,"PES":5399,"BS":4795,"DEM":1965,"URA":600,"SNP-DEMOS":757},
+  "Cetinje":{"DPS":2520,"NSD":145,"PES":1015,"BS":9,"DEM":830,"URA":500,"SNP-DEMOS":34},
+  "Pljevlja":{"DPS":2345,"NSD":4802,"PES":4434,"BS":1245,"DEM":1724,"URA":300,"SNP-DEMOS":553},
+  "Tivat":{"DPS":1543,"NSD":925,"PES":1531,"BS":34,"DEM":504,"URA":300,"SNP-DEMOS":23},
+  "Rožaje":{"DPS":1169,"NSD":100,"PES":887,"BS":7502,"DEM":1077,"URA":200,"SNP-DEMOS":86},
+  "Plav":{"DPS":1265,"NSD":478,"PES":415,"BS":1343,"DEM":393,"URA":100,"SNP-DEMOS":120},
+  "Mojkovac":{"DPS":1167,"NSD":793,"PES":1112,"BS":6,"DEM":539,"URA":100,"SNP-DEMOS":297},
+  "Kolašin":{"DPS":759,"NSD":618,"PES":1084,"BS":7,"DEM":759,"URA":100,"SNP-DEMOS":353},
+  "Žabljak":{"DPS":535,"NSD":338,"PES":579,"BS":3,"DEM":280,"URA":50,"SNP-DEMOS":115},
+  "Šavnik":{"DPS":630,"NSD":291,"PES":230,"BS":0,"DEM":57,"URA":20,"SNP-DEMOS":120},
+  "Plužine":{"DPS":138,"NSD":400,"PES":348,"BS":1,"DEM":174,"URA":20,"SNP-DEMOS":546},
+  "Andrijevica":{"DPS":594,"NSD":452,"PES":558,"BS":2,"DEM":157,"URA":20,"SNP-DEMOS":525},
+  "Petnjica":{"DPS":1019,"NSD":1,"PES":105,"BS":808,"DEM":190,"URA":50,"SNP-DEMOS":96},
+  "Tuzi":{"DPS":1176,"NSD":34,"PES":369,"BS":1042,"DEM":359,"URA":89,"AF":2966},
+  "Danilovgrad":{"DPS":2023,"NSD":1110,"PES":2840,"BS":5,"DEM":1008,"URA":300,"SNP-DEMOS":214},
+  "Ulcinj":{"DPS":800,"NSD":50,"PES":400,"BS":287,"DEM":350,"AA":1500,"AF":800},
 };
 
-const SVG_MAPA = `<svg xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="18.438402 43.565072 20.376798 41.848772" xmlns:mapsvg="http://mapsvg.com" width="612.50226" height="735.39343">
+const SVG_MAPA = `<svg xmlns="http://www.w3.org/2000/svg" mapsvg:geoViewBox="18.438402 43.565072 20.376798 41.848772" xmlns:mapsvg="http://mapsvg.com" viewBox="0 0 612.50226 735.39343">
   <path
      d="m 463.88215,377.57756 -0.47,0.23 0,0 -11.27,4.34 -7.37,7.37 -6.51,7.37 -2.6,6.94 -1.3,8.24 -9.97,2.6 -3.5,2.41 0,0 -1.74,-1.79 -1.55,-3.85 -1.8,-0.94 -0.48,-0.64 0.07,-1.92 -0.89,-2.23 -0.12,-1.37 0.25,-0.68 1.89,-2.05 0.16,-0.77 -0.28,-0.86 -1.74,-1.2 -2.49,-0.34 -0.38,-0.3 -1.36,-2.09 -1.64,-4.41 -1.55,-1.28 -1.36,-0.09 -0.82,0.26 -3.06,1.97 -1.9,0.25 -0.31,0.69 -1.39,1.45 0.06,2.44 -3.54,3.34 -1.95,3.03 -0.6,0.34 -0.98,0.13 -2.53,-1.02 -1.1,0.08 -0.48,0.26 -2.11,2.75 0,0 -3.88,-6.7 -4.34,-12.58 0,0 -2.1,-2.91 0,0 5.14,-2.12 3.03,-4.33 0,-6.51 4.34,-2.17 1.3,-6.93 -3.47,-2.6 -0.87,-9.54 2.6,-5.21 0.44,-5.2 -6.51,-4.77 -4.77,-5.64 -1.3,-6.5 5.64,-6.07 0,0 6.59,-1.94 0,0 5.72,3.02 7.38,4.77 20.81,12.14 7.81,3.9 7.8,2.61 9.11,0.86 3.9,-3.47 4.33,0.44 -0.43,6.07 -2.6,3.9 -5.2,4.34 0,5.2 3.9,5.2 3.03,6.07 5.64,4.34 z"
      title="Andrijevica"
@@ -697,13 +1501,13 @@ function buildPartyGrid() {
     const c = document.createElement('div');
     c.className = 'party-card';
     c.innerHTML = `
-      <div class="party-card-accent" style="background:${s.boja}"></div>
-      <div class="party-name" style="color:${s.boja}">${s.naziv}</div>
+      <div class="party-accent" style="background:${s.boja}"></div>
+      <div class="party-tag" style="color:${s.boja}">${s.naziv}</div>
       <div class="party-full">${s.pun}</div>
       <div class="party-desc">${s.opis}</div>
-      <div class="party-stats">
-        ${s.prednosti.map(p=>`<span class="pstat good">+ ${p}</span>`).join('')}
-        ${s.mane.map(m=>`<span class="pstat warn">− ${m}</span>`).join('')}
+      <div class="party-pills">
+        ${s.prednosti.map(p=>`<span class="party-pill pos">+ ${p}</span>`).join('')}
+        ${s.mane.map(m=>`<span class="party-pill neg">− ${m}</span>`).join('')}
       </div>
       <div style="margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--dimmer)">Startna podrška: <span style="color:${s.boja};font-weight:500">${s.procenti}%</span></div>
     `;
@@ -748,6 +1552,11 @@ function updateHUD() {
 }
 
 function nextRound() {
+  // Update round progress pips
+  document.querySelectorAll('.ev-round-pip').forEach((pip, i) => {
+    const r = parseInt(pip.dataset.r);
+    pip.className = 'ev-round-pip' + (r < G.runda ? ' done' : r === G.runda ? ' active' : '');
+  });
   G.runda++;
   if (G.runda > 5) { goToElections(); return; }
   document.getElementById('gh-round').textContent = 'Runda ' + G.runda + ' / 5';
@@ -798,14 +1607,18 @@ function applyChoice(ch) {
   // Adjust mandati for our party
   G.mandati[G.stranka.naziv] = G.popularnost;
   
-  // Primijeni regionalni efekat — idx izbora je pozicija u nizu
+  // Primijeni regionalni efekat
   const choiceIdx = EVENTS[G.runda-1]?.choices.indexOf(ch) ?? 0;
   applyRegionalniEfekat(G.runda - 1, choiceIdx);
+
+  // AI dinamički glasači — snimi izbor i pokreni AI
+  pendingAiRound = ch;
+  generateAiVoterShift(G.runda - 1);
   
   updateHUD();
   
   const nb = document.getElementById('btn-next');
-  if (nb) nb.style.display = 'block';
+  if (nb) { nb.style.display = 'flex'; }
   
   showToast(ch.p >= 0 ? '+' + ch.p + '% popularnosti' : ch.p + '% popularnosti', ch.p >= 0 ? 'pos' : 'neg');
 }
@@ -821,11 +1634,7 @@ function initMap() {
     const naziv = path.getAttribute('title');
     const pobjednik = getPobjednikOpstine(naziv);
     const region = getRegionZaOpstinu(naziv);
-    if (pobjednik) {
-      path.style.fill = getBojaStranke(pobjednik);
-    } else {
-      path.style.fill = '#2a2d3a';
-    }
+    colorPath(path, naziv);
     path.addEventListener('mouseenter', e => {
       const pob = getPobjednikOpstine(naziv);
       const reg = getRegionZaOpstinu(naziv);
@@ -896,7 +1705,7 @@ function updatePolls() {
     row.innerHTML = `
       <span class="poll-name" style="color:${s.boja}">${s.naziv}</span>
       <div class="poll-track"><div class="poll-bar" style="background:${s.boja};width:${pct}%">${pct >= 8 ? pct+'%' : ''}</div></div>
-      <span class="poll-num">${pct}%</span>
+      <span class="poll-pct">${pct}%</span>
     `;
     div.appendChild(row);
   });
@@ -926,6 +1735,8 @@ function getMandatiData() {
     return { ...s, mandati: bazniMandati };
   }).sort((a,b)=>b.mandati-a.mandati);
 }
+
+function updateParliamentCanvas() { updateParlCanvas('parl-canvas'); }
 
 function updateParlCanvas(id) {
   const canvas = document.getElementById(id);
@@ -1111,6 +1922,13 @@ function restart() {
   selectedParty = null;
   selectedChoice = null;
   G = { stranka:null, popularnost:0, budzet:500, povjerenje:50, runda:0, mandati:{}, finalMandati:{}, regionRep:{} };
+  AI_GENERISANO = false;
+  AI_LOADING = false;
+  pendingAiRound = null;
+  // Reset glasače na originalne vrijednosti
+  Object.keys(LOKALNI_BASE).forEach(o => {
+    LOKALNI[o] = JSON.parse(JSON.stringify(LOKALNI_BASE[o]));
+  });
   buildPartyGrid();
   showScreen(1);
 }
@@ -1478,29 +2296,51 @@ function updateRegionalPanel() {
   }
 }
 
+function colorPath(path, naziv) {
+  const pobjednik = getPobjednikOpstine(naziv);
+  const region = getRegionZaOpstinu(naziv);
+  if (pobjednik === G.stranka?.naziv && region && G.regionRep) {
+    const rep = G.regionRep[region] || 50;
+    const alpha = 0.4 + (rep / 100) * 0.6;
+    path.style.fill = G.stranka.boja;
+    path.style.opacity = alpha.toFixed(2);
+  } else if (pobjednik) {
+    path.style.fill = getBojaStranke(pobjednik);
+    path.style.opacity = '0.85';
+  } else {
+    path.style.fill = '#2a2d3a';
+    path.style.opacity = '1';
+  }
+}
+
 function updateMapColors() {
-  // Osvježi boje mape uzimajući u obzir regionalnu reputaciju
-  const wrap = document.getElementById('mini-map-wrap');
-  if (!wrap) return;
-  wrap.querySelectorAll('path').forEach(path => {
-    const naziv = path.getAttribute('title');
-    const pobjednik = getPobjednikOpstine(naziv);
-    const region = getRegionZaOpstinu(naziv);
-    
-    if (pobjednik === G.stranka?.naziv && region) {
-      // Naša opština — intenzitet boje zavisi od reputacije
-      const rep = G.regionRep[region] || 50;
-      const alpha = 0.4 + (rep/100) * 0.6;
-      path.style.fill = G.stranka.boja;
-      path.style.opacity = alpha.toFixed(2);
-    } else if (pobjednik) {
-      path.style.fill = getBojaStranke(pobjednik);
-      path.style.opacity = '0.7';
-    } else {
-      path.style.fill = '#2a2d3a';
-      path.style.opacity = '1';
+  // Ažuriraj mini mapu u igri
+  const miniWrap = document.getElementById('mini-map-wrap');
+  if (miniWrap) {
+    miniWrap.querySelectorAll('path').forEach(path => {
+      colorPath(path, path.getAttribute('title'));
+    });
+  }
+  // Ažuriraj i stratešku mapu ako je otvorena
+  const smWrap = document.getElementById('sm-map-wrap');
+  if (smWrap && smWrap.querySelector('path')) {
+    smWrap.querySelectorAll('path').forEach(path => {
+      colorPath(path, path.getAttribute('title'));
+    });
+    // Ažuriraj i listu opština
+    const olist = document.getElementById('sm-olist');
+    if (olist && olist.children.length > 0) {
+      olist.querySelectorAll('.sm-orow').forEach(row => {
+        const naziv = row.dataset.opstina;
+        const pobjednik = getPobjednikOpstine(naziv);
+        const s = pobjednik ? getBojaStranke(pobjednik) : 'var(--dim)';
+        const winnerEl = row.querySelector('.sm-owinner');
+        if (winnerEl) { winnerEl.style.color = s; winnerEl.textContent = pobjednik || '?'; }
+        const isPlayer = pobjednik === G.stranka?.naziv;
+        row.className = 'sm-orow ' + (isPlayer ? 'player-win' : 'player-lose');
+      });
     }
-  });
+  }
 }
 
 function getRegionZaOpstinu(opstina) {
@@ -1517,6 +2357,151 @@ function showToast(msg, type='info') {
   t.textContent = msg;
   t.className = 'toast show ' + type;
   toastTimer = setTimeout(() => { t.className = 'toast'; }, 2500);
+}
+
+// ══════════════════════════════════════════
+// AI DINAMIČKI GLASAČI
+// ══════════════════════════════════════════
+
+// Čuvamo originalne podatke kao bazne vrijednosti
+const LOKALNI_BASE = JSON.parse(JSON.stringify(LOKALNI));
+
+// Volatilnost po opštini (0=stabilna, 1=nestabilna)
+const OPSTINA_VOLATILNOST = {
+  "Podgorica": 0.4, "Nikšić": 0.35, "Herceg-Novi": 0.5,
+  "Kotor": 0.45, "Budva": 0.6, "Bar": 0.4, "Ulcinj": 0.55,
+  "Berane": 0.4, "Bijelo Polje": 0.45, "Cetinje": 0.3,
+  "Pljevlja": 0.4, "Rožaje": 0.25, "Plav": 0.3, "Tivat": 0.5,
+  "Mojkovac": 0.35, "Kolašin": 0.35, "Žabljak": 0.45,
+  "Šavnik": 0.5, "Plužine": 0.55, "Andrijevica": 0.45,
+  "Danilovgrad": 0.4, "Gusinje": 0.2, "Petnjica": 0.2, "Tuzi": 0.3,
+};
+
+// Trendovi iz prethodnih rundi (raste/pada po stranci)
+let TRENDOVI = {};
+let AI_GENERISANO = false;
+let AI_LOADING = false;
+let pendingAiRound = null;
+
+async function generateAiVoterShift(roundIdx) {
+  if (AI_LOADING) return;
+  AI_LOADING = true;
+
+  // Pokaži indikator
+  const notice = document.getElementById('reg-event-notice');
+  if (notice) {
+    notice.textContent = '🤖 AI analizira biračko tijelo...';
+    notice.classList.add('show');
+  }
+
+  const event = EVENTS[roundIdx];
+  const choice = pendingAiRound;
+
+  const prompt = `Ti si politički analitičar za Crnu Goru. Na osnovu ove situacije u kampanji, generiši REALISTIČNE promjene u broju glasača po opštinama.
+
+Situacija: "${event?.naslov || 'Kampanja'}" — "${event?.opis || ''}"
+Odabrana akcija: "${choice?.tekst || ''}"
+Efekat na popularnost: ${choice?.p > 0 ? '+' : ''}${choice?.p || 0}%
+Stranka koja igra: ${G.stranka?.naziv} (${G.stranka?.pun})
+Runda: ${roundIdx + 1} od 5
+
+Generiši JSON objekat sa promjenama glasova za svaku opštinu i stranku.
+Format (samo JSON, bez teksta):
+{
+  "Podgorica": {"DPS": 150, "PES": -80, "NSD": 30},
+  "Nikšić": {"DPS": -50, "NSD": 120},
+  "Bar": {"DPS": 200, "PES": -100}
+}
+
+PRAVILA:
+- Uključi samo opštine gdje ima značajnih promjena (8-15 opština)
+- Vrijednosti su DELTA (promjena), ne apsolutni brojevi
+- Raspon: -300 do +300 glasova po stranci po opštini
+- Uzmi u obzir regionalnu dinamiku (sjever/centar/jug)
+- Stranka koja ima pozitivnu akciju dobija glasove, ostale gube
+- Bošnjačke opštine (Rožaje, Plav, Bijelo Polje) su stabilnije za BS
+- Primorje (Budva, Herceg-Novi, Kotor) je volatilnije
+- Samo JSON, bez ikakvih objašnjenja`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    const text = data.content?.map(b => b.text || '').join('') || '';
+
+    // Parse JSON from response
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      const shifts = JSON.parse(jsonMatch[0]);
+      applyAiVoterShifts(shifts, roundIdx);
+      AI_GENERISANO = true;
+      if (notice) {
+        notice.textContent = '🤖 Biračko tijelo ažurirano na osnovu kampanje';
+        setTimeout(() => notice.classList.remove('show'), 3000);
+      }
+    }
+  } catch (e) {
+    console.warn('AI voter shift failed, using procedural:', e);
+    applyProceduralVoterShift(roundIdx, choice);
+    if (notice) notice.classList.remove('show');
+  }
+
+  AI_LOADING = false;
+}
+
+function applyAiVoterShifts(shifts, roundIdx) {
+  Object.entries(shifts).forEach(([opstina, partyDeltas]) => {
+    if (!LOKALNI[opstina]) return;
+    const vol = OPSTINA_VOLATILNOST[opstina] || 0.4;
+    Object.entries(partyDeltas).forEach(([stranka, delta]) => {
+      if (LOKALNI[opstina][stranka] !== undefined) {
+        const scaled = Math.round(delta * vol);
+        LOKALNI[opstina][stranka] = Math.max(10, LOKALNI[opstina][stranka] + scaled);
+      }
+    });
+  });
+
+  // Ažuriraj mapu i ankete
+  updateMapColors();
+  updatePolls();
+  updateParliamentCanvas();
+}
+
+// Proceduralni fallback (bez AI)
+function applyProceduralVoterShift(roundIdx, choice) {
+  const playerStranka = G.stranka?.naziv;
+  const boost = choice?.p || 0;
+
+  Object.keys(LOKALNI).forEach(opstina => {
+    const vol = OPSTINA_VOLATILNOST[opstina] || 0.4;
+    const region = getRegionZaOpstinu(opstina);
+    const repBonus = (G.regionRep?.[region] || 50) / 100;
+
+    Object.keys(LOKALNI[opstina]).forEach(stranka => {
+      const base = LOKALNI_BASE[opstina]?.[stranka] || 0;
+      // Noise + trend
+      const noise = (Math.random() - 0.5) * base * 0.06 * vol;
+      let delta = Math.round(noise);
+
+      if (stranka === playerStranka) {
+        delta += Math.round(base * (boost / 100) * 0.15 * repBonus);
+      }
+
+      LOKALNI[opstina][stranka] = Math.max(5, LOKALNI[opstina][stranka] + delta);
+    });
+  });
+
+  updateMapColors();
+  updatePolls();
+  updateParliamentCanvas();
 }
 
 // ══════════════════════════════════════════
