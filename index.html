@@ -763,57 +763,183 @@ body::before {
 #parl-canvas { border-radius: 6px; display: block; margin: 0 auto; }
 
 /* ════════════════════════════════════════
-   SCREEN 3 — GLASANJE
+   SCREEN 3 — IZBORNA NOĆ
 ════════════════════════════════════════ */
 #s3 {
-  align-items: center; justify-content: center;
-  text-align: center; padding: 2rem;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,168,67,0.05) 0%, transparent 70%);
-}
-.vote-title {
-  font-family: var(--display);
-  font-size: clamp(2.5rem, 8vw, 6rem);
-  letter-spacing: 0.06em;
-  background: linear-gradient(135deg, var(--gold2), var(--gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  margin-bottom: 0.75rem;
-  animation: pulse-text 1.5s ease-in-out infinite;
-}
-@keyframes pulse-text { 0%,100%{opacity:1} 50%{opacity:0.65} }
-.vote-sub {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--dim);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 3rem;
-}
-.vote-progress-wrap {
-  width: min(400px, 90vw);
-  height: 2px;
-  background: var(--bg3);
-  border-radius: 2px;
+  display: none;
+  background: var(--bg);
   overflow: hidden;
-  margin: 0 auto;
 }
-.vote-progress-bar {
+#s3.active {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+@media(max-width:900px) {
+  #s3.active { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; }
+}
+
+/* Header */
+.en-header {
+  grid-column: 1 / -1;
+  background: rgba(8,10,15,0.98);
+  border-bottom: 1px solid var(--border2);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  backdrop-filter: blur(12px);
+}
+.en-title-wrap { display: flex; flex-direction: column; gap: 2px; }
+.en-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+.en-title { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.06em; }
+.en-progress-wrap {
+  flex: 1; max-width: 320px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.en-progress-label {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 9px; color: var(--dim);
+}
+.en-progress-bar-outer {
+  height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden;
+}
+.en-progress-bar-inner {
   height: 100%;
   background: linear-gradient(90deg, var(--gold), var(--gold2));
-  width: 0;
-  transition: width 0.1s linear;
-  box-shadow: 0 0 8px var(--gold);
+  width: 0%; transition: width 0.4s ease;
+  box-shadow: 0 0 8px rgba(212,168,67,0.5);
 }
-.vote-dots {
-  display: flex; gap: 8px; justify-content: center; margin-top: 2rem;
+.en-izbrojanost {
+  font-family: var(--display); font-size: 2rem; letter-spacing: 0.06em;
+  color: var(--gold);
+  white-space: nowrap;
 }
-.vote-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--bg4);
-  animation: dot-pulse 1.4s ease-in-out infinite;
+
+/* Lijeva strana — mapa */
+.en-map-col {
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  overflow: hidden;
+  background: var(--bg2);
 }
-.vote-dot:nth-child(2) { animation-delay: 0.2s; }
-.vote-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes dot-pulse { 0%,80%,100%{background:var(--bg4)} 40%{background:var(--gold)} }
+.en-map-wrap {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 0;
+}
+.en-map-wrap svg { width: 100%; height: auto; max-height: calc(100vh - 180px); display: block; }
+.en-map-wrap path { stroke: var(--bg2); stroke-width: 2; transition: fill 0.5s ease, opacity 0.5s ease; }
+.en-map-wrap path.pending { fill: #1c2230 !important; opacity: 0.5 !important; }
+.en-map-wrap path.processing {
+  animation: pathPulse 0.7s ease-in-out infinite;
+}
+@keyframes pathPulse {
+  0%,100% { opacity: 0.3; }
+  50%      { opacity: 0.9; filter: brightness(2); }
+}
+.en-flash-ticker {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-height: 52px;
+  display: flex; flex-direction: column; gap: 4px;
+  overflow: hidden;
+}
+.en-flash-item {
+  font-family: var(--mono); font-size: 10px; color: var(--text);
+  animation: flashIn 0.35s ease both;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.en-flash-item.gold { color: var(--gold); }
+.en-flash-item.red  { color: var(--red); }
+.en-flash-item.green{ color: var(--green); }
+@keyframes flashIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Desna strana — live tabela */
+.en-right-col {
+  display: flex; flex-direction: column; gap: 0;
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+}
+.en-section-label {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--dimmer); padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.en-party-table { display: flex; flex-direction: column; }
+.en-party-row {
+  display: grid;
+  grid-template-columns: 44px 1fr 52px 40px;
+  align-items: center; gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.en-party-row.highlight { background: rgba(212,168,67,0.06); }
+.en-pr-tag { font-family: var(--display); font-size: 13px; letter-spacing: 0.04em; }
+.en-pr-bar-wrap { display: flex; flex-direction: column; gap: 3px; }
+.en-pr-pct { font-family: var(--mono); font-size: 9px; color: var(--dimmer); }
+.en-pr-bar-track { background: var(--bg4); border-radius: 2px; height: 10px; overflow: hidden; }
+.en-pr-bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+.en-pr-mandati {
+  font-family: var(--display); font-size: 1.1rem;
+  letter-spacing: 0.04em; text-align: right;
+}
+.en-pr-trend {
+  font-family: var(--mono); font-size: 9px;
+  text-align: right;
+}
+.en-cenzus-line {
+  padding: 8px 16px;
+  font-family: var(--mono); font-size: 9px; color: var(--dimmer);
+  background: rgba(232,69,90,0.04);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 6px;
+}
+.en-cenzus-line::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--red); flex-shrink:0; }
+.en-parl-mini { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.en-opstine-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+.en-log-row {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 8px; align-items: center;
+  padding: 7px 16px;
+  border-bottom: 1px solid var(--border);
+  animation: flashIn 0.3s ease both;
+}
+.en-log-opstina { font-family: var(--display); font-size: 11px; letter-spacing: 0.04em; }
+.en-log-winner { font-family: var(--mono); font-size: 9px; color: var(--dim); }
+.en-log-pct { font-family: var(--mono); font-size: 10px; text-align: right; }
+
+/* Dugme za rezultate */
+.btn-final-results {
+  display: none;
+  margin: 16px;
+  background: var(--gold);
+  color: #080a0f;
+  font-family: var(--display); font-size: 1rem; letter-spacing: 0.12em;
+  padding: 14px; border: none; border-radius: 8px;
+  cursor: pointer; width: calc(100% - 32px);
+  transition: transform 0.15s, box-shadow 0.2s;
+  animation: screenIn 0.4s ease both;
+}
+.btn-final-results:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,168,67,0.35); }
+
+/* Legacy — zadržati za ostale screene koji ih koriste */
+.vote-progress-wrap { display:none; }
+.vote-dots { display:none; }
 
 /* ════════════════════════════════════════
    SCREEN 4 — REZULTATI
@@ -1550,18 +1676,51 @@ body::before {
   </div>
 </div>
 
-<!-- SCREEN 3 — GLASANJE -->
+<!-- SCREEN 3 — IZBORNA NOĆ -->
 <div id="s3" class="screen">
-  <div class="vote-title">GLASANJE</div>
-  <div class="vote-sub">u toku &mdash; čeka se konačni ishod</div>
-  <div class="vote-progress-wrap">
-    <div class="vote-progress-bar" id="vote-progress"></div>
+
+  <!-- Header -->
+  <div class="en-header">
+    <div class="en-title-wrap">
+      <div class="en-eyebrow">Crna Gora — Izbori 2027</div>
+      <div class="en-title">IZBORNA NOĆ</div>
+    </div>
+    <div class="en-progress-wrap">
+      <div class="en-progress-label">
+        <span>Obrađeno glasačkih mjesta</span>
+        <span id="en-pct-label">0%</span>
+      </div>
+      <div class="en-progress-bar-outer">
+        <div class="en-progress-bar-inner" id="en-progress-bar"></div>
+      </div>
+    </div>
+    <div class="en-izbrojanost" id="en-izbrojanost">0%</div>
   </div>
-  <div class="vote-dots">
-    <div class="vote-dot"></div>
-    <div class="vote-dot"></div>
-    <div class="vote-dot"></div>
+
+  <!-- Lijeva strana: mapa + ticker -->
+  <div class="en-map-col">
+    <div class="en-map-wrap" id="en-map-wrap"></div>
+    <div class="en-flash-ticker" id="en-ticker">
+      <div class="en-flash-item gold">⚡ Počinje obrada glasačkih kutija...</div>
+    </div>
   </div>
+
+  <!-- Desna strana: live tabela -->
+  <div class="en-right-col">
+    <div class="en-section-label">Live — Mandati &amp; Procenti</div>
+    <div class="en-party-table" id="en-party-table"></div>
+    <div class="en-cenzus-line">Cenzus 3% — stranke ispod ne ulaze u parlament</div>
+    <div class="en-parl-mini">
+      <div class="en-section-label" style="padding:0 0 8px">Projekcija parlamenta</div>
+      <canvas id="en-parl-canvas" width="356" height="160"></canvas>
+    </div>
+    <div class="en-section-label">Opštine — obrađeno</div>
+    <div class="en-opstine-log" id="en-opstine-log"></div>
+    <button class="btn-final-results" id="btn-final-results" onclick="showResults()">
+      POGLEDAJ KONAČNE REZULTATE →
+    </button>
+  </div>
+
 </div>
 
 <!-- SCREEN 4 — REZULTATI -->
@@ -1852,8 +2011,8 @@ const EVENTS = [
     faza:"kampanja", title:"Kickoff skup u Podgorici",
     desc:"Hiljade pristalica čeka vaš nastup na Trgu nezavisnosti. Kakvu poruku šaljete?",
     choices:[
-      {t:"Obećaj sniženje poreza i veće plate",e:"+pop +80%, -povjerenje +80, -budzet 50k",p:3,pov:50,b:-50},
-      {t:"Fokusiraj se na EU put i reformu pravosuđa",e:"+povjerenje +80, +pop +80%",p:80,pov:80,b:0},
+      {t:"Obećaj sniženje poreza i veće plate",e:"+pop +3%, -povjerenje -5, -budzet 50k",p:3,pov:-5,b:-50},
+      {t:"Fokusiraj se na EU put i reformu pravosuđa",e:"+povjerenje +8, +pop +1%",p:1,pov:8,b:0},
       {t:"Napadni opoziciju i vladajuće",e:"+pop +5%, -povjerenje -10",p:5,pov:-10,b:0},
     ]
   },
@@ -1861,8 +2020,8 @@ const EVENTS = [
     faza:"debata", title:"TV debata — direktan okršaj",
     desc:"Gledate se u oči. Voditelj postavlja pitanje o korupciji. Šta odgovarate?",
     choices:[
-      {t:"Otkrij konkretne slučajeve i dokumenta",e:"+povjerenje +12, +pop +20%, rizik skandala",p:20,pov:12,b:0},
-      {t:"Govori o sistemskim rješenjima, ne napadaj",e:"+povjerenje +60, +pop +30%",p:60,pov:30,b:0},
+      {t:"Otkrij konkretne slučajeve i dokumenta",e:"+povjerenje +12, +pop +2%, rizik skandala",p:2,pov:12,b:0},
+      {t:"Govori o sistemskim rješenjima, ne napadaj",e:"+povjerenje +6, +pop +1%",p:1,pov:6,b:0},
       {t:"Izbjegni pitanje, skreni na ekonomiju",e:"-povjerenje -8, -pop -1%",p:-1,pov:-8,b:0},
     ]
   },
@@ -2673,58 +2832,456 @@ function updateParlCanvas(id) {
 // ══════════════════════════════════════════
 // IZBORI
 // ══════════════════════════════════════════
+// ══════════════════════════════════════════
+// IZBORNA NOĆ — processElectionNight
+// ══════════════════════════════════════════
+
+let enState = {
+  opstine: [],        // redoslijed obrade
+  obradjeno: [],      // nazivi završenih
+  partial: {},        // djelimični glasovi dok teče obrada
+  interval: null,
+  done: false,
+};
+
 function goToElections() {
   showScreen(3);
-  let prog = 0;
-  const bar = document.getElementById('vote-progress');
-  const iv = setInterval(() => {
-    prog += Math.random() * 3 + 1;
-    if (prog >= 100) { prog = 100; clearInterval(iv); setTimeout(showResults, 600); }
-    bar.style.width = prog + '%';
-  }, 80);
+
+  // Inicijalizuj stanje
+  enState.done = false;
+  enState.obradjeno = [];
+  enState.partial = {};
+  document.getElementById('btn-final-results').style.display = 'none';
+
+  // Redoslijed obrade — najmanji glasovi prvi (dramatičnost raste)
+  const sveOpstine = Object.keys(LOKALNI);
+  enState.opstine = [...sveOpstine].sort((a, b) => {
+    const ua = UKUPNI_GLASACI[a] || 3000;
+    const ub = UKUPNI_GLASACI[b] || 3000;
+    return ua - ub; // male opštine prve
+  });
+
+  // Inicijalizuj parcijalne glasove na 0
+  sveOpstine.forEach(o => {
+    enState.partial[o] = null; // null = nije počelo
+  });
+
+  // Postavi mape na pending (sive)
+  initEnMap();
+
+  // Pokrni ticker
+  addTicker('⚡ Počinje obrada glasačkih kutija širom Crne Gore...', 'gold');
+
+  // Pokreni obradu
+  clearInterval(enState.interval);
+  processElectionNight();
 }
+
+function initEnMap() {
+  const wrap = document.getElementById('en-map-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = SVG_MAPA;
+  wrap.querySelectorAll('path').forEach(path => {
+    path.classList.add('pending');
+    path.style.stroke = 'var(--bg3)';
+    path.style.strokeWidth = '2';
+    // Tooltip
+    const naziv = path.getAttribute('title');
+    path.addEventListener('mouseenter', () => {
+      const tt = document.getElementById('map-tt');
+      const status = enState.obradjeno.includes(naziv)
+        ? `${naziv} — ${getPobjednikOpstine(naziv)}`
+        : enState.partial[naziv] ? `${naziv} — u obradi...` : `${naziv} — čeka`;
+      tt.textContent = status;
+      tt.style.opacity = '1';
+    });
+    path.addEventListener('mousemove', e => {
+      const tt = document.getElementById('map-tt');
+      tt.style.left = (e.clientX + 14) + 'px';
+      tt.style.top = (e.clientY + 14) + 'px';
+    });
+    path.addEventListener('mouseleave', () => {
+      document.getElementById('map-tt').style.opacity = '0';
+    });
+  });
+  updateEnPartyTable();
+}
+
+async function processElectionNight() {
+  const total = enState.opstine.length;
+  let idx = 0;
+
+  // Obrada u talasima — svaki "talas" = 1-2 opštine
+  function processBatch() {
+    if (idx >= total) {
+      finishElectionNight();
+      return;
+    }
+
+    // Obradi 1-2 opštine po talasu (dramatičniji je 1 po 1)
+    const batchSize = idx < total - 4 ? 1 : 1;
+    for (let i = 0; i < batchSize && idx < total; i++, idx++) {
+      const opstina = enState.opstine[idx];
+      obradiOpstinu(opstina, idx, total);
+    }
+
+    // Progress
+    const pct = Math.round((idx / total) * 100);
+    document.getElementById('en-progress-bar').style.width = pct + '%';
+    document.getElementById('en-pct-label').textContent = pct + '%';
+    document.getElementById('en-izbrojanost').textContent = pct + '%';
+
+    // Ažuriraj mandatnu projekciju
+    updateEnPartyTable();
+    updateEnParlCanvas();
+
+    // Sljedeći talas — brzina varira (dramatičnost)
+    const delay = idx < 5 ? 1200 :     // prve opštine — sporije
+                  idx < 12 ? 900 :
+                  idx < total - 5 ? 600 :
+                  800;                   // finale — malo sporije
+    enState.interval = setTimeout(processBatch, delay);
+  }
+
+  processBatch();
+}
+
+function obradiOpstinu(naziv, idx, total) {
+  // Postavi na "processing" (pulsira)
+  const pathEl = document.querySelector(`#en-map-wrap path[title="${naziv}"]`);
+  if (pathEl) {
+    pathEl.classList.remove('pending');
+    pathEl.classList.add('processing');
+  }
+
+  // Simuliraj postepeno pristizanje glasova (3 koraka)
+  const glasovi = getGlasoviOpstine(naziv);
+  const pct = getProcentiOpstine(naziv);
+  const pobjednik = getPobjednikOpstine(naziv);
+  const pobBoja = pobjednik ? getBojaStranke(pobjednik) : '#444';
+
+  // Nakon kratke pauze — zatvori opštinu
+  setTimeout(() => {
+    if (pathEl) {
+      pathEl.classList.remove('processing');
+      // Obojioboji sa intenzitetom margine
+      const margina = getMarginaPobjede(naziv);
+      const intenzitet = (0.45 + margina * 0.45).toFixed(2);
+      pathEl.style.fill = pobBoja;
+      pathEl.style.opacity = intenzitet;
+      pathEl.style.stroke = 'var(--bg2)';
+    }
+
+    enState.obradjeno.push(naziv);
+    enState.partial[naziv] = glasovi;
+
+    // Dodaj u log
+    addOpštinaLog(naziv, pobjednik, pct[pobjednik] || 0, pobBoja);
+
+    // Flash vijest
+    generateFlashNews(naziv, pobjednik, pct, idx, total);
+
+  }, 350);
+}
+
+function generateFlashNews(naziv, pobjednik, pct, idx, total) {
+  const pobPct = (pct[pobjednik] || 0).toFixed(1);
+  const playerPct = (pct[G.stranka?.naziv] || 0).toFixed(1);
+  const isPlayer = pobjednik === G.stranka?.naziv;
+  const obradjeno = enState.obradjeno.length;
+  const ukupno = enState.opstine.length;
+
+  // Posebne vijesti na ključnim trenucima
+  if (obradjeno === 1) {
+    addTicker(`📍 Prve glasačke kutije — ${naziv}: ${pobjednik} vodi sa ${pobPct}%`, isPlayer ? 'green' : 'gold');
+    return;
+  }
+  if (obradjeno === Math.floor(ukupno * 0.25)) {
+    const data = buildPartialMandati();
+    const leader = data[0];
+    addTicker(`📊 Obrađeno 25% — ${leader.naziv} vodi sa ${leader.mandati} mandata`, leader.naziv === G.stranka?.naziv ? 'green' : 'gold');
+    return;
+  }
+  if (obradjeno === Math.floor(ukupno * 0.5)) {
+    const data = buildPartialMandati();
+    const player = data.find(d => d.naziv === G.stranka?.naziv);
+    const cenzus = data.filter(d => d.mandati > 0);
+    addTicker(`⚡ Pola glasova — ${G.stranka?.naziv}: ${player?.mandati || 0} mandata | ${cenzus.length} stranaka prešlo cenzus`, isPlayer ? 'green' : 'red');
+    return;
+  }
+  if (obradjeno === Math.floor(ukupno * 0.75)) {
+    addTicker(`🗺️ 75% obrađeno — borba se prenosi na preostale opštine`, 'gold');
+    return;
+  }
+  if (naziv === 'Podgorica') {
+    addTicker(`🏙️ PODGORICA obrađena — ${pobjednik} vodi sa ${pobPct}% (${playerPct}% za ${G.stranka?.naziv})`, isPlayer ? 'green' : 'red');
+    return;
+  }
+  if (naziv === 'Nikšić') {
+    addTicker(`🏭 Nikšić obrađen — ${pobjednik} sa ${pobPct}%`, isPlayer ? 'green' : '');
+    return;
+  }
+
+  // Regularne vijesti (svaka 3. opština)
+  if (idx % 3 === 0) {
+    if (isPlayer) {
+      addTicker(`✓ ${naziv} — ${G.stranka?.naziv} pobijedio sa ${playerPct}%`, 'green');
+    } else {
+      addTicker(`• ${naziv} — ${pobjednik} (${pobPct}%)`, '');
+    }
+  }
+}
+
+function addTicker(text, cls) {
+  const ticker = document.getElementById('en-ticker');
+  if (!ticker) return;
+  // Drži max 3 poruke
+  while (ticker.children.length >= 3) ticker.removeChild(ticker.firstChild);
+  const div = document.createElement('div');
+  div.className = 'en-flash-item' + (cls ? ' ' + cls : '');
+  div.textContent = text;
+  ticker.appendChild(div);
+}
+
+function addOpštinaLog(naziv, pobjednik, pct, boja) {
+  const log = document.getElementById('en-opstine-log');
+  if (!log) return;
+  const row = document.createElement('div');
+  row.className = 'en-log-row';
+  row.innerHTML = `
+    <div>
+      <div class="en-log-opstina">${naziv}</div>
+      <div class="en-log-winner" style="color:${boja}">${pobjednik || '?'}</div>
+    </div>
+    <div class="en-log-pct" style="color:${boja}">${pct.toFixed(1)}%</div>
+  `;
+  log.insertBefore(row, log.firstChild); // najnovije gore
+}
+
+function buildPartialMandati() {
+  // D'Hondt samo na obrađenim opštinama
+  const partial = {};
+  enState.obradjeno.forEach(o => {
+    const glasovi = enState.partial[o] || getGlasoviOpstine(o);
+    Object.entries(glasovi).forEach(([s, v]) => {
+      partial[s] = (partial[s] || 0) + v;
+    });
+  });
+  const ukupno = Object.values(partial).reduce((a, b) => a + b, 0) || 1;
+
+  // Cenzus 3%
+  const prihvacene = Object.entries(partial).filter(([, v]) => v / ukupno >= 0.03);
+  if (!prihvacene.length) return [];
+
+  // D'Hondt
+  const mandati = {};
+  const kvocijenti = [];
+  prihvacene.forEach(([naziv, glasovi]) => {
+    for (let d = 1; d <= 81; d++) kvocijenti.push({ naziv, glasovi: glasovi / d });
+  });
+  kvocijenti.sort((a, b) => b.glasovi - a.glasovi);
+  kvocijenti.slice(0, 81).forEach(({ naziv }) => { mandati[naziv] = (mandati[naziv] || 0) + 1; });
+
+  return Object.entries(mandati)
+    .map(([naziv, m]) => {
+      const s = STRANKE.find(x => x.naziv === naziv) || { boja: EXTRA_BOJE[naziv] || '#666' };
+      return { naziv, mandati: m, boja: s.boja, pct: partial[naziv] / ukupno * 100 };
+    })
+    .sort((a, b) => b.mandati - a.mandati);
+}
+
+function updateEnPartyTable() {
+  const table = document.getElementById('en-party-table');
+  if (!table) return;
+
+  const data = buildPartialMandati();
+  if (!data.length) {
+    // Početak — prikaži stranke sa 0
+    table.innerHTML = STRANKE.slice(0, 6).map(s => `
+      <div class="en-party-row">
+        <div class="en-pr-tag" style="color:${s.boja}">${s.naziv}</div>
+        <div class="en-pr-bar-wrap">
+          <div class="en-pr-pct">0.0%</div>
+          <div class="en-pr-bar-track"><div class="en-pr-bar-fill" style="background:${s.boja};width:0%"></div></div>
+        </div>
+        <div class="en-pr-mandati" style="color:${s.boja}">0</div>
+        <div class="en-pr-trend" style="color:var(--dimmer)">—</div>
+      </div>`).join('');
+    return;
+  }
+
+  const maxMandati = data[0]?.mandati || 1;
+  const top7 = data.slice(0, 7);
+
+  // Spremi stare mandate za trend
+  const oldMandati = {};
+  table.querySelectorAll('.en-party-row').forEach(row => {
+    const tag = row.querySelector('.en-pr-tag')?.textContent;
+    const m = parseInt(row.querySelector('.en-pr-mandati')?.textContent) || 0;
+    if (tag) oldMandati[tag] = m;
+  });
+
+  table.innerHTML = '';
+  top7.forEach(s => {
+    const isPlayer = G.stranka && s.naziv === G.stranka.naziv;
+    const barW = Math.round(s.mandati / maxMandati * 100);
+    const old = oldMandati[s.naziv] || 0;
+    const delta = s.mandati - old;
+    const trendText = delta > 0 ? `+${delta}` : delta < 0 ? `${delta}` : '—';
+    const trendColor = delta > 0 ? 'var(--green)' : delta < 0 ? 'var(--red)' : 'var(--dimmer)';
+    const div = document.createElement('div');
+    div.className = 'en-party-row' + (isPlayer ? ' highlight' : '');
+    div.innerHTML = `
+      <div class="en-pr-tag" style="color:${s.boja}">${s.naziv}</div>
+      <div class="en-pr-bar-wrap">
+        <div class="en-pr-pct">${s.pct.toFixed(1)}%</div>
+        <div class="en-pr-bar-track">
+          <div class="en-pr-bar-fill" style="background:${s.boja};width:${barW}%"></div>
+        </div>
+      </div>
+      <div class="en-pr-mandati" style="color:${s.boja}">${s.mandati}</div>
+      <div class="en-pr-trend" style="color:${trendColor}">${trendText}</div>
+    `;
+    table.appendChild(div);
+  });
+
+  // Prikazi liniju cenzusa ako ima stranaka blizu
+  const blizuCenzusa = buildPartialMandati().filter(d => d.pct < 4 && d.pct > 2);
+  if (blizuCenzusa.length) {
+    const el = document.querySelector('.en-cenzus-line');
+    if (el) el.textContent = `⚠ Blizu cenzusa: ${blizuCenzusa.map(s => s.naziv + ' ' + s.pct.toFixed(1) + '%').join(', ')}`;
+  }
+}
+
+function updateEnParlCanvas() {
+  const canvas = document.getElementById('en-parl-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  const data = buildPartialMandati();
+  if (!data.length) return;
+  const cx = W / 2, cy = H - 8;
+  const R = Math.min(W, H * 2) / 2 - 12, r = R * 0.52;
+  let ugao = Math.PI;
+  const total = data.reduce((s, x) => s + x.mandati, 0);
+  data.forEach(s => {
+    const arc = (s.mandati / total) * Math.PI;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, R, ugao, ugao + arc);
+    ctx.closePath();
+    ctx.fillStyle = s.boja;
+    ctx.globalAlpha = s.naziv === G.stranka?.naziv ? 1 : 0.75;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ugao += arc;
+  });
+  // Inner hole
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg3').trim() || '#161b24';
+  ctx.fill();
+  // 41 linija
+  const lineAngle = Math.PI * (1 - 41 / 81);
+  ctx.beginPath();
+  ctx.moveTo(cx + r * Math.cos(lineAngle), cy - r * Math.sin(lineAngle));
+  ctx.lineTo(cx + R * Math.cos(lineAngle), cy - R * Math.sin(lineAngle));
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // Label
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.font = '10px monospace';
+  ctx.fillText('41', cx + (r + 10) * Math.cos(lineAngle) - 8, cy - (r + 10) * Math.sin(lineAngle) + 4);
+}
+
+function finishElectionNight() {
+  enState.done = true;
+  clearInterval(enState.interval);
+
+  // Posljednje ticker vijesti
+  const data = buildPartialMandati();
+  const leader = data[0];
+  const player = data.find(d => d.naziv === G.stranka?.naziv);
+  const playerWon = leader?.naziv === G.stranka?.naziv;
+
+  addTicker(`🏁 Svi glasovi obrađeni — ${leader?.naziv} vodi sa ${leader?.mandati} mandata`, playerWon ? 'green' : 'red');
+  setTimeout(() => {
+    addTicker(`📊 ${G.stranka?.naziv}: ${player?.mandati || 0} mandata | ${data.length} stranaka u parlamentu`, playerWon ? 'green' : '');
+  }, 800);
+
+  // Finalni mandati
+  G.finalMandati = {};
+  data.forEach(s => { G.finalMandati[s.naziv] = s.mandati; });
+
+  // Pokaži dugme
+  setTimeout(() => {
+    const btn = document.getElementById('btn-final-results');
+    if (btn) btn.style.display = 'block';
+  }, 1500);
+
+  // Progress 100%
+  document.getElementById('en-progress-bar').style.width = '100%';
+  document.getElementById('en-pct-label').textContent = '100%';
+  document.getElementById('en-izbrojanost').textContent = '100%';
+}
+
+// ══════════════════════════════════════════
+// OVERRIDE showResults — koristi finalMandati iz election night
+// ══════════════════════════════════════════
 
 function showResults() {
   showScreen(4);
+
+  // Koristi mandate izračunate tokom izborne noći
   const data = getMandatiData();
-  G.finalMandati = {};
-  data.forEach(s => { G.finalMandati[s.naziv] = s.mandati; });
-  
+  // Ako election night nije završila (npr. direktan poziv), izračunaj
+  if (!G.finalMandati || !Object.keys(G.finalMandati).length) {
+    G.finalMandati = {};
+    data.forEach(s => { G.finalMandati[s.naziv] = s.mandati; });
+  }
+
   const playerMandati = G.finalMandati[G.stranka.naziv] || 0;
-  const tag = document.getElementById('result-tag');
-  const winner = data[0];
-  tag.textContent = 'Rezultati izbora — Crna Gora 2026';
-  
+  const winner = [...data].sort((a,b)=>(G.finalMandati[b.naziv]||0)-(G.finalMandati[a.naziv]||0))[0];
+
+  document.getElementById('result-tag').textContent = 'Rezultati izbora — Crna Gora 2027';
   const winEl = document.getElementById('result-winner');
-  if (winner.naziv === G.stranka.naziv) {
+  if (winner?.naziv === G.stranka.naziv) {
     winEl.innerHTML = `<span style="color:${G.stranka.boja}">${G.stranka.naziv}</span> pobijedio!`;
   } else {
-    winEl.innerHTML = `<span style="color:${winner.boja}">${winner.naziv}</span> vodi, ${G.stranka.naziv} na ${playerMandati} mandata`;
+    winEl.innerHTML = `<span style="color:${winner?.boja||'#fff'}">${winner?.naziv}</span> vodi — ${G.stranka.naziv} na ${playerMandati} mandata`;
   }
   document.getElementById('result-sub').textContent = `Vaša stranka: ${playerMandati} mandata od 81. Potrebno 41 za vladu.`;
-  
+
   updateParlCanvas('result-parl');
-  
+
   const list = document.getElementById('mandati-list');
   list.innerHTML = '';
-  data.forEach(s => {
+  const sortedFinal = [...data].sort((a,b)=>(G.finalMandati[b.naziv]||0)-(G.finalMandati[a.naziv]||0));
+  const maxM = G.finalMandati[sortedFinal[0]?.naziv] || 1;
+  sortedFinal.forEach(s => {
+    const m = G.finalMandati[s.naziv] || 0;
+    const barW = Math.round(m / maxM * 100);
+    const isPlayer = s.naziv === G.stranka.naziv;
     const row = document.createElement('div');
     row.className = 'mand-row';
-    const isPlayer = s.naziv === G.stranka.naziv;
+    row.style.cssText = isPlayer ? 'background:rgba(212,168,67,0.05);border-radius:4px;padding:2px 4px;margin:-2px -4px' : '';
     row.innerHTML = `
-      <span class="mand-name" style="color:${s.boja};${isPlayer?'font-style:italic':''}">${s.naziv}</span>
-      <div class="mand-track"><div class="mand-bar" style="background:${s.boja};width:0%" data-w="${Math.round(s.mandati/81*100)}%"></div></div>
-      <span class="mand-num">${s.mandati}</span>
-    `;
+      <span class="mand-name" style="color:${s.boja};${isPlayer?'font-weight:700':''}">${s.naziv}</span>
+      <div class="mand-track"><div class="mand-bar" style="background:${s.boja};width:0%" data-w="${barW}%"></div></div>
+      <span class="mand-num">${m}</span>`;
     list.appendChild(row);
   });
-  setTimeout(() => {
-    list.querySelectorAll('.mand-bar').forEach(b => { b.style.width = b.dataset.w; });
-  }, 100);
-  
-  buildKoalicija(data);
-}
+  setTimeout(() => list.querySelectorAll('.mand-bar').forEach(b => b.style.width = b.dataset.w), 60);
 
+  // Koalicioni kalkulator
+  const sortedForKoal = [...data].sort((a,b)=>(G.finalMandati[b.naziv]||0)-(G.finalMandati[a.naziv]||0));
+  const koalData = sortedForKoal.map(s => ({...s, mandati: G.finalMandati[s.naziv]||0}));
+  buildKoalicija(koalData);
+}
 function buildKoalicija(data) {
   koalOn = {};
   // Auto-select our party
